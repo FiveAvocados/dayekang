@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css" />
+    <style>
+        * {
+            font-family: "Lato";
+        }
+
+        img {
+            margin: 0 15px;
+        }
+
+        svg {
+            margin: auto;
+        }
+
+        p {
+            color: #333333;
+        }
+
+        .gridlines line {
+            stroke: #bbb;
+        }
+
+        .gridlines .domain {
+            stroke: none;
+        }
+
+        .hidden-label {
+            background-color: antiquewhite;
+            padding: 3px 8px;
+            border-radius: 16px;
+        }
+
+        #wrapper {
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+            align-items: center;
+            width: 1500px;
+        }
+
+        .plot-wrapper {
+            /* width: 1700px; */
+            display: flex;
+            margin: 25px;
+        }
+
+        .text-block {
+            background-color: #bcafcf;
+            padding: 10px 20px;
+            border-radius: 16px;
+            width: 400px;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <h1 style="
+          text-align: center;
+          font-family: Georgia, 'Times New Roman', Times, serif;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        ">
+            A battle of the streaming services:
+            <img src="/img/netflix.png" height="55px" />
+            and
+            <img src="/img/disney.png" height="35px" style="margin-bottom: 5px" />
+        </h1>
+        <p style="text-align: center; max-width: 500px; margin-top: -20px">
+            Americans are spending
+            <a href="https://variety.com/2023/digital/news/consumer-spending-streaming-services-svod-deloitte-digital-trends-1235582760/?sub_action=logged_in"
+                style="color: blue">more than ever</a>
+            on streaming services. Let's compare two of the forerunners head to
+            head.
+        </p>
+        <div class="plot-wrapper">
+            <div class="text-block" style="margin-right: 50px">
+                <h2>The genre jamboree</h2>
+                <p>
+                    Who doesn't like to mix it up once in a while? In the world of
+                    streaming services, having a variety of genres is key. Of course,
+                    everyone has their favorite, but it's great to have options:
+                    comedies bring the laughs, dramas give us the tea, and romances warm
+                    our hearts.
+                </p>
+                <p>
+                    If you're paying big bucks for a streaming subscription, it's
+                    important to make sure you're getting your money's worth. On the
+                    right, you'll find a stacked bar chart comparing the frequency of 10
+                    key genres over time.
+                </p>
+                <p>
+                    Hovering over any given year will display a quantified breakdown.
+                    <em>To switch between services, use the toggle below.</em>
+                </p>
+                <div style="
+              display: flex;
+              align-items: center;
+              position: absolute;
+              bottom: 0;
+              padding-bottom: 10px;
+            ">
+                    <p style="margin-right: 10px; font-weight: bold">View data for:</p>
+                    <select id="service1" style="
+                height: 20px;
+                background-color: #bcafcf;
+                border-radius: 6px;
+              ">
+                        <option value="disney">Disney+</option>
+                        <option value="netflix">Netflix</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: row; position: relative">
+                <div id="bargroup" style="display: block">
+                    <svg id="barchart" width="800" height="400"></svg>
+                </div>
+                <p style="
+              margin-left: 10px;
+              text-transform: capitalize;
+              position: absolute;
+              top: 0;
+              right: 0;
+              font-size: 14px;
+              width: 150px;
+              transform: translate(-307px, -36px);
+            " id="barlegend"></p>
+            </div>
+        </div>
+        <div class="plot-wrapper">
+            <svg id="treemap"></svg>
+            <div class="text-block" style="margin-left: 50px">
+                <h2>A global gala</h2>
+                <p>
+                    Having content from different countries on streaming platforms is a
+                    ticket to exploring the world from our living rooms. With the click
+                    of a button, you can catch a glimpse into lives and cultures
+                    different from your own. In short, your entertainment can turn into
+                    a learning experience without you even knowing it.
+                </p>
+                <p>
+                    The treemap on the right compares the geographical breakdown of the
+                    streaming service (see below). Larger rectangles indicate a greater
+                    frequency.
+                </p>
+                <p>
+                    All countries involved in at least 50 shows are labeled, but you can
+                    hover over unlabeled ones and one will appear on top of the map.
+                    <em>To switch between services, use the toggle below.</em>
+                </p>
+                <div style="
+              display: flex;
+              align-items: center;
+              position: absolute;
+              bottom: 0;
+              padding-bottom: 10px;
+            ">
+                    <p style="margin-right: 10px; font-weight: bold">View data for:</p>
+                    <select id="service2" style="
+                height: 20px;
+                background-color: #bcafcf;
+                border-radius: 6px;
+              ">
+                        <option value="disney">Disney+</option>
+                        <option value="netflix">Netflix</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="plot-wrapper">
+            <div class="text-block" style="margin-right: 50px">
+                <h2>Running up the numbers</h2>
+                <p>
+                    Who doesn't love to sit back, relax, and turn on a movie or sitcom?
+                    Whether you're chilling with friends, enjoying date night, or bored
+                    at 2am, there's never a bad time.
+                </p>
+                <p>
+                    The chart on the right compares the total number of media offerings
+                    of Netflix and Disney+ across various release years. Netflix's line
+                    is in red and Disney's is in blue.
+                </p>
+                <p>
+                    <em>You can hover over a point to get more information.</em>
+                </p>
+            </div>
+            <svg id="linechart" width="800" height="600"></svg>
+        </div>
+    </div>
+
+    <script>
+        const DISNEY = "#6495ED";
+        const NETFLIX = "#FF6961";
+
+        function createLineChart(disney, netflix) {
+            const svg = d3.select("svg#linechart");
+            const svgWidth = svg.attr("width");
+            const svgHeight = svg.attr("height");
+
+            let margin = { left: 65, right: 60, top: 45, bottom: 85 };
+            let chartWidth = svgWidth - margin.left - margin.right;
+            let chartHeight = svgHeight - margin.top - margin.bottom;
+
+            // Convert 'release_year' into a Number
+            disney.forEach((d) => {
+                d["release_year"] = +d["release_year"];
+            });
+
+            netflix.forEach((d) => {
+                d["release_year"] = +d["release_year"];
+            });
+
+            // Group data by 'release_year'
+            const groupDisney = d3.group(disney, (d) => d["release_year"]);
+            const groupNetflix = d3.group(netflix, (d) => d["release_year"]);
+
+            // Convert from InternMap to Array
+            const disneyData = Array.from(groupDisney, ([year, data]) => ({
+                year,
+                data,
+            }));
+            const netflixData = Array.from(groupNetflix, ([year, data]) => ({
+                year,
+                data,
+            }));
+
+            // Add streaming 'service' of the movie entry (needed in mouseover functionality)
+            disneyData.forEach((d) => {
+                d.data.service = "disney";
+            });
+            netflixData.forEach((d) => {
+                d.data.service = "netflix";
+            });
+
+            // Sort data by year (this is so the d3.line() can generate properly)
+            disneyData.sort((a, b) => a.year - b.year);
+            netflixData.sort((a, b) => a.year - b.year);
+
+            // Combine data to obtain extents for the x and y axes
+            const combinedData = [...disneyData, ...netflixData];
+            const yearExtent = d3.extent(combinedData, (d) => d.year);
+            const maxMovieCount = d3.max(combinedData, (d) => d.data.length);
+
+            // Create year (xScake) and movie count (yScale) scales
+            const xScale = d3
+                .scaleLinear()
+                .domain(yearExtent)
+                .range([0, chartWidth]);
+            const yScale = d3
+                .scaleLog()
+                .domain([1, maxMovieCount])
+                .range([chartHeight, 0]);
+
+            // Append left and bottom axes
+            let leftAxis = d3.axisLeft(yScale).ticks(20);
+
+            svg
+                .append("g")
+                .attr("class", "y axis")
+                .attr("transform", `translate(${margin.left - 10},${margin.top})`)
+                .call(leftAxis);
+
+            let bottomAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
+
+            svg
+                .append("g")
+                .attr("class", "x axis")
+                .attr(
+                    "transform",
+                    `translate(${margin.left},${margin.top + chartHeight + 10})`
+                )
+                .call(bottomAxis);
+
+            // Append chart gridlines
+            let leftGridlines = d3
+                .axisLeft(yScale)
+                .tickFormat("")
+                .tickSize(-chartWidth - 10);
+
+            svg
+                .append("g")
+                .attr("class", "y gridlines")
+                .attr("transform", `translate(${margin.left - 10},${margin.top})`)
+                .call(leftGridlines);
+
+            let bottomGridlines = d3
+                .axisBottom(xScale)
+                .tickFormat("")
+                .tickSize(-chartHeight - 10);
+
+            svg
+                .append("g")
+                .attr("class", "x gridlines")
+                .attr(
+                    "transform",
+                    `translate(${margin.left},${margin.top + chartHeight + 10})`
+                )
+                .call(bottomGridlines);
+
+            // Append x-axis label
+            svg
+                .append("text")
+                .attr("class", "x-axis-label")
+                .attr(
+                    "transform",
+                    `translate(${margin.left + chartWidth / 2},${svgHeight - margin.bottom + 55
+                    })`
+                )
+                .style("text-anchor", "middle")
+                .text("Release Year")
+                .style("font-size", "18px");
+
+            // Append y-axis label
+            svg
+                .append("text")
+                .attr("class", "y-axis-label")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -(margin.top + chartHeight / 2))
+                .attr("y", 15)
+                .style("text-anchor", "middle")
+                .text("Number of Media")
+                .style("font-size", "18px");
+
+            // Create line gen
+            const lineGen = d3
+                .line()
+                .x((d) => xScale(d.year))
+                .y((d) => yScale(d.data.length));
+
+            // Append chart area
+            let chartArea = svg
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // Colors for Disney and Netflix
+            const colorDisney = "#0074cc";
+            const colorNetflix = "#e50914";
+
+            // Append Disney line
+            chartArea
+                .append("path")
+                .datum(disneyData)
+                .attr("class", "line")
+                .attr("fill", "none")
+                .attr("opacity", 0.8)
+                .attr("stroke", colorDisney)
+                .attr("stroke-width", 1)
+                .attr("d", lineGen);
+
+            // Append Netflix line
+            chartArea
+                .append("path")
+                .datum(netflixData)
+                .attr("class", "line")
+                .attr("fill", "none")
+                .attr("opacity", 0.8)
+                .attr("stroke", colorNetflix)
+                .attr("stroke-width", 1)
+                .attr("d", lineGen);
+
+            // Append Disney data points
+            chartArea
+                .selectAll("circle.point.disney")
+                .data(disneyData)
+                .join("circle")
+                .attr("class", "point disney")
+                .attr("r", 3)
+                .attr("fill", colorDisney)
+                .attr("cx", (d) => xScale(d.year))
+                .attr("cy", (d) => yScale(d.data.length))
+                .on("mouseover", handleMouseOver)
+                .on("mouseout", handleMouseOut);
+
+            // Append Netflix data points
+            chartArea
+                .selectAll("circle.point.netflix")
+                .data(netflixData)
+                .join("circle")
+                .attr("class", "point netflix")
+                .attr("r", 3)
+                .attr("fill", colorNetflix)
+                .attr("cx", (d) => xScale(d.year))
+                .attr("cy", (d) => yScale(d.data.length))
+                .on("mouseover", handleMouseOver)
+                .on("mouseout", handleMouseOut);
+
+            function handleMouseOver(event, d) {
+                // Enlarge data point
+                d3.select(event.currentTarget)
+                    .attr("r", 6)
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 2);
+
+                // Append information card in the top left of the chartArea
+                const infoCard = chartArea
+                    .append("g")
+                    .attr("class", "info-card")
+                    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+                // Info card background
+                infoCard
+                    .append("rect")
+                    .attr("width", 160)
+                    .attr("height", 90)
+                    .attr(
+                        "fill",
+                        d.data.service === "disney" ? colorDisney : colorNetflix
+                    )
+                    .attr("rx", 10)
+                    .attr("ry", 10)
+                    .attr("opacity", 0.7);
+
+                // Append year in info card
+                infoCard
+                    .append("text")
+                    .attr("x", 10)
+                    .attr("y", 20)
+                    .attr("font-size", "14px")
+                    .attr("font-weight", "bold")
+                    .text(`Year: ${d.year}`);
+
+                // Append media total in info card
+                infoCard
+                    .append("text")
+                    .attr("x", 10)
+                    .attr("y", 40)
+                    .text(`Media Total: ${d.data.length}`);
+
+                // Calculate the number of Movies and TV Shows
+                const numMovies = d.data.filter(
+                    (item) => item.type === "Movie"
+                ).length;
+                const numTVShows = d.data.length - numMovies;
+
+                // Append count movies in info card
+                infoCard
+                    .append("text")
+                    .attr("x", 10)
+                    .attr("y", 60)
+                    .text(`Movies: ${numMovies}`);
+
+                //Append count tv shows in info card
+                infoCard
+                    .append("text")
+                    .attr("x", 10)
+                    .attr("y", 80)
+                    .text(`TV Shows: ${numTVShows}`);
+            }
+
+            function handleMouseOut() {
+                // Reset data point
+                d3.select(event.currentTarget)
+                    .attr("r", 3) // Increase the size
+                    .attr("stroke", "")
+                    .attr("stroke-width", 0);
+
+                // Remove the info card when mouseout
+                chartArea.select(".info-card").remove();
+            }
+
+            // Append legend
+            const legend = svg
+                .append("g")
+                .attr("class", "legend")
+                .attr(
+                    "transform",
+                    `translate(${margin.left + chartWidth / 2 + 10},${margin.top / 2 + 15
+                    })`
+                );
+
+            // Append legend items
+            const legendItems = legend
+                .selectAll(".legend-item")
+                .data(["Netflix", "Disney"])
+                .join("g")
+                .attr("class", "legend-item")
+                .attr("transform", (d, i) => `translate(${i * -100}, 0)`);
+
+            legendItems
+                .append("rect")
+                .attr("width", 15)
+                .attr("height", 15)
+                .attr("fill", (d) => (d === "Disney" ? colorDisney : colorNetflix));
+
+            legendItems
+                .append("text")
+                .attr("x", 20)
+                .attr("y", 9)
+                .text((d) => d)
+                .style("font-size", "16px")
+                .attr("alignment-baseline", "middle");
+        }
+
+        function createStackedBarChart(disney, netflix) {
+            function getDateAdded(data) {
+                const years = new Set();
+                data.forEach((d, i) => {
+                    const dateProcessed = d.date_added.substring(
+                        d.date_added.length - 4
+                    );
+                    if (!isNaN(parseInt(dateProcessed)))
+                        years.add(parseInt(dateProcessed));
+                });
+                return Array.from(years).sort();
+            }
+            function getGenre(data) {
+                const genres = new Set();
+                data.forEach((d, i) => {
+                    let genreList = d.listed_in.substring(1, d.listed_in.length - 1);
+                    genreList = genreList.split(",");
+                    genreList = genreList.map((d2) => {
+                        d2 = d2.trim();
+                        return d2.substring(1, d2.length - 1);
+                    });
+                    genreList.forEach((item) => genres.add(item));
+                });
+                return Array.from(genres);
+            }
+            const yearAddedDisney = getDateAdded(disney);
+            const yearAddedNetflix = getDateAdded(netflix);
+            const genres = [
+                "drama",
+                "comedy",
+                "family",
+                "documentary",
+                "adventure",
+                "action",
+                "fantasy",
+                "music",
+                "sci-fi",
+                "nature",
+            ];
+            const year_to_index_disney = {
+                2019: 0,
+                2020: 1,
+                2021: 2,
+            };
+            const year_to_index_netflix = {
+                2011: 0,
+                2014: 1,
+                2015: 2,
+                2016: 3,
+                2017: 4,
+                2018: 5,
+                2019: 6,
+                2020: 7,
+                2021: 8,
+            };
+
+            function getStackedData(year_to_index, genres, yearAdded, data) {
+                const sd = [];
+                yearAdded.forEach((d, i) => {
+                    if (!isNaN(d)) {
+                        var tempDict = {
+                            year_added: d,
+                        };
+                        genres.forEach((key) => {
+                            tempDict[key] = 0;
+                        });
+                        sd.push(tempDict);
+                    }
+                });
+                data.forEach((d, i) => {
+                    const year = d.date_added.substring(d.date_added.length - 4);
+                    let genreList = d.listed_in.substring(1, d.listed_in.length - 1);
+                    genreList = genreList.split(",");
+                    genreList = genreList.map((d2) => {
+                        d2 = d2.trim();
+                        return d2.substring(1, d2.length - 1);
+                    });
+                    genreList.forEach((d, i) => {
+                        if (year != "" && genres.includes(d))
+                            sd[year_to_index[year]][d] += 1;
+                    });
+                });
+                return sd;
+            }
+
+            const sd_disney = getStackedData(
+                year_to_index_disney,
+                genres,
+                yearAddedDisney,
+                disney
+            );
+            const sd_netflix = getStackedData(
+                year_to_index_netflix,
+                genres,
+                yearAddedNetflix,
+                netflix
+            );
+
+            const stackedDataDisney = d3.stack().keys(genres)(sd_disney);
+            const stackedDataNetflix = d3.stack().keys(genres)(sd_netflix);
+
+            const svg = d3.select("svg#barchart");
+            const margins = { top: 10, right: 10, bottom: 110, left: 70 };
+            const width = svg.attr("width") - margins.left - margins.right;
+            const height = svg.attr("height") - margins.top - margins.bottom;
+
+            const colorScale = d3.scaleOrdinal(genres, d3.schemeTableau10);
+
+            function createChart(
+                yearAdded,
+                domain,
+                stackedData,
+                colorScale,
+                genres
+            ) {
+                let chartArea = svg
+                    .append("g")
+                    .attr("transform", `translate(${margins.left},${margins.top})`);
+                var x1 = d3
+                    .scaleBand()
+                    .domain(yearAdded)
+                    .range([0, width])
+                    .padding([0.2]);
+                svg
+                    .append("g")
+                    .attr("class", "x axis")
+                    .attr(
+                        "transform",
+                        `translate(${margins.left},${height + margins.top + 10})`
+                    )
+                    .call(d3.axisBottom(x1))
+                    .selectAll("text")
+                    .style("text-anchor", "end")
+                    .attr("transform", "rotate(-60)");
+                svg
+                    .append("text")
+                    .attr("class", "x axis label")
+                    .attr("font-family", "sans-serif")
+                    .attr(
+                        "transform",
+                        `translate(${margins.left + width / 2 - 30},${height + margins.top + 60
+                        })`
+                    )
+                    .text("Time");
+
+                var y1 = d3.scaleLinear().domain([0, domain]).range([height, 0]);
+                svg
+                    .append("g")
+                    .attr("class", "y axis")
+                    .attr("transform", `translate(${margins.left - 10},${margins.top})`)
+                    .call(d3.axisLeft(y1));
+                svg
+                    .append("text")
+                    .attr("class", "y axis label")
+                    .attr("font-family", "sans-serif")
+                    .attr("text-anchor", "end")
+                    .attr("y", 6)
+                    .attr("dy", "10")
+                    .attr(
+                        "transform",
+                        `rotate(-90), translate(${margins.left - height / 2 - 30},${margins.top - 10
+                        })`
+                    )
+                    .text("Frequency by Genre");
+
+                let bars = chartArea
+                    .selectAll("g")
+                    .data(stackedData)
+                    .enter()
+                    .append("g")
+                    .attr("fill", (d) => colorScale(d.key))
+                    .selectAll("rect")
+                    .data((d) => d)
+                    .enter()
+                    .append("rect")
+                    .attr("x", (d) => x1(d.data.year_added))
+                    .attr("y", (d) => y1(d[1]))
+                    .attr("height", (d) => y1(d[0]) - y1(d[1]))
+                    .attr("width", x1.bandwidth());
+
+                let key = svg
+                    .append("g")
+                    .attr("id", "key")
+                    .attr(
+                        "transform",
+                        `translate(${margins.left}, ${margins.top + height + 75})`
+                    );
+                key
+                    .selectAll("rect")
+                    .data(genres)
+                    .enter()
+                    .append("rect")
+                    .attr("x", (d, i) => {
+                        if (i < genres.length / 2) {
+                            if (i > 0) {
+                                return i * 100;
+                            } else return 0;
+                        } else {
+                            return (i - Math.floor(genres.length / 2)) * 100;
+                        }
+                    })
+                    .attr("y", (d, i) => {
+                        if (i < genres.length / 2) {
+                            return 0;
+                        } else {
+                            return 20;
+                        }
+                    })
+                    .attr("width", 10)
+                    .attr("height", 10)
+                    .attr("fill", colorScale);
+                key
+                    .selectAll("text")
+                    .data(genres)
+                    .enter()
+                    .append("text")
+                    .attr("x", (d, i) => {
+                        if (i < genres.length / 2) {
+                            if (i > 0) {
+                                return i * 100 + 15;
+                            } else return 15;
+                        } else {
+                            return (i - Math.floor(genres.length / 2)) * 100 + 15;
+                        }
+                    })
+                    .attr("y", (d, i) => {
+                        if (i < genres.length / 2) {
+                            return 9;
+                        } else {
+                            return 28;
+                        }
+                    })
+                    .text((d) => d)
+                    .attr("fill", "black")
+                    .style("font-size", 12);
+
+                let label = d3.select("#barlegend");
+
+                bars.on("mouseover", function (event) {
+                    d3.select(this).attr("stroke", "black").attr("stroke-width", 2);
+                    let dat = d3.select(this).datum();
+                    let labels = [];
+                    for (key in dat["data"]) {
+                        if (key != "year_added")
+                            labels.push(key + ": " + dat["data"][key]);
+                    }
+                    label.html(
+                        `<b>Year: ${dat["data"]["year_added"]}</b><br/>` +
+                        labels.join(" <br />")
+                    );
+                });
+
+                bars.on("mouseout", function (event) {
+                    d3.select("#barlegend").html("");
+                    d3.select(this).attr("stroke", "").attr("stroke-width", 0);
+                    let d = d3.select(this).datum();
+                });
+            }
+            createChart(
+                yearAddedDisney,
+                2600,
+                stackedDataDisney,
+                colorScale,
+                genres
+            );
+
+            const dropdown = d3.select("#service1");
+
+            dropdown.on("change", function () {
+                d3.select("#barchart").html("");
+                d3.select("#legend").html("");
+                if (d3.select(this).property("value") == "disney") {
+                    createChart(
+                        yearAddedDisney,
+                        2600,
+                        stackedDataDisney,
+                        colorScale,
+                        genres
+                    );
+                } else {
+                    createChart(
+                        yearAddedNetflix,
+                        900,
+                        stackedDataNetflix,
+                        colorScale,
+                        genres
+                    );
+                }
+            });
+        }
+
+        function createTreemap(disney, netflix) {
+            // Logic to actually draw the treemap given a specific service's data
+            function drawTreemap(data, type) {
+                const width = 800;
+                const height = 500;
+
+                const svg = d3
+                    .select("#treemap")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .append("g")
+                    .attr("transform", `translate(0, 45)`);
+
+                // Keep track of how many times each country appears
+                const countryToFrequency = {};
+
+                data.forEach((show) => {
+                    // Not all shows may have geographic data...
+                    if (!Object.keys(show).includes("country") || show.country == "") {
+                        return;
+                    }
+
+                    // Get all possible countries...
+                    const countries = show.country.split(", ");
+
+                    // Record information for each country the show is listed under
+                    countries.forEach((country) => {
+                        // If the country isn't in our lookup, add a key for it
+                        if (!Object.keys(countryToFrequency).includes(country)) {
+                            countryToFrequency[country] = 0;
+                        }
+
+                        // Increment frequency
+                        countryToFrequency[country] += 1;
+                    });
+                });
+
+                const aggregatedData = {
+                    name: "Countries",
+                    children: Object.entries(countryToFrequency).map(
+                        ([name, value]) => ({
+                            name,
+                            value,
+                        })
+                    ),
+                };
+
+                const root = d3.hierarchy(aggregatedData).sum((d) => d.value);
+                d3.treemap().size([width, height]).padding(3)(root);
+
+                svg
+                    .selectAll("rect")
+                    .data(root.leaves())
+                    .enter()
+                    .append("rect")
+                    .attr("x", function (d) {
+                        return d.x0;
+                    })
+                    .attr("rx", 2)
+                    .attr("ry", 2)
+                    .attr("y", function (d) {
+                        return d.y0;
+                    })
+                    .attr("width", function (d) {
+                        return d.x1 - d.x0;
+                    })
+                    .attr("height", function (d) {
+                        return d.y1 - d.y0;
+                    })
+                    .style("stroke", "gray")
+                    .style("fill", type == "netflix" ? NETFLIX : DISNEY);
+
+                // Configure label hiding
+                const CUTOFF = 50;
+                const [defaultX, defaultY] = [width / 2 - 30, -10];
+
+                svg
+                    .selectAll("text")
+                    .data(root.leaves())
+                    .enter()
+                    .append("text")
+                    .style("display", function (d) {
+                        return d.data.value <= CUTOFF ? "none" : "block";
+                    })
+                    .attr("x", function (d) {
+                        if (d.data.value > CUTOFF) {
+                            return d.x0 + 5;
+                        } else {
+                            return defaultX;
+                        }
+                    })
+                    .attr("y", function (d) {
+                        if (d.data.value > CUTOFF) {
+                            return d.y0 + 20;
+                        } else {
+                            return defaultY;
+                        }
+                    })
+                    .attr("id", function (d) {
+                        return d.data.name;
+                    })
+                    .text(function (d) {
+                        return d.data.name + ` (${d.data.value})`;
+                    })
+                    .attr("font-size", function (d) {
+                        return d.data.value <= CUTOFF ? "22px" : "15px";
+                    })
+                    .attr("fill", function (d) {
+                        if (d.data.value > CUTOFF) {
+                            return "white";
+                        } else {
+                            return "black";
+                        }
+                    });
+
+                svg
+                    .selectAll("rect")
+                    .on("mouseover", function (_, d) {
+                        if (d.data.value <= CUTOFF) {
+                            d3.select(`#${d.data.name}`).style("display", "block");
+                        }
+                    })
+                    .on("mouseout", function (_, d) {
+                        if (d.data.value <= CUTOFF) {
+                            d3.select(`#${d.data.name}`).style("display", "none");
+                        }
+                    });
+            }
+
+            // Listen to dropdown changes to update treemap
+            const dropdown = d3.select("#service2");
+            dropdown.on("change", function () {
+                d3.select("#treemap").html("");
+                if (d3.select(this).property("value") == "disney") {
+                    drawTreemap(disney, "disney");
+                } else {
+                    drawTreemap(netflix, "netflix");
+                }
+            });
+
+            // Default option is disney
+            drawTreemap(disney, "disney");
+        }
+        const requestData = async () => {
+            const disney = await d3.csv("datasets/clean/disney.csv");
+            const netflix = await d3.csv("datasets/clean/netflix.csv");
+
+            // console.log("Disney Data:\n", disney);
+            // console.log("Netflix Data:\n", netflix);
+
+            createLineChart(disney, netflix);
+            createStackedBarChart(disney, netflix);
+            createTreemap(disney, netflix);
+        };
+        requestData();
+    </script>
+</body>
+
+</html>

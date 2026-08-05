@@ -1,0 +1,428 @@
+<html>
+    <head>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="https://d3js.org/topojson.v3.min.js"></script>
+        <script src="scripts/render_map.js"></script>
+        <script src="scripts/draw_legend.js"></script>
+        <script src="scripts/load_data.js"></script>
+        <script src="scripts/detail_box.js"></script>
+        <script src="scripts/controls.js"></script>
+        <style>
+
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+            }
+
+            #leg {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+            }
+
+            .chartcontainer {
+                display: flex;
+            }
+
+            .sidebar {
+                float: right;
+                background-color: white;
+                border: 1px solid black;
+                border-radius: 5px;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                text-align: left;
+                white-space: pre-wrap;
+            }
+
+            .yearLabel {
+                display: inline-block;
+                margin-right: 10px; 
+            }
+
+            .map {
+                overflow: visible;
+            }
+
+            .mapscontainer {
+                display: flex;
+                position: relative;
+                z-index: 2;
+            }
+
+            .notmap {
+                position: relative;
+                z-index: 1;
+            }
+
+            .mapcontainerright {
+                padding-left: 150px;
+            }
+
+            .mapcontainerleft {
+                padding-left: 56px;
+            }
+
+            .lensbutton {
+                background-color: #ccc;
+                border: none;
+                color: black;
+                padding: 7px 16px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 10px;
+            }
+
+            .lensbutton.active {
+                background-color: #4c8eaf;
+                color: white;
+            }
+
+            .lensbutton.dormant {
+                background-color: #ccc;
+                color: black;
+            }
+
+            .lensbutton:hover {
+                background-color: #555;
+                color: white;
+            }
+
+            .detail {
+                overflow: visible;
+            }
+
+            .desc {
+                width: 700px;
+                text-align: center;
+                font-size: 13px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h3>World Map with GDP, GINI, and Emissions</h3>
+        <p class="desc">The world map with filters for GDP ($), GINI (%), and Greenhouse Emissions (CO2eq). Click on
+            country to open or close a detail box.
+        </p>
+        <div id="yearLabel">Current Year: <span id="currentYear"></span></div>
+        <script id="datafiles">
+            // set data file locations
+            const mapFile = "data/countries_clean.json";
+            const countryCodesFile = "data/slim-3.json";
+            const gdpFile = "data/gdp.json";
+            const giniFile = "data/gini.json";
+            const co2File = "data/co2.json";
+            const co2SectorsFile = "data/sector_emissions.json";
+        </script>
+        <script id="variables">
+            // set variables for map, such as its class name
+            const pathClass = "country";
+            const targetClass = `.${pathClass}`;
+            const idName = "ISO3166Numeric";
+            const projection = Projections.Mercator;
+            const mapScaleFactor = 100;
+            const svgHeight = "500";
+            const svgWidth = "900";
+            const minYear = 1990;
+            const maxYear = 2020;
+            const sliderHeight = 30;
+            const sliderWidth = 500;
+            let type = 'gdp';
+
+            const selectedCountryId = {
+                _value: undefined,
+                get value() {
+                    return this._value;
+                },
+                set value(val) {
+                    this._value = val;
+                }
+            };
+
+            // also set variables pertaining to user preferences
+            // and web page state
+            const year = {
+                    _value: 1990,
+                    get value() {
+                        return this._value;
+                    },
+                    set value(val) {
+                        this._value = val;
+                    }
+                };
+
+            d3.select("#currentYear").text(year.value);
+
+            const useYearlyExtents = {
+                _value: true,
+                get value() {
+                    return this._value;
+                },
+                set value(val) {
+                    this._value = val;
+                }
+            };
+
+            // to keep track of which data we're using
+            // (so html elements can be updated accordingly)
+            // given each dataset a name
+            const dataNames = {
+                gdp: "gdp",
+                gini: "gini",
+                co2: "co2",
+                sectors: "sectors",
+                countryCodes: "codes"
+            };
+        </script>
+        <script id="loaddata">
+            async function loadData(){
+                const map = await d3.json(mapFile);
+                const mapFeatures = topojson.feature(map, map.objects.countries).features;
+                const countryCodes = await loadCountryCodes(countryCodesFile);
+                const gdp = await loadGDP(gdpFile, countryCodes.idToNum);
+                const gini = await loadGINI(giniFile, countryCodes.idToNum);
+                const co2 = await loadCO2(co2File, countryCodes.idToNum);
+                const co2Sectors = await loadCO2Sectors(co2SectorsFile, countryCodes.idToNum);
+
+                const result = {
+                    map: map,
+                    mapFeatures: mapFeatures
+                };
+
+                result[dataNames.gdp] = gdp;
+                result[dataNames.gini] = gini;
+                result[dataNames.countryCodes] = countryCodes;
+                result[dataNames.co2] = co2;
+                result[dataNames.sectors] = co2Sectors;
+
+                return result;
+            }
+        </script>
+        <script id="scalesandcolors">
+            // create scales and colors
+
+            // we don't set domain since the renderMap
+            // function will set that according to data given,
+            // that is, the domain changes depending on
+            // year and user preferences
+
+            // creating both log and linear scales for convenience
+            // during experimentation
+
+            const gdpScaleLog = d3.scaleLog().range([0,1]);
+            const gdpScaleLinear = d3.scaleLinear().range([0,1]);
+
+            const giniScaleLinear = d3.scaleLinear().range([0,1]);
+            const giniScaleLog = d3.scaleLog().range([0,1]);
+
+            const co2ScaleLinear = d3.scaleLinear().range([0,1]);
+            const co2ScaleLog = d3.scaleLog().range([0,1]);
+
+            const gdpColors = d3.scaleSequential()
+                                .domain([0,1])
+                                .interpolator(d3.interpolateGreens);
+            const giniColors = d3.scaleSequential()
+                                .domain([0,1])
+                                .interpolator(d3.interpolateBlues);
+            const co2Colors = d3.scaleSequential()
+                                .domain([0,1])
+                                .interpolator(d3.interpolateReds);
+
+            const fallbackColor = "#ccc";
+        </script>
+        <div id="mainbody">
+            <div id="maps" class="mapscontainer">
+            <script id="createmaps">
+
+                async function createMaps(){
+                    const data = await loadData();
+                    const countryCodes = data[dataNames.countryCodes];
+
+                    const currentYearLabel = d3.select("#currentYear");
+
+                    const map1data = {
+                        data: data[dataNames.gdp],
+                        colors: gdpColors,
+                        scaler: gdpScaleLinear,
+                    };
+
+                    // we know have the data, so we can set the domains
+                    // appropriately to allow for the legend to work
+                    if(useYearlyExtents.value && map1data.data.haveDomain(year.value)){
+                        const domain = map1data.data.getDomain(year.value);
+                        map1data.colors.domain(domain);
+                        map1data.scaler.domain(domain);
+                        map1data.scaler.range(domain)
+                    }else if(map1data.data.haveOverallDomain){
+                        const domain = map1data.data.overallDomain;
+                        map1data.colors.domain(domain);
+                        map1data.scaler.domain(domain);
+                        map1data.scaler.range(domain);
+                    }
+
+                    // create map 1 in the maps div,
+                    const map1Container = d3.select("#maps")
+                                        .append("div")
+                                        .attr("class", "mapcontainerleft")
+                                        .attr("id", "map1container")
+                    const map1Svg = map1Container.append("svg")
+                                        .attr("width", svgWidth)
+                                        .attr("height", svgHeight)
+                                        .attr("class", "map")
+                                        .attr("id", "map1");
+
+                    const map1Output = renderMap(map1Svg,
+                                                data.mapFeatures,
+                                                mapScaleFactor,
+                                                projection,
+                                                pathClass,
+                                                idName,
+                                                (feature, boundingBox, svg) => {
+                                                    detailBox(feature, boundingBox, svg, data, minYear, maxYear, dataNames, selectedCountryId, year);
+                                                    const map1 = map1Svg.select("g");
+                                                    updateMapStroke(map1, selectedCountryId);
+                                                });
+                    
+                    // initialize the color legend
+                    
+                    drawLegend("#colorLegend", gdpColors, type);
+                    
+                    updateMap(map1Output.map, year, map1data, countryCodes.numToId, useYearlyExtents, targetClass, fallbackColor);
+
+                    const controlsDiv = d3.select("#mainbody")
+                        .append("div")
+                        .attr("class", "controlsDiv")
+                        .style("display", "flex")
+                        .style("flex-direction", "row")
+                        .style("align-items", "center")
+                        .style("padding-top", "10px")
+                        .style("justify-content", "center");
+
+                    addLensButtons(data, controlsDiv, map1Output, map1data);
+
+                    controlsDiv
+                        .append("div")
+                        .attr("class", "yearLabel")
+                        .style("padding-left", "10px")
+                        .html(`Year: ${minYear}`);
+                        
+                    // then, under the mainbody div, create slider for year 
+                    const slider = controlsDiv
+                                    .append("input")
+                                    .attr("type", "range")
+                                    .attr("min", minYear)
+                                    .attr("max", maxYear)
+                                    .attr("value", year.value)
+                                    .attr("class", "slider")
+                                    .attr("id", "yearslider")
+                                    .attr("step", "1")
+                                    .on("input", function(){
+                                        currentYearLabel.text(this.value);
+                                        year.value = this.value;
+                                        updateMap(map1Output.map, year, map1data, countryCodes.numToId, useYearlyExtents, targetClass, fallbackColor);
+                                        updateLegend("#colorLegend", map1data.colors, type);
+                                    });
+
+                    controlsDiv
+                        .append("div")
+                        .attr("class", "yearLabel")
+                        .html(`${maxYear}`);
+
+                    // then, under the mainbody div, create a checkbox for 
+                    // using year extents
+                    
+                    const checkboxRow = d3.select("#mainbody")
+                        .append("div")
+                        .attr("class", "checkboxRow") 
+                        .style("display", "flex")
+                        .style("flex-direction", "row")
+                        .style("align-items", "center")
+                        .style("margin-top", "5px")
+                        .style("justify-content", "center");
+
+                    const checkbox = checkboxRow
+                        .append("input")
+                        .attr("type", "checkbox")
+                        .attr("checked", useYearlyExtents.value)
+                        .on("change", function () {
+                            useYearlyExtents.value = this.checked;
+                            updateMap(map1Output.map, year, map1data, countryCodes.numToId, useYearlyExtents, targetClass, fallbackColor);
+                            updateLegend("#colorLegend", map1data.colors, type);
+                        });
+
+                    // Add label for checkbox
+                    checkboxRow
+                        .append("label")
+                        .attr("for", "useYearlyExtents")
+                        .style("margin-left", "10px")
+                        .html("Use Yearly Extents");
+
+                    const description = d3.select("#mainbody")
+                        .append("div")
+                        .attr("class", "checkboxRow") 
+                        .style("display", "flex")
+                        .style("flex-direction", "row")
+                        .style("align-items", "center")
+                        .style("margin-top", "3px")
+                        .style("justify-content", "center")
+                        .html("* Choose whether to use extents for the current year or the extent calculated over all years.");
+
+                    
+                }
+
+                createMaps();
+
+            </script>
+            <script id="addlensbuttons">
+                function addLensButtons(data, container, map1Output, map1Data){
+                    const buttons = [
+                        [
+                            "GDP", function(map, mapData){
+                                type = 'gdp';
+                                mapData.data = data[dataNames.gdp];
+                                mapData.colors = gdpColors;
+                                mapData.scaler = gdpScaleLinear;
+                                updateMap(map, year, mapData, data[dataNames.countryCodes].numToId, useYearlyExtents, targetClass, fallbackColor);
+                                updateLegend("#colorLegend", gdpColors, type);
+                            }
+                        ],
+                        [
+                            "GINI", function(map, mapData){
+                                type = 'gini';
+                                mapData.data = data[dataNames.gini];
+                                mapData.colors = giniColors;
+                                mapData.scaler = giniScaleLinear;
+                                updateMap(map, year, mapData, data[dataNames.countryCodes].numToId, useYearlyExtents, targetClass, fallbackColor);
+                                updateLegend("#colorLegend", mapData.colors, type);
+                            }
+                        ],
+                        [
+                            "CO2", function(map, mapData){
+                                type = 'co2'
+                                mapData.data = data[dataNames.co2];
+                                mapData.colors = co2Colors;
+                                mapData.scaler = co2ScaleLinear;
+                                updateMap(map, year, mapData, data[dataNames.countryCodes].numToId, useYearlyExtents, targetClass, fallbackColor);
+                                updateLegend("#colorLegend", mapData.colors, type);
+                            }
+                        ]
+                    ];
+
+                    const map1InitialIndex = 0;
+
+                    createLensButtons(container, buttons, map1InitialIndex, map1Output.map, map1Data);
+                }
+            </script>
+        </div>
+        <div id="leg" class="notmap">
+        <svg id="colorLegend" height="100" width="600" style="background: #fff; margin-top:30px" ></svg>
+        </div>
+    </body>
+</html>

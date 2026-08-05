@@ -1,0 +1,1064 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project 2</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <style>
+      .country {
+        fill: lightgrey;
+      }
+
+      .outline {
+        fill: none;
+        stroke: black;
+        stroke-width: 1px;
+      }
+
+      #slider {
+        margin-top: 2%;
+        width: 75%;
+      }
+
+      #year {
+        width: 100%;
+        accent-color: black;
+      }
+
+      datalist {
+        display: flex;
+        justify-content: space-between;
+        color: black;
+        width: 100%;
+      }
+
+      div #type {
+        font-size: 18px;
+        margin-top: 5%;
+      }
+
+      body {
+        display: flex;
+        font-family: "didot";
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+      }
+
+      div label {
+        font-size: 20px;
+      }
+
+      .gridlines line {
+        stroke: #bbb;
+      }
+
+      .gridlines .domain {
+        stroke: none;
+      }
+
+      /* #graph {
+        margin-left: 15%;
+      } */
+
+      .title {
+        margin-top: 5%;
+        padding-left: 5%;
+        padding-right: 5%;
+        font-size: 30px;
+        font-weight: bold;
+        font-family: "didot", Times, serif;
+      }
+
+      .description {
+        font-size: 24px;
+        font-family: "didot", Times, serif;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="title">
+      Global Natural Disaster Mortality: A Century-Long Global Trend
+    </div>
+    <p class="description">
+      This interactive map shows the trend in the number of deaths caused by
+      natural disasters across the world between <br />the years 1900 and 2020.
+      The varying hues represent varying numbers of death. The filter can show
+      the deaths caused by a <br />specific natural disaster, while the time
+      slider can show the change in the number of deaths in a particular year.
+    </p>
+
+    <div>
+      <label for="type">Choose a type</label>
+
+      <select name="type" id="type">
+        <option value="disasters">All disasters</option>
+        <option value="drought">Droughts</option>
+        <option value="earthquakes">earthquakes</option>
+        <option value="volcanic activity">Volcanoes</option>
+        <option value="floods">Floods</option>
+        <option value="storms">Storms</option>
+        <option value="wildfires">Wildfires</option>
+        <option value="extreme temperatures">Extreme Temperatures</option>
+      </select>
+    </div>
+    <svg id="map" width="1300" height="700"></svg>
+    <div id="slider">
+      <input
+        value="2020"
+        type="range"
+        list="tickmarks"
+        id="year"
+        name="year"
+        min="1900"
+        max="2020"
+        step="10"
+      />
+      <datalist id="tickmarks">
+        <option value="1900" label="1900"></option>
+        <option value="1910" label="1910"></option>
+        <option value="1920" label="1920"></option>
+        <option value="1930" label="1930"></option>
+        <option value="1940" label="1940"></option>
+        <option value="1950" label="1950"></option>
+        <option value="1960" label="1960"></option>
+        <option value="1970" label="1970"></option>
+        <option value="1980" label="1980"></option>
+        <option value="1990" label="1990"></option>
+        <option value="2000" label="2000"></option>
+        <option value="2010" label="2010"></option>
+        <option value="2020" label="2020"></option>
+      </datalist>
+    </div>
+
+    <script>
+      const svg = d3.select("svg#map");
+      const width = svg.attr("width");
+      const height = svg.attr("height");
+      const margin = { top: 20, right: 20, bottom: 50, left: 20 };
+      const mapWidth = width - margin.left - margin.right;
+      const mapHeight = height - margin.top - margin.bottom;
+      const map = svg
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+      const colorScale = d3
+        .scaleThreshold()
+        .domain([1, 10, 100, 1000, 10000, 100000, 1000000])
+        .range([
+          "#fefae0",
+          "#ffba08",
+          "#faa307",
+          "#f48c06",
+          "#e85d04",
+          "#dc2f02",
+          "#d00000",
+        ]);
+      let thresholds = [0, 1, 10, 100, 1000, 10000, 100000, 1000000];
+      const requestMap = async function () {
+        const world = await d3.json("countries-110m.json");
+        console.log(world);
+        const disasterData = await d3.csv("natural-disasters.csv");
+        console.log(disasterData);
+
+        var countries = topojson.feature(world, world.objects.countries);
+        var countriesMesh = topojson.mesh(world, world.objects.countries);
+        var projection = d3
+          .geoEquirectangular()
+          .fitSize([mapWidth, mapHeight], countries);
+        var path = d3.geoPath().projection(projection);
+
+        console.log(countries);
+        console.log(countriesMesh);
+
+        let countryPaths = map
+          .selectAll("path.country")
+          .data(countries.features)
+          .join("path")
+          .attr("class", "country")
+          .attr("d", path)
+          .on("mouseover", mouseEntersCountry)
+          .on("mouseout", mouseLeavesCountry);
+
+        map
+          .append("path")
+          .datum(countriesMesh)
+          .attr("class", "outline")
+          .attr("d", path);
+
+        let momesh = map
+          .append("path")
+          .attr("class", "mouseover outline")
+          .style("stroke", "black")
+          .style("stroke-width", 3)
+          .attr("d", "");
+
+        let currYear = 2020;
+        let currType = "disasters";
+
+        function disasterPerYear(year, type) {
+          const filteredYear = disasterData.filter((d) => {
+            return Number(d["Year"]) === year;
+          });
+          console.log(filteredYear);
+          const disasterExtent = d3.extent(filteredYear, (d) =>
+            Number(d[`Number of deaths from ${type}`])
+          );
+          console.log(disasterExtent);
+
+          const dict = {};
+          filteredYear.forEach((d) => {
+            dict[d["Country name"]] = Number(
+              d[`Number of deaths from ${type}`]
+            );
+          });
+          console.log(dict);
+          countryPaths.style("fill", (d) => {
+            d.properties.total = dict[d.properties.name] || 0;
+
+            return d.properties.total === 0
+              ? "#fefae0"
+              : colorScale(d.properties.total);
+          });
+        }
+        disasterPerYear(currYear, currType);
+        d3.select("input#year").on("input", function (evt) {
+          currYear = Number(evt.target.value);
+          disasterPerYear(Number(evt.target.value), "disasters");
+        });
+
+        d3.select("select#type").on("input", function (evt) {
+          currType = evt.target.value;
+          disasterPerYear(currYear, evt.target.value);
+        });
+
+        let tooltipWidth = 120;
+        let tooltipHeight = 40;
+        let tooltip = map
+          .append("g")
+          .attr("class", "tooltip")
+          .attr("visibility", "hidden");
+        tooltip
+          .append("rect")
+          .attr("fill", "black")
+          .attr("opacity", 0.9)
+          .attr("x", -tooltipWidth / 2.0)
+          .attr("y", 0)
+          .attr("width", tooltipWidth)
+          .attr("height", tooltipHeight);
+
+        let txt = tooltip
+          .append("text")
+          .attr("fill", "white")
+          .attr("text-anchor", "middle")
+          .attr("alignment-baseline", "hanging")
+          .attr("x", 0)
+          .attr("y", 2);
+
+        let txt2 = tooltip
+          .append("text")
+          .attr("fill", "white")
+          .attr("text-anchor", "middle")
+          .attr("alignment-baseline", "hanging")
+          .attr("x", 0)
+          .attr("y", 22);
+
+        function mouseEntersCountry() {
+          tooltip.style("visibility", "visible");
+
+          let country = d3.select(this);
+          let countryId = country.datum().id;
+          let name = country.datum().properties.name;
+          let death = country.datum().properties.total;
+
+          var mo = topojson.mesh(
+            world,
+            world.objects.countries,
+            function (a, b) {
+              return a.id === countryId || b.id === countryId;
+            }
+          );
+          momesh.datum(mo).attr("d", path);
+          txt.text(name);
+          txt2.text(Math.ceil(death));
+
+          let bounds = path.bounds(country.datum());
+
+          let xPos = (bounds[0][0] + bounds[1][0]) / 2.0;
+          let yPos = bounds[1][1] - 15;
+
+          // Transform the <g> group so that everything moves together easily
+          tooltip.attr("transform", `translate(${xPos},${yPos})`);
+        }
+        function mouseLeavesCountry() {
+          let country = d3.select(this);
+          momesh.attr("d", "");
+          tooltip.style("visibility", "hidden");
+        }
+
+        let hightlightedRect = map.append("g");
+
+        d3.selectAll("rect")
+          .on("mouseover", function (evt) {
+            let rect = d3.select(this);
+            rect.attr("stroke-width", "2px");
+            rect.attr("stroke", "black");
+            let rangeIdx = Number(rect.attr("id").substring(4)) / 80;
+            let rangeStart = thresholds[rangeIdx];
+            console.log(rangeStart);
+            let rangeEnd = thresholds[rangeIdx + 1];
+            console.log(rangeEnd);
+
+            let countryWithInRange = countries.features.filter(
+              (d) =>
+                d.properties.total >= rangeStart &&
+                d.properties.total <= rangeEnd
+            );
+
+            console.log(countryWithInRange);
+            let countryIDs = countryWithInRange.map((d) => d.id);
+            countryIDs.forEach((id) => {
+              let pathHL = hightlightedRect
+                .append("path")
+                .attr("class", "mouseover outline")
+                .style("stroke", "black")
+                .style("stroke-width", 3)
+                .attr("d", "");
+              var mo = topojson.mesh(
+                world,
+                world.objects.countries,
+                function (a, b) {
+                  return a.id === id || b.id === id;
+                }
+              );
+              pathHL.datum(mo).attr("d", path);
+            });
+          })
+          .on("mouseout", function (evt) {
+            let rect = d3.select(this);
+            rect.attr("stroke-width", "0px");
+            hightlightedRect.selectAll("path").attr("d", "");
+          });
+      };
+
+      requestMap();
+      let legendStartW = mapWidth / 3;
+      let legendStartH = mapHeight + 50;
+      let legend = svg.append("g").attr("class", "legend");
+
+      for (let i = 0; i < 560; i += 80) {
+        if (i === 0) {
+          legend
+            .append("line")
+            .attr("x1", legendStartW + 40)
+            .attr("x2", legendStartW + 40)
+            .attr("y1", legendStartH - 7)
+            .attr("y2", legendStartH)
+            .attr("stroke-width", 0.3)
+            .attr("stroke", "black");
+        } else {
+          legend
+            .append("line")
+            .attr("x1", legendStartW + i)
+            .attr("x2", legendStartW + i)
+            .attr("y1", legendStartH - 7)
+            .attr("y2", legendStartH)
+            .attr("stroke-width", 0.3)
+            .attr("stroke", "black");
+        }
+        legend
+          .append("rect")
+          .attr("id", `rect${i}`)
+          .attr("x", legendStartW + i)
+          .attr("y", legendStartH)
+          .attr("width", 80)
+          .attr("height", 20);
+        legend
+          .append("text")
+          .attr("id", `txt${i}`)
+          .attr("x", legendStartW + i)
+          .attr("y", legendStartH - 10)
+          .attr("text-anchor", "middle")
+          .attr("front-size", "12px");
+      }
+      legend
+        .append("line")
+        .attr("x1", legendStartW + 560)
+        .attr("x2", legendStartW + 560)
+        .attr("y1", legendStartH - 7)
+        .attr("y2", legendStartH)
+        .attr("stroke-width", 0.3)
+        .attr("stroke", "black");
+      legend
+        .append("text")
+        .attr("id", `txt560`)
+        .attr("x", legendStartW + 560)
+        .attr("y", legendStartH - 10)
+        .attr("text-anchor", "middle")
+        .attr("front-size", "12px");
+
+      thresholds.forEach((t, i) => {
+        if (t === 0) {
+          let text = d3.select("text#txt0");
+          text.text("None").attr("x", legendStartW + 40);
+          let rect = d3.select("rect#rect0");
+          console.log(rect);
+          rect.attr("fill", "#fefae0");
+        } else {
+          let text = d3.select(`text#txt${i * 80}`);
+          text.text(t);
+          let rect = d3.select(`rect#rect${i * 80}`);
+          rect.attr("fill", colorScale(t));
+        }
+      });
+    </script>
+    <div class="title">
+      Mortality Trends: 100 Years of Heart Disease, Cancer, Accidents, Suicide,
+      Earthquakes, Hurricanes
+    </div>
+    <p class="description">
+      This interactive line graph shows the relationship between the trends in
+      the number of deaths caused by the different <br />factors across the
+      world between the years 2000 and 2019. The numbers labeled when the graph
+      is hovered over is the <br />number of deaths caused in that year.
+    </p>
+    <svg id="graph" width="1200" height="700"></svg>
+    <script>
+      const svg2 = d3.select("svg#graph");
+      const w = svg2.attr("width");
+      const h = svg2.attr("height");
+      const margin2 = { top: 10, right: 30, bottom: 30, left: 100 };
+      const graphWidth = w - margin2.left - margin2.right - 300;
+      const graphHeight = h - margin2.top - margin2.bottom - 30;
+      const graph = svg2
+        .append("g")
+        .attr("transform", `translate(${margin2.left}, ${margin2.top})`);
+      const requestGraph = async function () {
+        const earthquakeData = await d3.csv("earthquake.csv");
+        const hurricaneData = await d3.csv("hurricane.csv");
+        const motorVehicleData = await d3.csv("motorVehicle.csv");
+        const heartData = await d3.csv("heart.csv");
+        const cancerData = await d3.csv("cancer.csv");
+        const suicideData = await d3.csv("suicide.csv");
+        console.log(earthquakeData);
+        const dateExtent = d3.extent(earthquakeData, (d) => d["Year"]);
+
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, 800000])
+          .range([graphHeight, 0]); // number of deaths
+        const xScale = d3.scaleTime().domain(dateExtent).range([0, graphWidth]); // year
+
+        let leftAxis = d3
+          .axisLeft(yScale)
+          .tickValues(d3.range(0, 800001, 100000));
+        svg2
+          .append("g")
+          .attr("class", "y axis")
+          .attr("transform", `translate(${margin2.left - 10},${margin2.top})`)
+          .call(leftAxis);
+
+        let xGridlines = d3
+          .axisLeft(yScale)
+          .tickFormat("")
+          .tickSize(-graphWidth - 10);
+        svg2
+          .append("g")
+          .attr("class", "y gridlines")
+          .attr("transform", `translate(${margin2.left - 10},${margin2.top})`)
+          .lower()
+          .call(xGridlines);
+
+        let bottomAxis = d3
+          .axisBottom(xScale)
+          .tickFormat(d3.format("d"))
+          .tickValues(d3.range(2000, 2020, 1));
+        svg2
+          .append("g")
+          .attr("class", "x axis")
+          .attr(
+            "transform",
+            `translate(${margin2.left},${graphHeight + margin2.top + 10})`
+          )
+          .call(bottomAxis);
+
+        let yGridlines = d3
+          .axisBottom(xScale)
+          .tickFormat("")
+          .ticks(20)
+          .tickSize(-graphHeight - 10);
+
+        svg2
+          .append("g")
+          .attr("class", "x gridlines")
+          .attr(
+            "transform",
+            `translate(${margin2.left},${graphHeight + margin2.top + 10})`
+          )
+          .lower()
+          .call(yGridlines);
+
+        var lineGen = d3
+          .line()
+          .x((d) => xScale(d["Year"]))
+          .y((d) => yScale(d["Deaths"]));
+
+        graph
+          .append("path")
+          .datum(earthquakeData)
+          .attr("class", "line")
+          .attr("fill", "none")
+          .attr("stroke", "#9a6324")
+          .attr("stroke-width", 3)
+          .attr("d", lineGen);
+
+        graph
+          .append("path")
+          .datum(hurricaneData)
+          .attr("class", "line")
+          .attr("fill", "none")
+          .attr("stroke", "green")
+          .attr("stroke-width", 3)
+          .attr("d", lineGen);
+
+        graph
+          .append("path")
+          .datum(motorVehicleData)
+          .attr("class", "line")
+          .attr("fill", "none")
+          .attr("stroke", "#f58231")
+          .attr("stroke-width", 3)
+          .attr("d", lineGen);
+
+        graph
+          .append("path")
+          .datum(heartData)
+          .attr("class", "line")
+          .attr("fill", "none")
+          .attr("stroke", "#e04226")
+          .attr("stroke-width", 3)
+          .attr("d", lineGen);
+
+        graph
+          .append("path")
+          .datum(cancerData)
+          .attr("class", "line")
+          .attr("fill", "none")
+          .attr("stroke", "#ab84db")
+          .attr("stroke-width", 3)
+          .attr("d", lineGen);
+
+        graph
+          .append("path")
+          .datum(suicideData)
+          .attr("class", "line")
+          .attr("fill", "none")
+          .attr("stroke", "blue")
+          .attr("stroke-width", 3)
+          .attr("d", lineGen);
+
+        graph
+          .selectAll("e-circle")
+          .data(earthquakeData)
+          .join("circle")
+          .attr("class", "e-circle")
+          .attr("r", 4)
+          .attr("fill", "#9a6324")
+          .attr("cx", (d) => xScale(d["Year"]))
+          .attr("cy", (d) => yScale(d["Deaths"]));
+
+        graph
+          .selectAll("h-circle")
+          .data(hurricaneData)
+          .join("circle")
+          .attr("class", "h-circle")
+          .attr("r", 4)
+          .attr("fill", "green")
+          .attr("cx", (d) => xScale(d["Year"]))
+          .attr("cy", (d) => yScale(d["Deaths"]));
+
+        graph
+          .selectAll("m-circle")
+          .data(motorVehicleData)
+          .join("circle")
+          .attr("class", "m-circle")
+          .attr("r", 4)
+          .attr("fill", "#f58231")
+          .attr("cx", (d) => xScale(d["Year"]))
+          .attr("cy", (d) => yScale(d["Deaths"]));
+
+        graph
+          .selectAll("ht-circle")
+          .data(heartData)
+          .join("circle")
+          .attr("class", "ht-circle")
+          .attr("r", 4)
+          .attr("fill", "#e04226")
+          .attr("cx", (d) => xScale(d["Year"]))
+          .attr("cy", (d) => yScale(d["Deaths"]));
+
+        graph
+          .selectAll("c-circle")
+          .data(cancerData)
+          .join("circle")
+          .attr("class", "c-circle")
+          .attr("r", 4)
+          .attr("fill", "#ab84db")
+          .attr("cx", (d) => xScale(d["Year"]))
+          .attr("cy", (d) => yScale(d["Deaths"]));
+
+        graph
+          .selectAll("s-circle")
+          .data(suicideData)
+          .join("circle")
+          .attr("class", "s-circle")
+          .attr("r", 4)
+          .attr("fill", "blue")
+          .attr("cx", (d) => xScale(d["Year"]))
+          .attr("cy", (d) => yScale(d["Deaths"]));
+
+        let mouseGroup = graph.append("g");
+        let verticalMarker = mouseGroup
+          .append("line")
+          .attr("id", "verticalMarker")
+          .attr("fill", "none")
+          .attr("stroke", "black")
+          .style("stroke-dasharray", "3, 3")
+          .attr("stroke-width", 2)
+          .attr("y1", 0)
+          .attr("y2", graphHeight)
+          .attr("visibility", "hidden");
+
+        let e_valueMarker = mouseGroup
+          .append("circle")
+          .attr("id", "e_valueMarker")
+          .attr("fill", "none")
+          .attr("stroke", "#9a6324")
+          .attr("stroke-width", 2)
+          .attr("r", 8)
+          .attr("visibility", "hidden");
+        let h_valueMarker = mouseGroup
+          .append("circle")
+          .attr("id", "h_valueMarker")
+          .attr("fill", "none")
+          .attr("stroke", "green")
+          .attr("stroke-width", 2)
+          .attr("r", 8)
+          .attr("visibility", "hidden");
+
+        let m_valueMarker = mouseGroup
+          .append("circle")
+          .attr("id", "m_valueMarker")
+          .attr("fill", "none")
+          .attr("stroke", "#f58231")
+          .attr("stroke-width", 2)
+          .attr("r", 8)
+          .attr("visibility", "hidden");
+
+        let ht_valueMarker = mouseGroup
+          .append("circle")
+          .attr("id", "ht_valueMarker")
+          .attr("fill", "none")
+          .attr("stroke", "#e04226")
+          .attr("stroke-width", 2)
+          .attr("r", 8)
+          .attr("visibility", "hidden");
+
+        let c_valueMarker = mouseGroup
+          .append("circle")
+          .attr("id", "c_valueMarker")
+          .attr("fill", "none")
+          .attr("stroke", "#ab84db")
+          .attr("stroke-width", 2)
+          .attr("r", 8)
+          .attr("visibility", "hidden");
+
+        let s_valueMarker = mouseGroup
+          .append("circle")
+          .attr("id", "s_valueMarker")
+          .attr("fill", "none")
+          .attr("stroke", "blue")
+          .attr("stroke-width", 2)
+          .attr("r", 8)
+          .attr("visibility", "hidden");
+
+        let e_label = mouseGroup
+          .append("text")
+          .attr("id", "e-label")
+          .attr("stroke", "#52320d")
+          .attr("stroke-width", 0.7)
+          .attr("visibility", "hidden");
+
+        let h_label = mouseGroup
+          .append("text")
+          .attr("id", "h-label")
+          .attr("stroke", "#13471c")
+          .attr("stroke-width", 0.7)
+          .attr("visibility", "hidden");
+
+        let m_label = mouseGroup
+          .append("text")
+          .attr("id", "m-label")
+          .attr("stroke", "#994d17")
+          .attr("stroke-width", 0.7)
+          .attr("visibility", "hidden");
+
+        let ht_label = mouseGroup
+          .append("text")
+          .attr("id", "ht-label")
+          .attr("stroke", "#8c2514")
+          .attr("stroke-width", 0.7)
+          .attr("visibility", "hidden");
+
+        let c_label = mouseGroup
+          .append("text")
+          .attr("id", "c-label")
+          .attr("stroke", "#5d437d")
+          .attr("stroke-width", 0.7)
+          .attr("visibility", "hidden");
+
+        let s_label = mouseGroup
+          .append("text")
+          .attr("id", "s-label")
+          .attr("stroke", "navy")
+          .attr("stroke-width", 0.7)
+          .attr("visibility", "hidden");
+
+        let activeRegion = mouseGroup
+          .append("rect")
+          .attr("id", "activeRegion")
+          .attr("width", graphWidth)
+          .attr("height", graphHeight)
+          .attr("fill", "none")
+          .attr("pointer-events", "all");
+
+        activeRegion.on("mouseover", function () {
+          verticalMarker.attr("visibility", "");
+          e_valueMarker.attr("visibility", "");
+          h_valueMarker.attr("visibility", "");
+          m_valueMarker.attr("visibility", "");
+          ht_valueMarker.attr("visibility", "");
+          c_valueMarker.attr("visibility", "");
+          s_valueMarker.attr("visibility", "");
+          e_label.attr("visibility", "");
+          h_label.attr("visibility", "");
+          m_label.attr("visibility", "");
+          ht_label.attr("visibility", "");
+          c_label.attr("visibility", "");
+          s_label.attr("visibility", "");
+        });
+
+        activeRegion.on("mouseout", function () {
+          verticalMarker.attr("visibility", "hidden");
+          e_valueMarker.attr("visibility", "hidden");
+          h_valueMarker.attr("visibility", "hidden");
+          m_valueMarker.attr("visibility", "hidden");
+          ht_valueMarker.attr("visibility", "hidden");
+          c_valueMarker.attr("visibility", "hidden");
+          s_valueMarker.attr("visibility", "hidden");
+          e_label.attr("visibility", "hidden");
+          h_label.attr("visibility", "hidden");
+          m_label.attr("visibility", "hidden");
+          ht_label.attr("visibility", "hidden");
+          c_label.attr("visibility", "hidden");
+          s_label.attr("visibility", "hidden");
+        });
+
+        let findYear = d3.bisector((d) => d.Year).right;
+
+        activeRegion.on("mousemove", function (event) {
+          let dataArray = [
+            earthquakeData,
+            hurricaneData,
+            motorVehicleData,
+            heartData,
+            cancerData,
+            suicideData,
+          ];
+          let location = d3.pointer(event);
+          let x = location[0];
+          let xYear = xScale.invert(x);
+
+          let e_index = findYear(earthquakeData, xYear);
+          let h_index = findYear(hurricaneData, xYear);
+          let m_index = findYear(motorVehicleData, xYear);
+          let ht_index = findYear(heartData, xYear);
+          let c_index = findYear(cancerData, xYear);
+          let s_index = findYear(suicideData, xYear);
+
+          let e_d = earthquakeData[e_index];
+          let h_d = hurricaneData[h_index];
+          let m_d = motorVehicleData[m_index];
+          let ht_d = heartData[h_index];
+          let c_d = cancerData[c_index];
+          let s_d = suicideData[s_index];
+
+          let xPos = xScale(e_d["Year"]);
+          let e_yPos = yScale(e_d["Deaths"]);
+          let h_yPos = yScale(h_d["Deaths"]);
+          let m_yPos = yScale(m_d["Deaths"]);
+          let ht_yPos = yScale(ht_d["Deaths"]);
+          let c_yPos = yScale(c_d["Deaths"]);
+          let s_yPos = yScale(s_d["Deaths"]);
+
+          verticalMarker.attr("x1", xPos).attr("x2", xPos);
+          e_valueMarker.attr("cx", xPos).attr("cy", e_yPos);
+          h_valueMarker.attr("cx", xPos).attr("cy", h_yPos);
+          m_valueMarker.attr("cx", xPos).attr("cy", m_yPos);
+          ht_valueMarker.attr("cx", xPos).attr("cy", ht_yPos);
+          c_valueMarker.attr("cx", xPos).attr("cy", c_yPos);
+          s_valueMarker.attr("cx", xPos).attr("cy", s_yPos);
+
+          let e_txt = e_d["Deaths"];
+          let h_txt = h_d["Deaths"];
+          let m_txt = m_d["Deaths"];
+          let ht_txt = ht_d["Deaths"];
+          let c_txt = c_d["Deaths"];
+          let s_txt = s_d["Deaths"];
+
+          e_label.text(e_txt).attr("fill", "#9a6324");
+          h_label.text(h_txt).attr("fill", "green");
+          m_label.text(m_txt).attr("fill", "#f58231");
+          ht_label.text(ht_txt).attr("fill", "#e04226");
+          c_label.text(c_txt).attr("fill", "#ab84db");
+          s_label.text(s_txt).attr("fill", "blue");
+
+          if (xPos < graphWidth / 3.0) {
+            e_label
+              .attr("x", xPos + 6)
+              .attr("y", e_yPos - 15)
+              .attr("text-anchor", "start");
+            h_label
+              .attr("x", xPos + 10)
+              .attr("y", h_yPos - 2)
+              .attr("text-anchor", "start");
+            m_label
+              .attr("x", xPos - 52)
+              .attr("y", m_yPos - 10)
+              .attr("text-anchor", "start");
+            ht_label
+              .attr("x", xPos + 4)
+              .attr("y", ht_yPos - 10)
+              .attr("text-anchor", "start");
+            c_label
+              .attr("x", xPos + 4)
+              .attr("y", c_yPos + 23)
+              .attr("text-anchor", "start");
+            s_label
+              .attr("x", xPos + 4)
+              .attr("y", s_yPos - 4)
+              .attr("text-anchor", "start");
+          } else if (graphWidth / 3.0 < xPos < (graphWidth * 2) / 3.0) {
+            e_label
+              .attr("x", xPos + 6)
+              .attr("y", e_yPos - 4)
+              .attr("text-anchor", "start");
+            h_label
+              .attr("x", xPos - 30)
+              .attr("y", h_yPos - 4)
+              .attr("text-anchor", "start");
+            m_label
+              .attr("x", xPos - 55)
+              .attr("y", m_yPos - 10)
+              .attr("text-anchor", "start");
+            ht_label
+              .attr("x", xPos - 58)
+              .attr("y", ht_yPos - 8)
+              .attr("text-anchor", "start");
+            c_label
+              .attr("x", xPos + 8)
+              .attr("y", c_yPos + 17)
+              .attr("text-anchor", "start");
+            s_label
+              .attr("x", xPos + 4)
+              .attr("y", s_yPos - 10)
+              .attr("text-anchor", "start");
+          } else {
+            e_label
+              .attr("x", xPos + 45)
+              .attr("y", e_yPos - 8)
+              .attr("text-anchor", "end");
+            h_label
+              .attr("x", xPos - 8)
+              .attr("y", h_yPos - 4)
+              .attr("text-anchor", "end");
+            m_label
+              .attr("x", xPos + 60)
+              .attr("y", m_yPos - 4)
+              .attr("text-anchor", "end");
+            ht_label
+              .attr("x", xPos - 4)
+              .attr("y", ht_yPos - 4)
+              .attr("text-anchor", "end");
+            c_label
+              .attr("x", xPos + 60)
+              .attr("y", c_yPos - 4)
+              .attr("text-anchor", "end");
+            s_label
+              .attr("x", xPos - 10)
+              .attr("y", s_yPos - 4)
+              .attr("text-anchor", "end");
+          }
+        });
+        let legendWidth = graphWidth + 200;
+        let legend = svg2.append("g");
+        var legendArea = legend
+          .append("rect")
+          .attr("x", legendWidth - 25)
+          .attr("y", 100)
+          .attr("width", 200)
+          .attr("height", 210)
+          .attr("stroke", "darkgrey")
+          .attr("fill", "none");
+        legend
+          .append("line")
+          .attr("x1", legendWidth)
+          .attr("x2", legendWidth + 30)
+          .attr("y1", 130)
+          .attr("y2", 130)
+          .attr("stroke", "#e04226")
+          .attr("stroke-width", 2);
+
+        legend
+          .append("line")
+          .attr("x1", legendWidth)
+          .attr("x2", legendWidth + 30)
+          .attr("y1", 160)
+          .attr("y2", 160)
+          .attr("stroke", "#ab84db")
+          .attr("stroke-width", 2);
+
+        legend
+          .append("line")
+          .attr("x1", legendWidth)
+          .attr("x2", legendWidth + 30)
+          .attr("y1", 190)
+          .attr("y2", 190)
+          .attr("stroke", "#f58231")
+          .attr("stroke-width", 2);
+
+        legend
+          .append("line")
+          .attr("x1", legendWidth)
+          .attr("x2", legendWidth + 30)
+          .attr("y1", 220)
+          .attr("y2", 220)
+          .attr("stroke", "blue")
+          .attr("stroke-width", 2);
+
+        legend
+          .append("line")
+          .attr("x1", legendWidth)
+          .attr("x2", legendWidth + 30)
+          .attr("y1", 250)
+          .attr("y2", 250)
+          .attr("stroke", "#9a6324")
+          .attr("stroke-width", 2);
+
+        legend
+          .append("line")
+          .attr("x1", legendWidth)
+          .attr("x2", legendWidth + 30)
+          .attr("y1", 280)
+          .attr("y2", 280)
+          .attr("stroke", "green")
+          .attr("stroke-width", 2);
+
+        legend
+          .append("circle")
+          .attr("cx", legendWidth + 15)
+          .attr("cy", 130)
+          .attr("r", 4)
+          .attr("fill", "#e04226");
+
+        legend
+          .append("circle")
+          .attr("cx", legendWidth + 15)
+          .attr("cy", 160)
+          .attr("r", 4)
+          .attr("fill", "#ab84db");
+
+        legend
+          .append("circle")
+          .attr("cx", legendWidth + 15)
+          .attr("cy", 190)
+          .attr("r", 4)
+          .attr("fill", "#f58231");
+
+        legend
+          .append("circle")
+          .attr("cx", legendWidth + 15)
+          .attr("cy", 220)
+          .attr("r", 4)
+          .attr("fill", "blue");
+
+        legend
+          .append("circle")
+          .attr("cx", legendWidth + 15)
+          .attr("cy", 250)
+          .attr("r", 4)
+          .attr("fill", "#9a6324");
+
+        legend
+          .append("circle")
+          .attr("cx", legendWidth + 15)
+          .attr("cy", 280)
+          .attr("r", 4)
+          .attr("fill", "green");
+
+        legend
+          .append("text")
+          .text("Heart Disease")
+          .attr("x", legendWidth + 45)
+          .attr("y", 134);
+
+        legend
+          .append("text")
+          .text("Cancer")
+          .attr("x", legendWidth + 45)
+          .attr("y", 164);
+
+        legend
+          .append("text")
+          .text("Motor Vehicle")
+          .attr("x", legendWidth + 45)
+          .attr("y", 194);
+
+        legend
+          .append("text")
+          .text("Suicide")
+          .attr("x", legendWidth + 45)
+          .attr("y", 224);
+
+        legend
+          .append("text")
+          .text("Earthquake")
+          .attr("x", legendWidth + 45)
+          .attr("y", 254);
+
+        legend
+          .append("text")
+          .text("Hurricane")
+          .attr("x", legendWidth + 45)
+          .attr("y", 284);
+
+        svg2
+          .append("text")
+          .text("Year")
+          .attr("x", graphWidth / 2 + 100)
+          .attr("y", h - 7);
+
+        svg2
+          .append("text")
+          .text("Number of Deaths")
+          .attr("x", -graphWidth / 2 - margin2.top)
+          .attr("y", 30)
+          .attr("transform", "rotate(-90)");
+      };
+      requestGraph();
+    </script>
+  </body>
+</html>

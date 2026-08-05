@@ -1,0 +1,622 @@
+<html>
+<meta charset="UTF-8">
+
+  <head>
+    <title>Cost of Living in the United States</title>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
+    
+    <style>
+      html {
+        background-color: "#EEECEC";
+        font-family: "Trebuchet MS", sans-serif;
+      }
+
+      body { 
+        margin: 0; 
+        
+    }
+
+      .title-bar {
+ 
+        padding-left: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: #445;
+        color: white;
+        display: inline-block;
+        width: 100%;
+    
+      }
+      
+      .outline {
+        fill: none;
+        stroke: black;
+        stroke-width: 1px;
+      }
+      
+      .graticule {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1px;
+      }
+      
+      .tooltip {
+        pointer-events: none;
+      }
+      
+      .gridlines line {
+        stroke: #bbb;
+      }
+      
+      .gridlines .domain {
+        stroke: none;
+      }
+      
+      .mapchart {
+        display: flex;
+        padding: 30px;
+      }
+      
+      button {
+        font-family: "Trebuchet MS", sans-serif;
+        background-color: white;
+        color: #445;
+        border: 1px solid gray;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: large;
+        border-style: ridge;
+      }
+      
+      .right {
+        margin-right: 100px;
+        justify-content: flex-start;
+      }
+  
+      .ranking{
+        flex-direction: row;
+        display: flex;
+        justify-content: center;
+      }
+
+      .branking{
+        margin-left: 50px;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class = "title-bar">
+        <h1> Cost of Living Across the U.S.</h1>
+        <p> INFO 3300 Project 2: Carly Hu, Myna Lim, Tasnimul Taher, Sydney Wan </p>
+
+      </div>
+      
+      <div class="mapchart">
+        <div id="left">
+          <p>The following visualizations present the average annual cost of living across the United States.</p>
+          <p> Data is sourced from the <a href = "https://www.epi.org/">Economic Policy Institute</a> (2022). </p>
+          <h3 id="maptitle">Filter by expense:</h3>
+          <div id="button-bar"></div>
+          <div id="family">
+            <h3 id="maptitle">Filter by family size (# parents, # children): </h3>
+            <div id="family-button-bar"></div>
+          </div>
+          <svg id="choropleth" height="400" width="700" style="background: #445; margin-top:50px"> </svg>
+          <svg id="colorLegend" height="100" width="600" style="margin-top:30px"> </svg>
+        </div>
+        
+        <div class="right" style="margin-top: 20px">
+          <div class = "ranking" style="border: 2px solid #7a0177; padding: 5px">
+            <div id="ranking" style="border-right: 2px solid #7a0177; padding-right: 10px"></div>
+            <div id="branking" class = "branking"></div>
+          </div>
+          <h3 id="charttitle"></h3>
+          <svg id="barchart" height="300" width="500" style="border:1px solid black; background: white; "></svg>
+        </div>
+      </div>
+      
+      <script>
+        
+        // MAP CREATION
+        const svg = d3.select("#choropleth");
+        const width = svg.attr("width");
+        const height = svg.attr("height");
+        const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+        const mapWidth = width - margin.left - margin.right;
+        const mapHeight = height - margin.top - margin.bottom;
+        const map = svg.append("g")
+                      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        const requestData = async function () {
+          
+          // load data
+          const us = await d3.json("us-smaller.json");
+          
+          // modifying right now to just include 2p2c
+          var allIncomeData = await d3.csv("monthly_income.csv", d3.autoType);
+          var family = "2p2c";
+          var incomeData = filterFamilyType(family);
+          var states = topojson.feature(us, us.objects.states);
+          var statesMesh = topojson.mesh(us, us.objects.states);
+          var projection = d3.geoAlbersUsa().fitSize([mapWidth, mapHeight], states);
+          var path = d3.geoPath().projection(projection);
+          var category = "Total";
+          var family = "2p2c"
+          
+          let graticule = d3.geoGraticule10();
+          map.append("path").attr("class", "graticule").attr("d", path(graticule));
+          
+          let statePaths = map.selectAll("path.state").data(states.features)
+                              .join("path")
+                              .attr("class", "state")
+                              .attr("note", d => d.id)
+                              .attr("d", path)
+                              .on('mouseover', mouseEntersState)
+                              .on('mouseout', mouseLeavesState)
+                              .on('click', mouseClicked)
+                              .on('click', updateBarChart);
+          
+          var initialState = null; // New York initial state
+          var oldState = statePaths._groups[0][32];
+          var state = statePaths._groups[0][32];
+          map.append("path").datum(statesMesh)
+             .attr("class", "outline")
+             .attr("d", path);
+
+          var stateDict = createStateDict(incomeData);
+          updateMap("Total", "2p2c");
+    
+          // Create mouseover functionality on map for individual state
+          let tooltipWidth = 120;
+          let tooltipHeight = 40;
+          
+          let momesh = map.append("path")
+                          .attr("class", "mouseover outline")
+                          .style("stroke", "white")
+                          .style("stroke-width", 3)
+                          .attr("d", "");
+          
+          let tooltip = map.append("g")
+                           .attr("class", "tooltip")
+                           .attr("visibility", "hidden"); 
+          
+          tooltip.append("rect")
+                 .attr("fill", "white")
+                 .attr("opacity", 0.9)
+                 .attr("x", -tooltipWidth / 2.0)
+                 .attr("y", 0)
+                 .attr("width", tooltipWidth)
+                 .attr("height", tooltipHeight);
+          
+          let txt = tooltip.append("text")
+                           .attr("fill", "#7a0177")
+                           .attr("text-anchor", "middle")
+                           .attr("alignment-baseline", "hanging")
+                           .attr("x", 0)
+                           .attr("y", 2)
+                           .style("font-weight", 600);
+          
+          let txt2 = tooltip.append("text")
+                            .attr("fill", "#7a0177")
+                            .attr("text-anchor", "middle")
+                            .attr("alignment-baseline", "hanging")
+                            .attr("x", 0)
+                            .attr("y", 22);
+          
+          function mouseEntersState() {
+            tooltip.style("visibility", "visible")
+            
+            let state = d3.select(this);
+            
+            let stateID = state.datum().id;
+            let stateDat = stateDict[stateID];
+            
+            txt.text(stateDat.State);
+            txt2.text(stateDat[category].toFixed(2));
+            
+            let bounds = path.bounds(state.datum());
+            let xPos = (bounds[0][0] + bounds[1][0]) / 2.0;
+            let yPos = bounds[1][1] - 15;
+            
+            tooltip.attr("transform", `translate(${xPos},${yPos})`);
+
+            var mo = topojson.mesh(us, us.objects.states, function (a, b) { return a.id === stateID || b.id === stateID; });
+            momesh.datum(mo).attr("d", path)
+          }
+          
+          function mouseLeavesState() {
+            tooltip.style("visibility", "hidden");
+            let state = d3.select(this);
+            momesh.attr("d", "");
+          }
+
+          function mouseClicked() {
+            let state = d3.select(this);
+          }
+          
+          // FUNCTION TO UPDATE DATA BASED ON USER SELECTION OF CATEGORY
+          function updateMap(costCategoryKey, familyTypeKey) {
+            category = costCategoryKey;
+            incomeData = filterFamilyType(familyTypeKey);
+            const colorScale = d3.scaleQuantile()
+                                 .domain(d3.map(incomeData, d => d[costCategoryKey]))
+                                 .range(["#fcc5c0","#fa9fb5","#f768a1","#c51b8a","#7a0177"]);
+
+            stateDict = createStateDict(incomeData);
+            
+            map.selectAll(".state")
+               .style("fill", d => colorScale(stateDict[d.id][costCategoryKey]));
+            
+               drawLegend("#colorLegend", colorScale);
+            
+            // change top 5 states based on selected category
+            ranking(incomeData, category);
+          }
+
+          function filterFamilyType(familyTypeKey) {
+            return allIncomeData.filter(function (d) { return d.Family === familyTypeKey });
+          }
+        
+          function createStateDict(incomeData) {
+            // create state data structure
+            const stateCodes = [];
+            us.objects.states.geometries.forEach(i => {
+              stateCodes.push(i.id);
+              
+            });
+            
+            var stateDict = {};
+            incomeData.forEach(d => {
+              d.state_code = stateCodes[d.state_id - 1];
+              stateDict[d.state_code] = d;
+            });
+            
+            const missingEntries = [60, 64, 66, 68, 69, 70, 72, 74, 78];
+            
+            missingEntries.forEach(i => {
+              stateDict[i] = { Total: 0 };
+            });
+            
+            return stateDict;
+          }
+          
+          const costCategories = ["Food", "Healthcare", "Housing", "Childcare", "Taxes", "Transportation", "Total"];
+          costCategories.forEach(d => {
+
+            d3.select("div#button-bar")
+              .append("button")
+              .attr("class", "category")
+              .attr("id", `${d}`)
+              .text(d)
+              .on("click", function () {
+                d3.selectAll("button.category").style('background-color', "white").style("text-decoration", "none");
+                d3.select(this).style("background-color", "#fcc5c0").style("text-decoration", "underline");
+                category = d;
+                updateMap(d, family);
+                updateBarChart();
+
+            })
+              .on("mouseover", function() {
+                d3.select(this).style("cursor", "pointer");
+              })
+              .on("mouseout", function() {
+                d3.select(this).style("cursor", "default");
+              })
+          
+            d3.select(`button#Total`).style("background-color", "#fcc5c0").style("text-decoration", "underline");
+            
+          });
+          const familyCategories = ["1p0c", "1p1c", "1p2c", "1p3c", "1p4c", "2p0c", "2p1c", "2p2c", "2p3c", "2p4c"];
+        
+          familyCategories.forEach(d => {
+          
+            d3.select("div#family-button-bar")
+            .append("button")
+            .attr("class", `family`)
+            .attr("id", `type${d}`)
+            .text(d)
+            .on("click", function () {
+              d3.selectAll("button.family").style('background-color', "white").style("text-decoration", "none");
+              d3.select(this).style("background-color", "#fcc5c0").style("text-decoration", "underline");
+              family = d;
+              updateMap(category, d);
+              updateBarChart();
+    
+            })
+            .on("mouseover", function() {
+                d3.select(this).style("cursor", "pointer");
+              })
+            .on("mouseout", function() {
+              d3.select(this).style("cursor", "default");
+            })
+
+            d3.select(`button#type2p2c`).style("background-color", "#fcc5c0").style("text-decoration", "underline");
+          
+          });
+          
+          // FUNCTION TO CREATE LEGEND
+          // [Function credit: Professor Jeff Rzeszotarski, 2022. Modified to create dynamic map.
+          function drawLegend(legendSelector, legendColorScale) {
+            
+            // Shrink legend bar by 5 px inwards from sides of SVG
+            const offsets = {
+              width: 40,
+              top: 2,
+              bottom: 60
+            };
+            
+            const minMaxExtendPercent = 0;
+            const legend = d3.select(legendSelector);
+            const legendHeight = parseInt(legend.style('height'), 10);
+            const legendBarWidth = parseInt(legend.style('width'), 10) - (offsets.width * 2);
+            const legendMinMax = d3.extent(legendColorScale.domain());
+            // recover the min and max values from most kinds of numeric scales
+            const minMaxExtension = (legendMinMax[1] - legendMinMax[0]) * minMaxExtendPercent;
+            const barHeight = legendHeight - offsets.top - offsets.bottom;
+            
+            d3.select("svg#map-scale").attr("preserveAspectRatio", "xMidYMid meet").attr("viewBox", `0 0 ${parseInt(legend.style('width'), 10)} ${legendHeight}`)
+            
+            // In this case the "data" are pixels, and we get numbers to use in colorScale
+            // Use this to make axis labels
+            let barScale = d3.scaleLinear().domain([legendMinMax[0] - minMaxExtension,
+                                                    legendMinMax[1] + minMaxExtension])
+                                           .range([0, legendBarWidth]);
+            
+            let barAxis = d3.axisBottom(barScale);
+            
+            if (legend.select("g.colorbar").node()) {
+              var bar = legend.select("g")
+            } else {
+              var bar = legend.append("g")
+              .attr("class", "legend colorbar")
+              .attr("transform", `translate(${offsets.width},${offsets.top})`)
+            }
+            
+            // Get the thresholds
+            let thresholds = [];
+            if (legendColorScale.hasOwnProperty('thresholds')) {
+              thresholds = legendColorScale.thresholds()
+            } else {
+              thresholds = legendColorScale.quantiles()
+            }
+            
+            const barThresholds = [legendMinMax[0], ...thresholds, legendMinMax[1]];
+            
+            // Use the quantile breakpoints plus the min and max of the scale as tick values
+            barAxis.tickValues(barThresholds).tickFormat(d3.format("$.2f"));
+            
+            bar.selectAll("rect")
+               .data(barThresholds)
+               .join("rect")
+               .attr("x", (d, i) => {
+                let dataStart = barThresholds[i];
+                return barAxis.scale()(dataStart);
+                })
+               .attr("y", 0)
+               .attr("width", (d, i) => {
+                  let dataStart = barThresholds[i];
+                  let dataEnd = barThresholds[i + 1];
+                  let temp = barAxis.scale()(dataEnd) - barAxis.scale()(dataStart);
+                  if (Object.is(NaN, temp)) {
+                    return 0;
+                  } else {
+                    return temp;
+                  }
+               })
+               .attr("height", barHeight)
+               .style("fill", (d, i) => {
+                let dataStart = barThresholds[i];
+                let dataEnd = barThresholds[i + 1];
+                return legendColorScale((dataStart + dataEnd) / 2.0);
+               });
+            
+            if (legend.select("g.axis").node()) {
+              legend.select("g.axis").call(barAxis).selectAll("text")
+                    .attr("y", 0)
+                    .attr("x", 9)
+                    .attr("dy", ".35em")
+                    .attr("transform", "rotate(45)")
+                    .style("text-anchor", "start");
+            } else {
+              legend.append("g")
+                    .attr("class", "legend axis")
+                    .attr("transform", `translate(${offsets.width},${offsets.top + barHeight + 5})`)
+                    .call(barAxis)
+                    .selectAll("text")
+                    .attr("y", 0)
+                    .attr("x", 9)
+                    .attr("dy", ".35em")
+                    .attr("transform", "rotate(45)")
+                    .style("text-anchor", "start");
+            }
+          }
+          
+          // FUNCTION TO CREATE BAR CHART FOR A SELECTED STATE
+          const costSubCategories = ["Food", "Healthcare", "Housing", "Childcare", "Taxes", "Transportation"];
+                   
+          updateBarChart();
+
+          function updateBarChart() {
+            
+            if (d3.select(this)._groups[0][0] === window) {
+              if (initialState === null) {
+                state = d3.select(statePaths._groups[0][32]);
+              }
+              else {
+                state = d3.select(initialState._groups[0][0]);
+              }
+              
+            }
+            else {
+              state = d3.select(this);
+            }
+            let stateID = state.datum().id;
+            let stateDat = stateDict[stateID];
+            
+            // Define the dimensions for the bar chart
+            const svgChart = d3.select("#barchart");
+            const maptitle = d3.select("#maptitle");
+            const charttitle = d3.select("#charttitle");
+            const width2 = svgChart.attr("width");
+            const height2 = svgChart.attr("height");
+            const chartMargin = { top: 20, right: 20, bottom: 20, left: 20 };
+            const chartWidth = width2 - margin.left - margin.right;
+            const chartHeight = height2 - margin.top - margin.bottom;
+            const barchart = svgChart.append("g")
+                                     .attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top + ")");
+            
+            // Clear any existing content
+            svgChart.html("")
+            charttitle.html("")
+            
+            maxCost = Math.max(stateDat.Housing, stateDat.Food, stateDat.Healthcare, stateDat.Childcare, stateDat.Taxes)
+            var costScale = d3.scaleLinear()
+                              .domain([maxCost, 0])
+                              .range([0, chartHeight]);
+            
+            var costCategoryScale = d3.scalePoint()
+                                      .domain(costSubCategories)
+                                      .range([40, chartWidth - 20])
+            
+            let leftAxis = d3.axisLeft(costScale).tickFormat(function(d) { return "$" + d; });
+            svgChart.append('g')
+                    .attr('transform', `translate(${chartMargin.left + 20},${chartMargin.top})`)
+                    .call(leftAxis);
+            
+            let leftGrid = d3.axisLeft(costScale).tickFormat('').tickSize(-chartWidth)
+            svgChart.append('g')
+                    .attr('transform', `translate(${chartMargin.left + 20},${chartMargin.top})`)
+                    .attr('class', 'gridlines')
+                    .call(leftGrid);
+            
+            let bottomAxis = d3.axisBottom(costCategoryScale)
+            svgChart.append('g')
+                    .attr('transform', `translate(${chartMargin.left},${chartHeight + chartMargin.top})`)
+                    .call(bottomAxis);
+
+            costSubCategories.forEach(d => {
+              currentCat = d;
+              if (currentCat === category) {
+                  var highlightedColor = "#78318F"
+              } else {
+                  highlightedColor = "#caafd0"
+              } 
+
+              var bars = svgChart.selectAll('.bar' + currentCat)
+                  .data([currentCat]); 
+
+              bars.enter()
+                  .append('rect')
+                  .attr('class', 'bar' + currentCat)
+                  .attr('fill', highlightedColor)
+                  .attr('x', d => costCategoryScale(currentCat) + 5)
+                  .attr('y', d => chartHeight +20)
+                  .attr('height', 0)
+                  .attr('width', 30)
+                  .transition() // Add transition
+                  .duration(900) 
+                  .attr('y', d => costScale(stateDat[currentCat]) + 20)
+                  .attr('height', d => chartHeight - costScale(stateDat[currentCat]));
+
+              bars
+                  .transition()
+                  .duration(900)
+                  .attr('fill', highlightedColor)
+                  .attr('x', d => costCategoryScale(currentCat) + 5)
+                  .attr('y', d => costScale(stateDat[currentCat]) + 20)
+                  .attr('height', d => chartHeight - costScale(stateDat[currentCat]));
+
+              bars.exit()
+                  .transition()
+                  .duration(500)
+                  .attr('height', 0)
+                  .remove();
+              
+              initialState = state;
+
+            });
+            
+            // updating chart label based on what is selected
+            charttitle.append("text")
+                      .attr("x", chartWidth / 2)
+                      .attr("y", chartHeight / 2)
+                      .text("Average Annual Cost of Living Breakdown: " + stateDat.State)
+                      
+          }
+
+          // FUNCTION FOR TOP 5 & BOTTOM STATES
+          // source: https://www.w3schools.com/html/html_tables.asp 
+          function ranking(data, costCategory) {
+            
+            const rank = d3.select("#ranking")
+            const brank = d3.select("#branking")
+
+            brank.selectAll("table").remove();
+            rank.selectAll("table").remove();
+            const sortedData = data.slice().sort((a, b) => b[costCategory] - a[costCategory]); // sorting data for the category chosen
+            const top5States = sortedData.slice(0, 5); // getting top 5 states in that category
+            const bottom5States = sortedData.slice(46, 51);
+
+            const table = rank.append("table"); // table for information
+            const btable = brank.append("table");
+            table.append("caption").text(`Top 5 States: ${costCategory}`).style("font-weight", 600).style("font-size", "large"); // title
+            btable.append("caption").text(`Bottom 5 States: ${costCategory}`).style("font-weight", 600).style("font-size", "large");
+            
+            const tableTitle = table.append("thead");  // creating table title
+            const btableTitle = btable.append("thead");
+            tableTitle.append("th")
+                 .selectAll("th")
+                 .data(["State", costCategory])
+                 .enter()
+                 .append("th")
+                 .text(d => d);
+
+            btableTitle.append("th")
+                 .selectAll("th")
+                 .data(["State", costCategory])
+                 .enter()
+                 .append("th")
+                 .text(d => d);
+            
+            // creating table rows
+            const tableMain = table.append("tbody");
+            const rows = tableMain.selectAll("tr")
+                              .data(top5States)
+                              .enter()
+                              .append("tr");
+
+            const btableMain = btable.append("tbody");
+            const brows = btableMain.selectAll("tr")
+                              .data(bottom5States)
+                              .enter()
+                              .append("tr");
+            
+            // filling in the table data
+            rows.each(function (d) {
+              const row = d3.select(this);
+              row.append("td").text(d.State);
+              row.append("td").text(d[costCategory].toFixed(2));
+            });
+
+            brows.each(function (d) {
+              const row = d3.select(this);
+              row.append("td").text(d.State);
+              row.append("td").text(d[costCategory].toFixed(2));
+            });
+
+          }
+        }
+        
+        // END OF REQUESTDATA()
+        requestData();
+        
+      </script>
+    </div>
+  </body>
+</html>

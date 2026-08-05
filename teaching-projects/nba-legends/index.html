@@ -1,0 +1,397 @@
+<html>
+
+<head>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    .legend span {
+      margin-right: 10px;
+    }
+
+    .x-gridlines line {
+      stroke: #bbb;
+    }
+
+    .x-gridlines .domain {
+      stroke: none;
+    }
+
+    .y-gridlines line {
+      stroke: #bbb;
+    }
+
+    .y-gridlines .domain {
+      stroke: none;
+    }
+
+    .axis-label {
+      fill: #333;
+      /* Color of the axis labels */
+      font-size: 14px;
+      /* Adjust font size as needed */
+      font-family: sans-serif;
+      /* Choose a legible font */
+    }
+
+    .tick text {
+      fill: #666;
+      /* Color of the tick labels */
+    }
+
+    #button-bar {
+      display: flex;
+      justify-content: center;
+      /* This will center the buttons */
+      align-items: center;
+      padding: 10px 0;
+      /* Adds some space above and below the buttons */
+    }
+
+    .button {
+      margin: 0 5px;
+      /* Adds spacing between buttons */
+      padding: 5px 10px;
+      background-color: #f8f8f8;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      cursor: pointer;
+      outline: none;
+      /* Removes the outline to make it look cleaner */
+      font-family: Arial, sans-serif;
+    }
+
+    .button:hover {
+      background-color: #e8e8e8;
+    }
+
+    .button.active {
+      background-color: #ddd;
+      border-color: #ccc;
+    }
+
+    .details-text {
+      font-size: 12px;
+      fill: #444;
+      font-family: Arial, sans-serif;
+    }
+
+    #graph-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #selectButtonX, #selectButtonY {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  margin: 0 auto;
+}
+
+    #dropdown-container {
+  display: flex;
+  justify-content: center; /* This will center the dropdowns horizontally */
+  margin-top: 20px; /* Adjust the margin as needed */
+}
+
+    #title {
+      text-align: center;
+      font-size: 24px;
+      margin-top: 20px;
+      font-family: 'Arial', sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="title">NBA Legends: Career Highlights and Earnings</div>
+  <div id="graph-container">
+    <svg id="graph" height="600" width="600" style="background: #ffffff; margin-top:50px"></svg>
+    <svg id="details" height="600" width="200"></svg>
+  </div>
+  <div id="dropdown-container">
+    <select class="dropdown" id="selectButtonX"></select>
+    <select class="dropdown" id="selectButtonY"></select>
+  </div>
+  
+
+  <script>
+    const svg = d3.select("#graph").append("g");
+    const width = d3.select("#graph").attr("width");
+    const height = d3.select("#graph").attr("height");
+    const margin = { top: 10, right: 10, bottom: 100, left: 100 };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    let chartArea = svg.append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    const svgDetails = d3.select("#details").append("g")
+      .attr("transform", "translate(" + margin.right + "," + margin.top + ")")
+    const image = svgDetails.append("image")
+      .attr("xlink:href", "datasets/jordanmeme.png")
+
+    var statCategories = ["Points", "Rebounds", "Assists", "Blocks", "Steals",
+      "Minutes Played", "Field Goal Percentage", "Salary", "PER"
+    ]
+
+    // Dropdowns
+    d3.select("#selectButtonX")
+      .selectAll()
+      .data(statCategories)
+      .enter()
+      .append('option')
+      .text(function (d) { return d; })
+      .attr("value", function (d) { return d; })
+
+    d3.select("#selectButtonY")
+      .selectAll()
+      .data(statCategories)
+      .enter()
+      .append('option')
+      .text(function (d) { return d; })
+      .attr("value", function (d) { return d; })
+
+    // Season Details Text Box located on the right side of the scatterplot
+    var seasonDetailsText = svgDetails.append("g").attr("class", "text details-text")
+      .append("text")
+      .text("Season:")
+      .attr("transform", "translate(" + 0 + "," + 174.4 + ")")
+      .append("tspan")
+      .text("Points:")
+      .attr("x", 0)
+      .attr("dy", 20)
+      .append("tspan")
+      .text("Rebounds:")
+      .attr("x", 0)
+      .attr("dy", 20)
+      .append("tspan")
+      .text("Assists:")
+      .attr("x", 0)
+      .attr("dy", 20);
+
+    const requestData = async () => {
+      const advancedStats = await d3.csv("datasets/advanced_stats.csv");
+      const perGameStats = await d3.csv("datasets/per_game_stats.csv");
+      const salariesData = await d3.csv("datasets/salaries.csv");
+
+      // console.log(advancedStats);
+      // console.log(perGameStats);
+      // console.log(salariesData);
+
+      const timeParser = d3.timeParse('%Y-%m');
+      advancedStats.forEach((d, i) => {
+        d['per'] = Number(d['PER']);
+        d['mp'] = Number(d['MP']);
+        d['ast'] = Number(d['AST%']);
+        d['blk'] = Number(d['BLK%']);
+        const salaryInfo = salariesData.find(s => s.Player === d.Player && s.Season === d.Season);
+        d['Salary'] = salaryInfo ? +salaryInfo.Salary.replace(/[$,]/g, '') : 0;
+      });
+
+      // Loops through each row of per_game_stats.csv and sorts information by player then season
+      perGameStats.forEach((season, i) => {
+        season['Points'] = Number(season['PTS'])
+        season['Rebounds'] = Number(season['TRB'])
+        season['Assists'] = Number(season['AST'])
+        season['Steals'] = Number(season['STL'])
+        season['Blocks'] = Number(season['BLK'])
+        season['Minutes Played'] = Number(season['MP'])
+        season['Field Goal Percentage'] = Number(season['FG%'])
+      });
+
+      const allData = advancedStats.map((d, i) => ({ ...d, ...perGameStats[i] }));
+
+      // Log the combined data
+      console.log(allData);
+      // xScale
+      const xExtent = d3.extent(allData, d => d['per']);
+      const xScale = d3.scaleLinear().domain(xExtent).range([0, chartWidth])
+
+      // yScale
+      const yExtent = d3.extent(allData, d => d['mp']);
+      const yScale = d3.scaleLinear().domain(yExtent).range([chartHeight, 0]);
+
+      // Order is Lebron, Jordan, Kobe for colors
+      const playerScale = d3.scaleOrdinal(["Orange", "Red", "Purple"]);
+
+      let leftAxis = d3.axisLeft(yScale);
+      let bottomAxis = d3.axisBottom(xScale);
+      let leftGridlines = d3.axisLeft(yScale)
+        .tickSize(-chartWidth - 10)
+        .tickFormat("");
+
+      let bottomGridlines = d3.axisBottom(xScale)
+        .tickSize(- chartHeight - 10)
+        .tickFormat("");
+
+      svg.append("g")
+        .attr("class", "y-axis y-axis-label")
+        .attr("transform", "translate(" + (margin.left - 10) + "," + margin.top + ")")
+        .call(leftAxis);
+
+      svg.append("g")
+        .attr("class", "y-gridlines")
+        .attr("transform", "translate(" + (margin.left - 10) + "," + margin.top + ")")
+        .call(leftGridlines);
+
+      svg.append("g")
+        .attr("class", "x-axis x-axis-label")
+        .attr("transform", "translate(" + margin.left + "," + (chartHeight + margin.top + 10) + ")")
+        .call(bottomAxis);
+
+      svg.append("g")
+        .attr("class", "x-gridlines")
+        .attr("transform", "translate(" + margin.left + "," + (chartHeight + margin.top + 10) + ")")
+        .call(bottomGridlines);
+
+      let circles = chartArea.selectAll("circle").data(allData)
+        .join("circle")
+        .attr("cx", d => xScale(d['Points']))
+        .attr("cy", d => yScale(d['Points']))
+        .attr("r", 5)
+        .style("fill", d => playerScale(d['Player']));
+
+      // more for on click cirle
+      circles.on("mouseover", function () {
+        d3.select(this)
+          .transition().duration(200)
+          .attr("stroke-width", 4)
+          .attr("stroke", "black")
+          .style("fill", d => lighten(playerScale(d['Player'])));
+
+        const player = d3.select(this).datum()['Player'];
+        const season = d3.select(this).datum()['Season'];
+        const rsopo = d3.select(this).datum()['RSorPO'];
+
+        statsNames = [
+          "Points", "Rebounds", "Assists", "Blocks", "Steals", "FG%", "MP", 'PER','Salary',"Setting"
+        ]
+
+        stats = [
+          d3.select(this).datum()['PTS'],
+          d3.select(this).datum()['TRB'],
+          d3.select(this).datum()['AST'],
+          d3.select(this).datum()['BLK'],
+          d3.select(this).datum()['STL'],
+          d3.select(this).datum()['FG%'],
+          d3.select(this).datum()['MP'],
+          d3.select(this).datum()['PER'],
+          d3.select(this).datum()['Salary'],
+          rsopo
+        ]
+        // Updates image svg
+        image.selectAll().remove()
+        image.attr("xlink:href", "datasets/" + player.split(" ")[0].toLowerCase() + ".jpg")
+
+        // Removes text and makes new text fields, inefficient but works for now
+        svgDetails.selectAll("g").remove()
+        var detailsGroup = svgDetails.append("g").attr("class", "details-text");
+        detailsGroup.append("text")
+        var details = detailsGroup.append("g")
+          .append("text")
+          .text("Season: " + season)
+          .attr("transform", "translate(" + 0 + "," + 195 + ")")
+        stats.forEach((d, i) => {
+          details.append("tspan")
+            .text(statsNames[i] + ": " + d)
+            .attr("x", 0)
+            .attr("dy", 20)
+        });
+      });
+
+      d3.select("#selectButtonX").on("change", function (d) {
+        var selectedOptionX = d3.select(this).property("value")
+        var selectedOptionY = d3.select("#selectButtonY").property("value")
+        updateXYaxis(selectedOptionX, selectedOptionY, xScale, yScale, allData)
+      });
+
+      d3.select("#selectButtonY").on("change", function (d) {
+        var selectedOptionX = d3.select(this).property("value")
+        var selectedOptionY = d3.select("#selectButtonX").property("value")
+        updateXYaxis(selectedOptionX, selectedOptionY, xScale, yScale, allData)
+      });
+
+      circles.on("mouseout", function () {
+        d3.select(this)
+          .transition().duration(200)
+          .attr("stroke-width", 1)
+          .attr("stroke", "none")
+          .style("fill", d => playerScale(d['Player']))
+
+      });
+
+      // used lighten function from class, September 18
+      function lighten(color) {
+
+        let hclColor = d3.hcl(color);
+        let luma = Math.min(130, hclColor.l + 30);
+        return d3.rgb(d3.hcl(hclColor.h, hclColor.c, luma));
+      }
+
+      function updateXYaxis(x_axis, y_axis, xScale, yScale, data) {
+        const axisLabels = {
+          'salary': 'Salary ($)',
+          'Points': 'Points',
+          'Rebounds': 'Rebounds',
+          "Assists": 'Assists',
+          'Steals': 'Steals',
+          'Blocks': 'Blocks',
+          'Minutes Played': 'Minutes Played',
+          'Field Goal Percentage': 'Field Goal Percentage (FG%)',
+          'Salary': 'Salary ($)',
+          'PER' : 'Player Efficiency Rating (PER)'
+        };
+
+        xScale.domain(d3.extent(data, d => d[x_axis]));
+        yScale.domain(d3.extent(data, d => d[y_axis]));
+
+        svg.select(".y-axis")
+          .transition()
+          .duration(1000)
+          .call(leftAxis);
+
+        svg.select(".x-axis")
+          .transition()
+          .duration(1000)
+          .call(bottomAxis);
+
+        let xAxisLabel = svg.select('.x-axis-label-text');
+        let yAxisLabel = svg.select('.y-axis-label-text');
+
+        if (xAxisLabel.empty()) {
+          svg.append('text')
+            .attr('class', 'x-axis-label-text axis-label')
+            .attr('text-anchor', 'middle')
+            .attr('x', chartWidth / 2 + margin.left)
+            .attr('y', height - margin.bottom / 2)
+            .text(axisLabels[x_axis]);
+        } else {
+          xAxisLabel.text(axisLabels[x_axis]);
+        }
+
+        if (yAxisLabel.empty()) {
+          svg.append('text')
+            .attr('class', 'y-axis-label-text axis-label')
+            .attr('text-anchor', 'middle')
+            .attr('transform', `translate(${margin.left / 3},${chartHeight / 2 + margin.top}) rotate(-90)`)
+            .text(axisLabels[y_axis]);
+        } else {
+          yAxisLabel.text(axisLabels[y_axis]);
+        }
+
+        circles.transition()
+          .duration(1000)
+          .attr("cx", d => xScale(d[x_axis]))
+          .attr("cy", d => yScale(d[y_axis]));
+      }
+      updateXYaxis('Points', 'Points', xScale, yScale, allData);
+    }
+    requestData();
+
+
+  </script>
+</body>
+
+</html>
