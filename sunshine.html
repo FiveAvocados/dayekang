@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunshine — Daye Kang</title>
+<meta name="description" content="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html">Daye Kang</a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
+    <nav>
+      <ul>
+        <li><a href="index.html">About</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="data-science.html">Data Science</a></li>
+        <li><a href="ux-research.html">UX Research</a></li>
+        <li><a href="artwork.html">Art Work</a></li>
+        <li><a href="teaching.html">Teaching</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+<main>
+  <div class="wrap">
+    <div class="page-head">
+      <div class="kicker">UX Research</div>
+      <h1>Sunshine</h1>
+    </div>
+    <article class="detail">
+      <div id="intro">
+        <p>‘Sunshine’ is an IoT device. Digital lighting can change the views, and users can feel scents, sounds, and breeze accordingly. A user can choose the place from their smart device and the digital window displays the user's chosen view from the app. Also, the user can adjust the level of lights, breeze, scent, and sounds. The fan is located inside the frame so it can purify the indoor air and send it out like a breeze from the window.</p>
+        <dl class="meta-grid"><div><dt>Keywords</dt><dd>Digital Window, Sunlight, Multisense</dd></div><div><dt>Members</dt><dd>Personal Project</dd></div><div><dt>My contribution</dt><dd>UX / Product design</dd></div><div><dt>Year</dt><dd>4.2017 – 6.2017</dd></div></dl>
+      </div>
+      <div class="bleed"><img src="assets/sun_hero.png" alt="Sunshine"></div>
+      
+      <a class="back-home" href="ux-research.html">&larr; Back to projects</a>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="kicker">Get in touch</div>
+    <a class="big-link" href="mailto:dk564@cornell.edu">dk564@cornell.edu</a>
+    <div class="foot-row">
+      <div>&copy; 2026 Daye Kang &mdash; Ithaca, NY</div>
+      <div>
+        <a href="assets/pdf/DayeKang_CV.pdf" target="_blank" rel="noopener">CV</a>
+        <a href="https://www.dayekang.info" target="_blank" rel="noopener">dayekang.info</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+document.documentElement.classList.add('js');
+const _io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); _io.unobserve(e.target); }
+}), { threshold: .07 });
+document.querySelectorAll('.reveal').forEach(el => _io.observe(el));
+</script>
+</body>
+</html>
