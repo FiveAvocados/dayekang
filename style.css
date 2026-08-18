@@ -36,6 +36,8 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+body.teaching-page { background: #f1f1ef; }
+
 ::selection { background: var(--accent); color: #fff; }
 
 img { max-width: 100%; display: block; }
