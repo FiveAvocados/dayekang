@@ -423,6 +423,7 @@ article.detail h3 {
   grid-template-rows: 1fr auto; column-gap: 46px; align-items: stretch;
   padding: 38px 0; border-top: 1px solid var(--rule);
 }
+.teaching-project:first-child { border-top: 0; }
 .teaching-preview {
   grid-row: 1 / 3; position: relative; width: 100%; aspect-ratio: 16 / 10.5;
   overflow: hidden; border: 1px solid var(--rule); border-radius: 12px; background: #fff;
@@ -445,11 +446,14 @@ article.detail h3 {
   margin: 8px 0 9px;
 }
 .teaching-project-copy p { max-width: 720px; color: var(--ink-soft); font-size: .94rem; }
+.teaching-project-copy .student-credit {
+  margin: -1px 0 10px; color: var(--ink); font-size: .8rem; font-weight: 600; line-height: 1.45;
+}
 .teaching-launch {
   display: flex; justify-content: space-between; align-items: center;
-  margin-left: 52px; padding: 12px 0; border-top: 1px solid var(--rule);
-  font-family: var(--mono); font-size: .72rem; font-weight: 650; letter-spacing: .08em;
-  text-transform: uppercase; transition: color .18s, padding .18s;
+  margin-left: 52px; padding: 12px 0;
+  font-family: var(--mono); font-size: .78rem; font-weight: 650; letter-spacing: .025em;
+  transition: color .18s, padding .18s;
 }
 .teaching-launch:hover { color: #14532d; padding-left: 6px; }
 .teaching-launch span { font-size: 1rem; }
