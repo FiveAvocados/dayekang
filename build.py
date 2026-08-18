@@ -251,13 +251,15 @@ pubs = [
          title="Lexia in Wonderland: Korean Education Service for Children with Dyslexia",
          authors="<b>Daye Kang</b>, Hye-Ryeong Kim, Ji-Hae Lee, Jae Young Yun",
          abs="Treating dyslexia during childhood is very important. In Korea, this is not the case since the condition is not well understood, and there is a limited number of medical centers that offer treatment for it. We propose an education app for dyslexic children ages 5–10 in Korea that helps children through active learning — teaching Korean phonics using ‘nonwords’ in a fun and engaging way so they can be treated at home.",
-         links=[("Project", "lexiainwonderland.html")]),
+         links=[("Project", "lexiainwonderland.html"),
+                ("English translation", "assets/papers/lexia-in-wonderland-english-translation.pdf")]),
     dict(venue="KSDS 2017", award=None,
          thumb=A("pub_nudge", "f4a835_e2efb323288c47bdb4926afd3b024a76~mv2.png", "fill", 1000, 726),
          title="Nudge Design to Increase Physical Activities for Hospitalized Children",
          authors="<b>Daye Kang</b>, Hye-Min Choi, Ka-Hyun Kim, Younjoon Lee",
          abs="Hospitalized children are often asked to regularly walk in the hallway to stay active. However, the hallway is usually dull and empty. We created wallpapers and floor footprint stickers that use nudge design to be fun and engaging — footprint stickers promote walking and leg stretches while the wallpaper contains stories that add fun moments.",
-         links=[("Project", "nudgedesign.html")]),
+         links=[("Project", "nudgedesign.html"),
+                ("English translation", "assets/papers/nudge-design-english-translation.pdf")]),
 ]
 
 def pub_html(p):
