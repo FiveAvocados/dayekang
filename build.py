@@ -405,7 +405,7 @@ def placeholder_card(href, tag, title, desc):
         <div class="pad">
           <h3>{title}</h3>
           <span class="tag">{tag}</span>
-          <p>{desc}</p>
+          {f'<p>{desc}</p>' if desc else ''}
         </div>
       </a>"""
 
@@ -418,6 +418,9 @@ ux_body = f"""
       <div class="ux-video-hero-copy"><h1>UX Projects</h1></div>
     </div>
     <div class="cards">
+{placeholder_card("mindful-journaling.html", "Project page", "Mindful, AI-Assisted Journaling System", "")}
+{placeholder_card("themeviz.html", "Project page", "ThemeViz, LLM-Enhanced Visual System for Theme Development", "")}
+{placeholder_card("toonnote.html", "Project page", "ToonNote, Interactive Data Comics for Computational Notebooks", "")}
 {card("bookrecommendation.html", A("ds_bookrec", "f4a835_ddc7400150214afebb07f52a82c092f8~mv2.png", "fill", 1280, 840),
       "Recommendation · R Shiny", "Book Recommendation System",
       "We designed and developed a book recommendation system that recommends the next few books for our target users based on their own reading tastes.")}
@@ -1291,6 +1294,14 @@ detail("pmos-comics.html", "PMOS.Comics", "UX Projects · Series",
      ("Outcomes",
       '<div class="project-content-placeholder"><p>Project outcomes will be added here.</p></div>')],
     hero='<div class="bleed detail-placeholder-hero" role="img" aria-label="PMOS.Comics hero image to be added"></div>')
+
+# Permanent public filename contracts: these pages are linked from the CV.
+detail("mindful-journaling.html", "Mindful, AI-Assisted Journaling System", "UX Projects",
+    [], "", [])
+detail("themeviz.html", "ThemeViz, LLM-Enhanced Visual System for Theme Development", "UX Projects",
+    [], "", [])
+detail("toonnote.html", "ToonNote, Interactive Data Comics for Computational Notebooks", "UX Projects",
+    [], "", [])
 
 # ================= MANIFEST + DOWNLOAD SCRIPT =================
 with open(os.path.join(ROOT, "assets_manifest.txt"), "w") as f:
