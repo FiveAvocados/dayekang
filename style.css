@@ -202,7 +202,7 @@ nav a.active { color: #000; font-weight: 700; }
   letter-spacing: -.04em;
   color: var(--ink);
 }
-.hero .bio p { max-width: none; margin-bottom: 15px; color: #000; font-size: 13px; }
+.hero .bio p { max-width: none; margin-bottom: 15px; color: #000; font-size: 15px; }
 .hero .bio .intro-name { margin-bottom: 22px; font-weight: 700; }
 .hero .bio .lead { font-size: 1.24rem; line-height: 1.42; color: var(--ink); margin-bottom: 22px; }
 .hero .pron { font-family: var(--mono); font-size: .78rem; color: var(--ink-mute); margin-top: 4px; }
