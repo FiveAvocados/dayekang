@@ -1511,7 +1511,7 @@ video { display: block; max-width: 100%; }
 }
 .ux-video-hero-copy h1 {
   margin: 0; color: #fff; font-family: var(--disp); font-weight: 300;
-  font-size: clamp(2.2rem, 4.6vw, 4.6rem); line-height: 1.05;
+  font-size: clamp(1.7rem, 2.8vw, 3rem); line-height: 1.05;
   letter-spacing: -.035em;
 }
 .ux-video-hero-copy .kicker { color: #fff; text-transform: none; }
