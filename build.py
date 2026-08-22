@@ -415,6 +415,7 @@ ux_body = f"""
   <div class="wrap">
     <div class="bleed ux-video-hero reveal">
       {video_tag("assets/optimized/video/shark.mp4")}
+      <div class="ux-video-hero-copy"><h1>UX Projects</h1></div>
     </div>
     <div class="cards">
 {card("bookrecommendation.html", A("ds_bookrec", "f4a835_ddc7400150214afebb07f52a82c092f8~mv2.png", "fill", 1280, 840),

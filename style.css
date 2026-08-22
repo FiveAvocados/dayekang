@@ -1508,6 +1508,11 @@ video { display: block; max-width: 100%; }
   background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.24));
   text-shadow: 0 2px 22px rgba(0,0,0,.55);
 }
+.ux-video-hero-copy h1 {
+  margin: 0; color: #fff; font-family: var(--disp); font-weight: 400;
+  font-size: clamp(2.2rem, 4.6vw, 4.6rem); line-height: 1.05;
+  letter-spacing: -.035em;
+}
 .ux-video-hero-copy .kicker { color: #fff; text-transform: none; }
 @media (max-width: 560px) {
   .ux-video-hero { margin-bottom: 38px; }
