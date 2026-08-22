@@ -77,7 +77,7 @@ def page(title, active, body, desc="Daye Kang — designer and HCI researcher. P
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260822-home-body-16">
+  <link rel="stylesheet" href="style.css?v=20260822-visual-project-pages">
 </head>
 <body{f' class="{body_class}"' if body_class else ''}>
 <header>
@@ -551,8 +551,10 @@ art_body = f"""
     </figcaption>
   </figure>
 </div>
+<script src="visual-project-content.js?v=20260822"></script>
+<script src="artwork-gallery.js?v=20260822"></script>
 <script>
-(function() {{
+if (!window.ARTWORK_PROJECT_LINKS) (function() {{
   const lb = document.getElementById('lightbox');
   const lbImg = lb.querySelector('img');
   const lbTitle = document.getElementById('lb-title');
