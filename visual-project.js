@@ -24,11 +24,11 @@
 
   const showError = () => {
     titleNode.textContent = "Project not found";
-    descriptionNode.innerHTML = '<p><a href="artwork.html">Return to Visual Design</a></p>';
+    descriptionNode.innerHTML = '<p><a href="visual-design.html">Return to Visual Design</a></p>';
     infoRoot.classList.remove("is-empty");
   };
 
-  fetch("artwork.html")
+  fetch("visual-design.html")
     .then((response) => {
       if (!response.ok) throw new Error("Artwork page could not be loaded.");
       return response.text();
@@ -107,7 +107,7 @@
       document.addEventListener("keydown", (event) => {
         if (event.key === "ArrowLeft") window.location.href = document.querySelector(".visual-project-prev").href;
         if (event.key === "ArrowRight") window.location.href = document.querySelector(".visual-project-next").href;
-        if (event.key === "Escape") window.location.href = "artwork.html";
+        if (event.key === "Escape") window.location.href = "visual-design.html";
       });
     })
     .catch(showError);

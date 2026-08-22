@@ -9,8 +9,8 @@ Wix 사이트(dayekang.info)의 콘텐츠를 그대로 옮긴 정적 사이트�
 |---|---|
 | `index.html` | About (bio + News) |
 | `publications.html` | 논문 8편 (썸네일·초록·PDF/DOI 링크) |
-| `ux-research.html` | Book Recommendation, Lexia, Nudge, My Little Hero, Sunshine, Tomorrow 카드 |
-| `artwork.html` | 아트워크 갤러리 (25점, masonry) |
+| `ux-projects.html` | Book Recommendation, Lexia, Nudge, My Little Hero, Sunshine, Tomorrow 카드 |
+| `visual-design.html` | 아트워크 갤러리 (25점, masonry) |
 | `teaching.html` | 수업 및 학생 프로젝트 포트폴리오 |
 | 프로젝트 상세 6개 | bookrecommendation, lexiainwonderland, nudgedesign, mylittlehero, sunshine, tomorrow |
 | `style.css` | 공용 스타일 |

@@ -53,8 +53,8 @@ PDF_CHOCO    = PDF("Chocolate_DIS19.pdf", "https://www.dayekang.info/_files/ugd/
 
 NAV = [
     ("publications.html", "Publications"),
-    ("ux-research.html", "UX Projects"),
-    ("artwork.html", "Visual Design"),
+    ("ux-projects.html", "UX Projects"),
+    ("visual-design.html", "Visual Design"),
     ("teaching.html", "Teaching"),
 ]
 
@@ -255,7 +255,7 @@ index_body = f"""
                   <span class="selected-award">2017 Hongik Excellence Graduation Work</span>
                 </div>
               </div>
-              <a class="selected-more" href="ux-research.html?v=20260820-full-width-nav"><span class="selected-more-label">See all UX projects</span><span class="selected-more-arrow" aria-hidden="true">→</span></a>
+              <a class="selected-more" href="ux-projects.html?v=20260820-full-width-nav"><span class="selected-more-label">See all UX projects</span><span class="selected-more-arrow" aria-hidden="true">→</span></a>
             </article>
 
             <article class="design-branch">
@@ -446,7 +446,23 @@ ux_body = f"""
   </div>
 </main>
 """
-W("ux-research.html", page("UX Projects — Daye Kang", "ux-research.html", ux_body))
+W("ux-projects.html", page("UX Projects — Daye Kang", "ux-projects.html", ux_body))
+
+# Preserve the former URL while keeping the public page name aligned with the menu.
+W("ux-research.html", """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=ux-projects.html">
+<link rel="canonical" href="https://www.dayekang.com/ux-projects.html">
+<title>UX Projects — Daye Kang</title>
+<script>location.replace("ux-projects.html" + location.search + location.hash);</script>
+</head>
+<body><p><a href="ux-projects.html">Continue to UX Projects</a></p></body>
+</html>
+""")
 
 # Keep old bookmarks working without restoring the removed Data Science section.
 W("data-science.html", """<!DOCTYPE html>
@@ -455,14 +471,14 @@ W("data-science.html", """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta http-equiv="refresh" content="0; url=ux-research.html">
-<link rel="canonical" href="ux-research.html">
+<meta http-equiv="refresh" content="0; url=ux-projects.html">
+<link rel="canonical" href="ux-projects.html">
 <title>UX Projects — Daye Kang</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<script>window.location.replace("ux-research.html" + window.location.search + window.location.hash);</script>
+<script>window.location.replace("ux-projects.html" + window.location.search + window.location.hash);</script>
 </head>
 <body>
-<p><a href="ux-research.html">Continue to UX Projects</a></p>
+<p><a href="ux-projects.html">Continue to UX Projects</a></p>
 </body>
 </html>
 """)
@@ -638,7 +654,23 @@ if (!window.ARTWORK_PROJECT_LINKS) (function() {{
   document.addEventListener('keydown', e => {{ if (e.key === 'Escape') close(); }});
 }})();
 </script>"""
-W("artwork.html", page("Visual Design — Daye Kang", "artwork.html", art_body))
+W("visual-design.html", page("Visual Design — Daye Kang", "visual-design.html", art_body))
+
+# Preserve the former URL while keeping the public page name aligned with the menu.
+W("artwork.html", """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=visual-design.html">
+<link rel="canonical" href="https://www.dayekang.com/visual-design.html">
+<title>Visual Design — Daye Kang</title>
+<script>location.replace("visual-design.html" + location.search + location.hash);</script>
+</head>
+<body><p><a href="visual-design.html">Continue to Visual Design</a></p></body>
+</html>
+""")
 
 # ================= QINQIN HOU — permanent CV URL =================
 # Public filename contract: do not rename qinqinhou.html.
@@ -661,7 +693,7 @@ qinqin_body = """
         <div><dt>Format</dt><dd>1920×1080 · 3 minutes</dd></div>
         <div><dt>Credit</dt><dd>Directed by Daye Kang</dd></div>
       </dl>
-      <a class="back-home" href="artwork.html">&larr; Back to Visual Design</a>
+      <a class="back-home" href="visual-design.html">&larr; Back to Visual Design</a>
     </article>
   </div>
 </main>
@@ -698,7 +730,7 @@ def hero_img(name, wix_id, alt=""):
     """Full-bleed hero banner, edge to edge like the original site."""
     return f'<div class="bleed"><img src="{A(name, wix_id, "fit", 1600, 2000)}" alt="{html.escape(alt)}"></div>'
 
-def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="ux-research.html", hero=""):
+def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="ux-projects.html", hero=""):
     if awards:
         meta = list(meta) + [("Awards", awards.replace(" \u00b7 ", "<br>"))]
     meta_html = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in meta)
@@ -714,7 +746,7 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
             sec_html += content + "\n"
     side_nav = ""
     spy_js = ""
-    kicker_html = "" if back == "ux-research.html" else f'<div class="kicker">{kicker}</div>'
+    kicker_html = "" if back == "ux-projects.html" else f'<div class="kicker">{kicker}</div>'
     if len(nav_items) >= 3:
         side_nav = f'<nav class="side-nav" aria-label="Page sections">{"".join(nav_items)}</nav>'
         spy_js = """
@@ -899,7 +931,7 @@ detail("bookrecommendation.html", "Book Recommendation System", "UX Projects",
       "<li>Riesterer, N., Brand, D., &amp; Ragni, M. (2020). Uncovering the Data-Related Limits of Human Reasoning Research: An Analysis based on Recommender Systems. arXiv:2003.05196.</li>"
       "<li><a href='https://towardsdatascience.com/10-tips-for-choosing-the-optimal-number-of-clusters-277e93d72d92' target='_blank' rel='noopener'>Choosing an optimal number of clusters</a></li>"
       "<li><a href='https://towardsdatascience.com/how-exactly-umap-works-13e3040e1668' target='_blank' rel='noopener'>Working and benefits of UMAP</a></li>"
-      "</ul>")], back="ux-research.html",
+      "</ul>")], back="ux-projects.html",
     hero=hero_img("book_hero", "f4a835_ddc7400150214afebb07f52a82c092f8~mv2.png", "Book Recommendation System"))
 
 detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Projects",
