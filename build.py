@@ -416,8 +416,9 @@ ux_body = f"""
     <div class="bleed ux-video-hero reveal">
       {video_tag("assets/optimized/video/shark.mp4")}
       <div class="ux-video-hero-copy"><h1>UX Projects</h1></div>
+      <a class="ux-hero-scroll" href="#ux-project-list" aria-label="Scroll to UX projects">&#8595;</a>
     </div>
-    <div class="cards">
+    <div class="cards" id="ux-project-list">
 {placeholder_card("mindful-journaling.html", "Project page", "Mindful, AI-Assisted Journaling System", "")}
 {placeholder_card("themeviz.html", "Project page", "ThemeViz, LLM-Enhanced Visual System for Theme Development", "")}
 {placeholder_card("toonnote.html", "Project page", "ToonNote, Interactive Data Comics for Computational Notebooks", "")}
