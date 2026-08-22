@@ -72,6 +72,7 @@ def page(title, active, body, desc="Daye Kang — designer and HCI researcher. P
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="description" content="{desc}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -452,6 +453,7 @@ W("data-science.html", """<!DOCTYPE html>
 <meta http-equiv="refresh" content="0; url=ux-research.html">
 <link rel="canonical" href="ux-research.html">
 <title>UX Projects — Daye Kang</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <script>window.location.replace("ux-research.html" + window.location.search + window.location.hash);</script>
 </head>
 <body>
