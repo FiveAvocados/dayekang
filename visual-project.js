@@ -58,7 +58,11 @@
       titleNode.textContent = title;
       document.title = `${title} — Daye Kang`;
 
-      items.forEach((item) => {
+      const relatedTitles = configured.mediaFromTitles || [];
+      const relatedItems = arts.filter((art) => relatedTitles.includes(art.dataset.title || ""));
+      const mediaItems = [...items, ...relatedItems];
+
+      mediaItems.forEach((item) => {
         const source = item.querySelector("img, video");
         if (!source) return;
         let media;
