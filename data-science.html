@@ -3,82 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data Science — Daye Kang</title>
-<meta name="description" content="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=ux-research.html">
+<link rel="canonical" href="ux-research.html">
+<title>UX Projects — Daye Kang</title>
+<script>window.location.replace("ux-research.html" + window.location.search + window.location.hash);</script>
 </head>
 <body>
-<header>
-  <div class="nav">
-    <a class="brand" href="index.html">Daye Kang</a>
-    <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
-    <nav>
-      <ul>
-        <li><a href="index.html">About</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="data-science.html" class="active">Data Science</a></li>
-        <li><a href="ux-research.html">UX Research</a></li>
-        <li><a href="artwork.html">Art Work</a></li>
-        <li><a href="teaching.html">Teaching</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<main>
-  <div class="wrap">
-    <div class="page-head">
-      <div class="kicker">Data</div>
-      <h1>Data Science</h1>
-    </div>
-    <div class="cards">
-      <a class="card reveal" href="bookrecommendation.html">
-        <span class="arrow">&#8599;</span>
-        <div class="frame"><img src="assets/optimized/ds_bookrec.webp" alt="Book Recommendation System" loading="lazy"></div>
-        <div class="pad">
-          <span class="tag">Recommendation · R Shiny</span>
-          <h3>Book Recommendation System</h3>
-          <p>We designed and developed a book recommendation system that recommends the next few books for our target users based on their own reading tastes.</p>
-        </div>
-      </a>
-      <a class="card reveal" href="color.html">
-        <span class="arrow">&#8599;</span>
-        <div class="frame"><img src="assets/optimized/ds_color.webp" alt="Different Color Palettes for Four Types of Recovery" loading="lazy"></div>
-        <div class="pad">
-          <span class="tag">Color analysis · Statistics</span>
-          <h3>Different Color Palettes for Four Types of Recovery</h3>
-          <p>Finding the appropriate combinations of color for each type of recovery (Relaxation, Psychological Detachment, Mastery Experience, Sleep) — and a method of designing a resting place based on the findings.</p>
-        </div>
-      </a>
-    </div>
-    <div class="bleed video-strip reveal">
-      <video src="assets/optimized/video/shark.mp4" autoplay muted loop playsinline></video>
-    </div>
-  </div>
-</main>
-
-<footer>
-  <div class="foot">
-    <div class="kicker">Get in touch</div>
-    <a class="big-link" href="mailto:dk564@cornell.edu">dk564@cornell.edu</a>
-    <div class="foot-row">
-      <div>&copy; 2026 Daye Kang &mdash; Ithaca, NY</div>
-      <div>
-        <a href="assets/pdf/DayeKang_CV.pdf" target="_blank" rel="noopener">CV</a>
-        <a href="https://www.dayekang.info" target="_blank" rel="noopener">dayekang.info</a>
-      </div>
-    </div>
-  </div>
-</footer>
-<script>
-document.documentElement.classList.add('js');
-const _io = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting) { e.target.classList.add('in'); _io.unobserve(e.target); }
-}), { threshold: .07 });
-document.querySelectorAll('.reveal').forEach(el => _io.observe(el));
-</script>
+<p><a href="ux-research.html">Continue to UX Projects</a></p>
 </body>
 </html>

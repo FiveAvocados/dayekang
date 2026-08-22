@@ -7,22 +7,20 @@
 <meta name="description" content="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20260820-publication-text-links">
 </head>
 <body>
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">Daye Kang</a>
+    <a class="brand home-brand" href="index.html?v=20260820-full-width-nav"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
     <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
     <nav>
       <ul>
-        <li><a href="index.html">About</a></li>
-        <li><a href="publications.html" class="active">Publications</a></li>
-        <li><a href="data-science.html">Data Science</a></li>
-        <li><a href="ux-research.html">UX Research</a></li>
-        <li><a href="artwork.html">Art Work</a></li>
-        <li><a href="teaching.html">Teaching</a></li>
+        <li><a href="publications.html?v=20260820-full-width-nav" class="active">Publications</a></li>
+        <li><a href="ux-research.html?v=20260820-full-width-nav">UX Projects</a></li>
+        <li><a href="artwork.html?v=20260820-full-width-nav">Visual Design</a></li>
+        <li><a href="teaching.html?v=20260820-full-width-nav">Teaching</a></li>
       </ul>
     </nav>
   </div>
@@ -30,15 +28,20 @@
 
 <main>
   <div class="wrap">
+    <div class="bleed ux-video-hero publication-video-hero reveal">
+      <video src="assets/optimized/video/tiger.mp4" autoplay muted loop playsinline></video>
+    </div>
     <div class="page-head">
       <div class="kicker">Peer-reviewed research</div>
       <h1>Publications</h1>
-      <p class="lede">Selected work across human-AI interaction, personal informatics &amp; health, qualitative research tools, and data storytelling.</p>
+      <p class="lede">My research agenda is to design human-AI interaction that makes data easier to use, understand, and communicate. People have access to more data than ever, but more data does not lead to better understanding. Data sits fragmented across tools, separated from the personal and social contexts that gave it meaning. When those contexts are lost, people struggle to see patterns, to build a coherent account of what the data says, or to pass that account on to someone else.</p>
+      <p class="lede">I see this gap as a design problem. More capable AI models do not by themselves decide whether people can make sense of data. How information is organized, connected, represented, and made available for interaction matters as well.</p>
+      <p class="lede">I pursue this across three domains: reflective practice in qualitative data analysis, managing chronic conditions with health tracking tools, and data storytelling through comics.</p>
     </div>
     <article class="pub reveal">
-      <div class="thumb"><img src="assets/optimized/pub_themeviz_teaser.webp" alt="ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System" loading="lazy"></div>
+      <div class="thumb"><img src="assets/optimized/pub_themeviz_teaser.webp?v=20260821-original" alt="ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System" loading="lazy"></div>
       <div>
-        <div class="venue"><span>CSCW 2025</span><span class="award-pill">🏅 Honorable Mention Award</span></div>
+        <div class="venue"><span>CSCW 2025</span><span class="award-pill">🏅 Best Paper Honorable Mention Award</span></div>
         <h3>ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System</h3>
         <div class="authors"><b>Daye Kang</b>, Zhuolun Han, Jiahe Tian, Muhan Zhang, and Jeff Rzeszotarski</div>
         <p class="abs">This paper explores the potential role of AI, e.g., large language models (LLMs), in supporting theme development in thematic analysis. While prior applications of AI in qualitative data analysis have focused on supporting coding, we investigate whether LLMs can effectively contribute as collaborators in the more abstract and conceptual phases of qualitative analysis, specifically theme development. We designed ThemeViz, an interactive system that uses GPT-4 to generate and visualize multiple versions of themes based on user input while allowing researchers to maintain control through manual coding and theme development.</p>
@@ -46,7 +49,7 @@
       </div>
     </article>
     <article class="pub reveal">
-      <div class="thumb"><img src="assets/optimized/pub_hormone.webp" alt="Towards Hormone Health: An Autoethnography of Long-Term Holistic Tracking to Manage PCOS" loading="lazy"></div>
+      <div class="thumb"><img src="assets/optimized/pub_hormone.webp?v=20260821-original" alt="Towards Hormone Health: An Autoethnography of Long-Term Holistic Tracking to Manage PCOS" loading="lazy"></div>
       <div>
         <div class="venue"><span>CHI 2025</span><span class="award-pill">🏆 Best Paper Award</span></div>
         <h3>Towards Hormone Health: An Autoethnography of Long-Term Holistic Tracking to Manage PCOS</h3>
@@ -56,7 +59,7 @@
       </div>
     </article>
     <article class="pub reveal">
-      <div class="thumb"><img src="assets/optimized/pub_cscw24.webp" alt="Challenges and Opportunities for Tool Adoption in Industrial UX Research Collaborations" loading="lazy"></div>
+      <div class="thumb"><img src="assets/optimized/pub_cscw24.webp?v=20260821-original" alt="Challenges and Opportunities for Tool Adoption in Industrial UX Research Collaborations" loading="lazy"></div>
       <div>
         <div class="venue"><span>CSCW 2024</span></div>
         <h3>Challenges and Opportunities for Tool Adoption in Industrial UX Research Collaborations</h3>
@@ -66,7 +69,7 @@
       </div>
     </article>
     <article class="pub reveal">
-      <div class="thumb"><img src="assets/optimized/pub_toonnote.webp" alt="ToonNote: Improving Communication in Computational Notebooks Using Interactive Data Comics" loading="lazy"></div>
+      <div class="thumb"><img src="assets/optimized/pub_toonnote.webp?v=20260821-original" alt="ToonNote: Improving Communication in Computational Notebooks Using Interactive Data Comics" loading="lazy"></div>
       <div>
         <div class="venue"><span>CHI 2021</span></div>
         <h3>ToonNote: Improving Communication in Computational Notebooks Using Interactive Data Comics</h3>
@@ -76,7 +79,7 @@
       </div>
     </article>
     <article class="pub reveal">
-      <div class="thumb"><img src="assets/optimized/pub_heyteddy.webp" alt="HeyTeddy: Conversational Test-Driven Development for Physical Computing" loading="lazy"></div>
+      <div class="thumb"><img src="assets/optimized/pub_heyteddy.webp?v=20260821-original" alt="HeyTeddy: Conversational Test-Driven Development for Physical Computing" loading="lazy"></div>
       <div>
         <div class="venue"><span>IMWUT 2019</span></div>
         <h3>HeyTeddy: Conversational Test-Driven Development for Physical Computing</h3>
@@ -86,7 +89,7 @@
       </div>
     </article>
     <article class="pub reveal">
-      <div class="thumb"><img src="assets/optimized/pub_chocolate.webp" alt="Designing Internal Structure of Chocolate and Its Effect on Food Texture" loading="lazy"></div>
+      <div class="thumb"><img src="assets/optimized/pub_chocolate.webp?v=20260821-original" alt="Designing Internal Structure of Chocolate and Its Effect on Food Texture" loading="lazy"></div>
       <div>
         <div class="venue"><span>DIS 2019</span></div>
         <h3>Designing Internal Structure of Chocolate and Its Effect on Food Texture</h3>
@@ -96,7 +99,7 @@
       </div>
     </article>
     <article class="pub reveal">
-      <div class="thumb"><img src="assets/optimized/pub_lexia.webp" alt="Lexia in Wonderland: Korean Education Service for Children with Dyslexia" loading="lazy"></div>
+      <div class="thumb"><img src="assets/optimized/pub_lexia.webp?v=20260821-original" alt="Lexia in Wonderland: Korean Education Service for Children with Dyslexia" loading="lazy"></div>
       <div>
         <div class="venue"><span>KSDS 2017</span></div>
         <h3>Lexia in Wonderland: Korean Education Service for Children with Dyslexia</h3>
@@ -106,7 +109,7 @@
       </div>
     </article>
     <article class="pub reveal">
-      <div class="thumb"><img src="assets/optimized/pub_nudge.webp" alt="Nudge Design to Increase Physical Activities for Hospitalized Children" loading="lazy"></div>
+      <div class="thumb"><img src="assets/optimized/pub_nudge.webp?v=20260821-original" alt="Nudge Design to Increase Physical Activities for Hospitalized Children" loading="lazy"></div>
       <div>
         <div class="venue"><span>KSDS 2017</span></div>
         <h3>Nudge Design to Increase Physical Activities for Hospitalized Children</h3>
@@ -131,6 +134,7 @@
     </div>
   </div>
 </footer>
+<script src="site-nav.js?v=20260820-full-width-nav"></script>
 <script>
 document.documentElement.classList.add('js');
 const _io = new IntersectionObserver(es => es.forEach(e => {

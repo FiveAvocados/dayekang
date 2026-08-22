@@ -3,26 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Art Work — Daye Kang</title>
+<title>Visual Design — Daye Kang</title>
 <meta name="description" content="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20260820-artwork-side-panel">
 </head>
 <body>
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">Daye Kang</a>
+    <a class="brand home-brand" href="index.html?v=20260820-full-width-nav"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
     <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
     <nav>
       <ul>
-        <li><a href="index.html">About</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="data-science.html">Data Science</a></li>
-        <li><a href="ux-research.html">UX Research</a></li>
-        <li><a href="artwork.html" class="active">Art Work</a></li>
-        <li><a href="teaching.html">Teaching</a></li>
+        <li><a href="publications.html?v=20260820-full-width-nav">Publications</a></li>
+        <li><a href="ux-research.html?v=20260820-full-width-nav">UX Projects</a></li>
+        <li><a href="artwork.html?v=20260820-full-width-nav" class="active">Visual Design</a></li>
+        <li><a href="teaching.html?v=20260820-full-width-nav">Teaching</a></li>
       </ul>
     </nav>
   </div>
@@ -30,44 +28,53 @@
 
 <main>
   <div class="wrap">
-    <div class="page-head">
-      <div class="kicker">Illustration · Animation · Comics</div>
-      <h1>Artwork</h1>
-    </div>
-    <div class="bleed video-strip reveal">
+    <div class="bleed artwork-video-hero reveal">
       <video src="assets/optimized/video/bird4.mp4" autoplay muted loop playsinline></video>
+      <div class="artwork-video-copy" hidden>
+        <div class="kicker">Illustration · Animation · Comics</div>
+        <h1>Visual Design</h1>
+      </div>
     </div>
+    <div class="artwork-filters" role="group" aria-label="Filter visual design projects by category">
+      <button class="artwork-filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="artwork-filter" type="button" data-filter="visual-storytelling" aria-pressed="false">Visual storytelling</button>
+      <button class="artwork-filter" type="button" data-filter="graphic-design" aria-pressed="false">Graphic design</button>
+      <button class="artwork-filter" type="button" data-filter="installation" aria-pressed="false">Installation</button>
+      <button class="artwork-filter" type="button" data-filter="illustration" aria-pressed="false">Illustration</button>
+      <button class="artwork-filter" type="button" data-filter="photography" aria-pressed="false">Photography</button>
+    </div>
+    <p class="artwork-filter-status" aria-live="polite">All 31 projects shown.</p>
     <div class="gallery">
-      <div class="art reveal" data-title="Cancer" data-medium="3D animation — 3D Maya" data-year="2016" data-size="3 minutes" data-credit="Directed by Daye Kang" data-desc="This animation is about a character who fights against cancer and finds her true self."><img src="assets/optimized/art_01.webp" alt="Cancer" loading="lazy"><div class="art-overlay"><span>Cancer</span></div></div>
-      <div class="art reveal" data-title="Digital Artwork" data-medium="Digital artwork — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_02.webp" alt="Digital Artwork" loading="lazy"><div class="art-overlay"><span>Digital Artwork</span></div></div>
-      <div class="art reveal" data-title="Humanize Technology" data-medium="Graphic design — Photoshop" data-year="2018" data-size="" data-credit="Made by Daye Kang" data-desc="This illustration was used as a book cover for a personal portfolio."><img src="assets/optimized/art_03.webp" alt="Humanize Technology" loading="lazy"><div class="art-overlay"><span>Humanize Technology</span></div></div>
-      <div class="art reveal" data-title="Punky Music" data-medium="Clay animation — Clay, Adobe After Effects" data-year="2014" data-size="1280×720 px · 45 seconds" data-credit="Directed by Daye Kang · Music: Crying Nuts" data-desc="I wanted to express the bright, innocent craziness of punk rock music with this animation."><img src="assets/optimized/art_04.webp" alt="Punky Music" loading="lazy"><div class="art-overlay"><span>Punky Music</span></div></div>
-      <div class="art reveal" data-title="Walnuts" data-medium="Drawing — Pencil" data-year="2012" data-size="545×394 mm" data-credit="Drawn by Daye Kang" data-desc=""><img src="assets/optimized/art_05.webp" alt="Walnuts" loading="lazy"><div class="art-overlay"><span>Walnuts</span></div></div>
-      <div class="art reveal" data-title="How to be Bohemian" data-medium="Digital illustration — Photoshop" data-year="2014" data-size="" data-credit="Made by Daye Kang" data-desc="One of five drawings made for the ‘How to be Bohemian’ article for subculture projects. This character is designed to show a free spirit."><img src="assets/optimized/art_06.webp" alt="How to be Bohemian" loading="lazy"><div class="art-overlay"><span>How to be Bohemian</span></div></div>
-      <div class="art reveal" data-title="Experimental Typography" data-medium="Experimental typography" data-year="2016" data-size="A2" data-credit="Made by Daye Kang" data-desc="Exploring the visual characteristics of ‘mass’ — expressing metallic, puffy, and flowing textures."><img src="assets/optimized/art_07.webp" alt="Experimental Typography" loading="lazy"><div class="art-overlay"><span>Experimental Typography</span></div></div>
-      <div class="art reveal" data-title="Dancer" data-medium="Digital photoshoot" data-year="2014" data-size="" data-credit="Photoshoot by Daye Kang" data-desc=""><img src="assets/optimized/art_08.webp" alt="Dancer" loading="lazy"><div class="art-overlay"><span>Dancer</span></div></div>
-      <div class="art reveal" data-title="Digital Artwork" data-medium="Digital artwork — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_09.webp" alt="Digital Artwork" loading="lazy"><div class="art-overlay"><span>Digital Artwork</span></div></div>
-      <div class="art reveal" data-title="Experimental Typography" data-medium="Experimental typography — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_10.webp" alt="Experimental Typography" loading="lazy"><div class="art-overlay"><span>Experimental Typography</span></div></div>
-      <div class="art reveal" data-title="Experimental Typography" data-medium="Experimental typography — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_11.webp" alt="Experimental Typography" loading="lazy"><div class="art-overlay"><span>Experimental Typography</span></div></div>
-      <div class="art reveal" data-title="Experimental Typography" data-medium="Experimental typography — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_12.webp" alt="Experimental Typography" loading="lazy"><div class="art-overlay"><span>Experimental Typography</span></div></div>
-      <div class="art reveal" data-title="Disassembled walls" data-medium="" data-year="" data-size="" data-credit="" data-desc=""><img src="assets/optimized/art_13.webp" alt="Disassembled walls" loading="lazy"><div class="art-overlay"><span>Disassembled walls</span></div></div>
-      <div class="art reveal" data-title="Digital Artwork" data-medium="Digital artwork — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_14.webp" alt="Digital Artwork" loading="lazy"><div class="art-overlay"><span>Digital Artwork</span></div></div>
+      <div class="art reveal" data-title="Cancer" data-medium="3D animation — 3D Maya" data-year="2016" data-size="3 minutes" data-credit="Directed by Daye Kang" data-desc="This animation is about a character who fights against cancer and finds her true self."><img src="assets/optimized/art_01.webp?v=20260821-original" alt="Cancer" loading="lazy"><div class="art-overlay"><span>Cancer</span></div></div>
+      <div class="art reveal" data-title="Digital Artwork" data-medium="Digital artwork — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_02.webp?v=20260821-original" alt="Digital Artwork" loading="lazy"><div class="art-overlay"><span>Digital Artwork</span></div></div>
+      <div class="art reveal" data-title="Humanize Technology" data-medium="Graphic design — Photoshop" data-year="2018" data-size="" data-credit="Made by Daye Kang" data-desc="This illustration was used as a book cover for a personal portfolio."><img src="assets/optimized/art_03.webp?v=20260821-original" alt="Humanize Technology" loading="lazy"><div class="art-overlay"><span>Humanize Technology</span></div></div>
+      <div class="art reveal" data-title="Punky Music" data-medium="Clay animation — Clay, Adobe After Effects" data-year="2014" data-size="1280×720 px · 45 seconds" data-credit="Directed by Daye Kang · Music: Crying Nuts" data-desc="I wanted to express the bright, innocent craziness of punk rock music with this animation."><img src="assets/optimized/art_04.webp?v=20260821-original" alt="Punky Music" loading="lazy"><div class="art-overlay"><span>Punky Music</span></div></div>
+      <div class="art reveal" data-title="Walnuts" data-medium="Drawing — Pencil" data-year="2012" data-size="545×394 mm" data-credit="Drawn by Daye Kang" data-desc=""><img src="assets/optimized/art_05.webp?v=20260821-original" alt="Walnuts" loading="lazy"><div class="art-overlay"><span>Walnuts</span></div></div>
+      <div class="art reveal" data-title="How to be Bohemian" data-medium="Digital illustration — Photoshop" data-year="2014" data-size="" data-credit="Made by Daye Kang" data-desc="One of five drawings made for the ‘How to be Bohemian’ article for subculture projects. This character is designed to show a free spirit."><img src="assets/optimized/art_06.webp?v=20260821-original" alt="How to be Bohemian" loading="lazy"><div class="art-overlay"><span>How to be Bohemian</span></div></div>
+      <div class="art reveal" data-title="Experimental Typography" data-medium="Experimental typography" data-year="2016" data-size="A2" data-credit="Made by Daye Kang" data-desc="Exploring the visual characteristics of ‘mass’ — expressing metallic, puffy, and flowing textures."><img src="assets/optimized/art_07.webp?v=20260821-original" alt="Experimental Typography" loading="lazy"><div class="art-overlay"><span>Experimental Typography</span></div></div>
+      <div class="art reveal" data-title="Dancer" data-medium="Digital photoshoot" data-year="2014" data-size="" data-credit="Photoshoot by Daye Kang" data-desc=""><img src="assets/optimized/art_08.webp?v=20260821-original" alt="Dancer" loading="lazy"><div class="art-overlay"><span>Dancer</span></div></div>
+      <div class="art reveal" data-title="Digital Artwork" data-medium="Digital artwork — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_09.webp?v=20260821-original" alt="Digital Artwork" loading="lazy"><div class="art-overlay"><span>Digital Artwork</span></div></div>
+      <div class="art reveal" data-title="Experimental Typography" data-medium="Experimental typography — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_10.webp?v=20260821-original" alt="Experimental Typography" loading="lazy"><div class="art-overlay"><span>Experimental Typography</span></div></div>
+      <div class="art reveal" data-title="Experimental Typography" data-medium="Experimental typography — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_11.webp?v=20260821-original" alt="Experimental Typography" loading="lazy"><div class="art-overlay"><span>Experimental Typography</span></div></div>
+      <div class="art reveal" data-title="Experimental Typography" data-medium="Experimental typography — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_12.webp?v=20260821-original" alt="Experimental Typography" loading="lazy"><div class="art-overlay"><span>Experimental Typography</span></div></div>
+      <div class="art reveal" data-title="Disassembled walls" data-medium="" data-year="" data-size="" data-credit="" data-desc=""><img src="assets/optimized/art_13.webp?v=20260821-original" alt="Disassembled walls" loading="lazy"><div class="art-overlay"><span>Disassembled walls</span></div></div>
+      <div class="art reveal" data-title="Digital Artwork" data-medium="Digital artwork — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_14.webp?v=20260821-original" alt="Digital Artwork" loading="lazy"><div class="art-overlay"><span>Digital Artwork</span></div></div>
       <div class="art reveal" data-title="Hue:" data-medium="Interactive installation" data-year="2018" data-size="" data-credit="Made by Daye Kang, Juyeon Kim" data-desc="Hue: is an interactive installation that displays the time. We designed this installation based on the aesthetics of the city and desert. When a person approaches the clock, it rotates and displays the current time."><video src="assets/optimized/video/art_15.mp4" autoplay muted loop playsinline></video><div class="art-overlay"><span>Hue:</span></div></div>
-      <div class="art reveal" data-title="Dancer with lights" data-medium="Digital photoshoot" data-year="2014" data-size="" data-credit="Photoshoot by Daye Kang" data-desc="The lights and lingered shapes were captured using long exposure photography."><img src="assets/optimized/art_16.webp" alt="Dancer with lights" loading="lazy"><div class="art-overlay"><span>Dancer with lights</span></div></div>
-      <div class="art reveal" data-title="Good Boy" data-medium="3D animation — 3D Maya" data-year="2016" data-size="1920×1080 · 1 minute" data-credit="Made by Daye Kang" data-desc="This animation is about a boy who wants to go to a picnic instead of going to the classroom. The body stays in the classroom while the head is playing outside."><img src="assets/optimized/art_17.webp" alt="Good Boy" loading="lazy"><div class="art-overlay"><span>Good Boy</span></div></div>
-      <div class="art reveal" data-title="Illustration" data-medium="" data-year="" data-size="" data-credit="" data-desc=""><img src="assets/optimized/art_18.webp" alt="Illustration" loading="lazy"><div class="art-overlay"><span>Illustration</span></div></div>
-      <div class="art reveal" data-title="Graphic Poster" data-medium="Digital artwork — Illustrator" data-year="2013" data-size="A4" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_19.webp" alt="Graphic Poster" loading="lazy"><div class="art-overlay"><span>Graphic Poster</span></div></div>
-      <div class="art reveal" data-title="Zarathustra" data-medium="Drawing &amp;amp; collage on aluminum foil — Pen, Crayons, Oil paper, Black paper" data-year="2013" data-size="50×40 cm" data-credit="Made by Daye Kang" data-desc="This artwork depicts members of the music club ‘Zarathustra’ gathered in the club room."><img src="assets/optimized/art_20.webp" alt="Zarathustra" loading="lazy"><div class="art-overlay"><span>Zarathustra</span></div></div>
-      <div class="art reveal" data-title="Conversation" data-medium="Drawing — Watercolor, Pen" data-year="2013" data-size="15×10 cm" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_21.webp" alt="Conversation" loading="lazy"><div class="art-overlay"><span>Conversation</span></div></div>
-      <div class="art reveal" data-title="QinQin Hou" data-medium="" data-year="" data-size="" data-credit="" data-desc=""><img src="assets/optimized/art_22.webp" alt="QinQin Hou" loading="lazy"><div class="art-overlay"><span>QinQin Hou</span></div></div>
-      <div class="art reveal" data-title="Coca-Cola building" data-medium="Poster" data-year="2014" data-size="A2" data-credit="Made by Daye Kang" data-desc="Made after taking photos of the exteriors of the Coca-Cola building in California. The images were cropped and rearranged to express the streamlined design of the building."><img src="assets/optimized/art_23.webp" alt="Coca-Cola building" loading="lazy"><div class="art-overlay"><span>Coca-Cola building</span></div></div>
-      <div class="art reveal" data-title="Experimental Typography" data-medium="Experimental typography" data-year="2016" data-size="A3" data-credit="Made by Daye Kang" data-desc="Focusing on liquid and flowing forms."><img src="assets/optimized/art_24.webp" alt="Experimental Typography" loading="lazy"><div class="art-overlay"><span>Experimental Typography</span></div></div>
-      <div class="art reveal" data-title="Plastic Bags Photography Book" data-medium="" data-year="" data-size="" data-credit="" data-desc=""><img src="assets/optimized/art_25.webp" alt="Plastic Bags Photography Book" loading="lazy"><div class="art-overlay"><span>Plastic Bags Photography Book</span></div></div>
-      <div class="art reveal" data-title="Plastic Bags" data-medium="Photography" data-year="2016" data-size="A4" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_26.webp" alt="Plastic Bags" loading="lazy"><div class="art-overlay"><span>Plastic Bags</span></div></div>
-      <div class="art reveal" data-title="Shape of the body" data-medium="Photography" data-year="2014" data-size="" data-credit="Photoshoot by Daye Kang" data-desc="I explored the graphical forms of the naked body and the effects of lighting on the muscles."><img src="assets/optimized/art_27.webp" alt="Shape of the body" loading="lazy"><div class="art-overlay"><span>Shape of the body</span></div></div>
-      <div class="art reveal" data-title="Experimental Graphics" data-medium="Digital artwork — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_28.webp" alt="Experimental Graphics" loading="lazy"><div class="art-overlay"><span>Experimental Graphics</span></div></div>
-      <div class="art reveal" data-title="Photography" data-medium="Photography" data-year="2016" data-size="" data-credit="Photoshoot by Daye Kang" data-desc="I explored the graphical forms of plastic bags."><img src="assets/optimized/art_29.webp" alt="Photography" loading="lazy"><div class="art-overlay"><span>Photography</span></div></div>
-      <div class="art reveal" data-title="Digital Illustration" data-medium="Digital illustration — Photoshop" data-year="2016" data-size="20×10 cm" data-credit="Drawn by Daye Kang" data-desc="I drew my friend during my travel in Shanghai."><img src="assets/optimized/art_30.webp" alt="Digital Illustration" loading="lazy"><div class="art-overlay"><span>Digital Illustration</span></div></div>
+      <div class="art reveal" data-title="Dancer with lights" data-medium="Digital photoshoot" data-year="2014" data-size="" data-credit="Photoshoot by Daye Kang" data-desc="The lights and lingered shapes were captured using long exposure photography."><img src="assets/optimized/art_16.webp?v=20260821-original" alt="Dancer with lights" loading="lazy"><div class="art-overlay"><span>Dancer with lights</span></div></div>
+      <div class="art reveal" data-title="Good Boy" data-medium="3D animation — 3D Maya" data-year="2016" data-size="1920×1080 · 1 minute" data-credit="Made by Daye Kang" data-desc="This animation is about a boy who wants to go to a picnic instead of going to the classroom. The body stays in the classroom while the head is playing outside."><img src="assets/optimized/art_17.webp?v=20260821-original" alt="Good Boy" loading="lazy"><div class="art-overlay"><span>Good Boy</span></div></div>
+      <div class="art reveal" data-title="Illustration" data-medium="" data-year="" data-size="" data-credit="" data-desc=""><img src="assets/optimized/art_18.webp?v=20260821-original" alt="Illustration" loading="lazy"><div class="art-overlay"><span>Illustration</span></div></div>
+      <div class="art reveal" data-title="Graphic Poster" data-medium="Digital artwork — Illustrator" data-year="2013" data-size="A4" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_19.webp?v=20260821-original" alt="Graphic Poster" loading="lazy"><div class="art-overlay"><span>Graphic Poster</span></div></div>
+      <div class="art reveal" data-title="Zarathustra" data-medium="Drawing &amp;amp; collage on aluminum foil — Pen, Crayons, Oil paper, Black paper" data-year="2013" data-size="50×40 cm" data-credit="Made by Daye Kang" data-desc="This artwork depicts members of the music club ‘Zarathustra’ gathered in the club room."><img src="assets/optimized/art_20.webp?v=20260821-original" alt="Zarathustra" loading="lazy"><div class="art-overlay"><span>Zarathustra</span></div></div>
+      <div class="art reveal" data-title="Conversation" data-medium="Drawing — Watercolor, Pen" data-year="2013" data-size="15×10 cm" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_21.webp?v=20260821-original" alt="Conversation" loading="lazy"><div class="art-overlay"><span>Conversation</span></div></div>
+      <div class="art reveal" data-title="QinQin Hou" data-medium="2D &amp; 3D animation — Watercolor, Pen" data-year="2016" data-size="1920×1080 · 3 minutes" data-credit="Directed by Daye Kang" data-desc="This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards."><img src="assets/optimized/art_22.webp?v=20260821-original" alt="QinQin Hou" loading="lazy"><div class="art-overlay"><span>QinQin Hou</span></div></div>
+      <div class="art reveal" data-title="Coca-Cola building" data-medium="Poster" data-year="2014" data-size="A2" data-credit="Made by Daye Kang" data-desc="Made after taking photos of the exteriors of the Coca-Cola building in California. The images were cropped and rearranged to express the streamlined design of the building."><img src="assets/optimized/art_23.webp?v=20260821-original" alt="Coca-Cola building" loading="lazy"><div class="art-overlay"><span>Coca-Cola building</span></div></div>
+      <div class="art reveal" data-title="Experimental Typography" data-medium="Experimental typography" data-year="2016" data-size="A3" data-credit="Made by Daye Kang" data-desc="Focusing on liquid and flowing forms."><img src="assets/optimized/art_24.webp?v=20260821-original" alt="Experimental Typography" loading="lazy"><div class="art-overlay"><span>Experimental Typography</span></div></div>
+      <div class="art reveal" data-title="Plastic Bags Photography Book" data-medium="" data-year="" data-size="" data-credit="" data-desc=""><img src="assets/optimized/art_25.webp?v=20260821-original" alt="Plastic Bags Photography Book" loading="lazy"><div class="art-overlay"><span>Plastic Bags Photography Book</span></div></div>
+      <div class="art reveal" data-title="Plastic Bags" data-medium="Photography" data-year="2016" data-size="A4" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_26.webp?v=20260821-original" alt="Plastic Bags" loading="lazy"><div class="art-overlay"><span>Plastic Bags</span></div></div>
+      <div class="art reveal" data-title="Shape of the body" data-medium="Photography" data-year="2014" data-size="" data-credit="Photoshoot by Daye Kang" data-desc="I explored the graphical forms of the naked body and the effects of lighting on the muscles."><img src="assets/optimized/art_27.webp?v=20260821-original" alt="Shape of the body" loading="lazy"><div class="art-overlay"><span>Shape of the body</span></div></div>
+      <div class="art reveal" data-title="Experimental Graphics" data-medium="Digital artwork — Photoshop" data-year="2016" data-size="" data-credit="Made by Daye Kang" data-desc=""><img src="assets/optimized/art_28.webp?v=20260821-original" alt="Experimental Graphics" loading="lazy"><div class="art-overlay"><span>Experimental Graphics</span></div></div>
+      <div class="art reveal" data-title="Photography" data-medium="Photography" data-year="2016" data-size="" data-credit="Photoshoot by Daye Kang" data-desc="I explored the graphical forms of plastic bags."><img src="assets/optimized/art_29.webp?v=20260821-original" alt="Photography" loading="lazy"><div class="art-overlay"><span>Photography</span></div></div>
+      <div class="art reveal" data-title="Digital Illustration" data-medium="Digital illustration — Photoshop" data-year="2016" data-size="20×10 cm" data-credit="Drawn by Daye Kang" data-desc="I drew my friend during my travel in Shanghai."><img src="assets/optimized/art_30.webp?v=20260821-original" alt="Digital Illustration" loading="lazy"><div class="art-overlay"><span>Digital Illustration</span></div></div>
       <div class="art reveal" data-title="Video Artwork" data-medium="Video" data-year="" data-size="" data-credit="Made by Daye Kang" data-desc=""><video src="assets/optimized/video/art_31.mp4" autoplay muted loop playsinline></video><div class="art-overlay"><span>Video Artwork</span></div></div>
     </div>
   </div>
@@ -75,6 +82,7 @@
 <div class="lightbox" id="lightbox" role="dialog" aria-label="Enlarged artwork">
   <button class="lb-nav prev" id="lb-prev" aria-label="Previous artwork">&#8249;</button>
   <button class="lb-nav next" id="lb-next" aria-label="Next artwork">&#8250;</button>
+  <button class="lb-close" id="lb-close" aria-label="Close artwork">&times;</button>
   <figure>
     <img src="" alt="Artwork enlarged">
     <figcaption>
@@ -91,9 +99,27 @@
   const lbTitle = document.getElementById('lb-title');
   const lbDesc = document.getElementById('lb-desc');
   const lbMeta = document.getElementById('lb-meta');
-  const items = [...document.querySelectorAll('.gallery .art')].filter(a => a.querySelector('img'));
+  const arts = [...document.querySelectorAll('.gallery .art')];
+  const filterButtons = [...document.querySelectorAll('.artwork-filter')];
+  const filterStatus = document.querySelector('.artwork-filter-status');
+  const categoriesFor = (art) => {
+    const text = `${art.dataset.title || ''} ${art.dataset.medium || ''}`.toLowerCase();
+    const categories = new Set();
+    if (/animation|video/.test(text)) categories.add('visual-storytelling');
+    if (/installation/.test(text)) categories.add('installation');
+    if (/photography|photograph|photoshoot/.test(text)) categories.add('photography');
+    if (/illustration|drawing|watercolor|pencil|collage/.test(text)) categories.add('illustration');
+    if (/graphic design|digital artwork|typography|poster|experimental graphics/.test(text)) categories.add('graphic-design');
+    if (!categories.size) categories.add('graphic-design');
+    return [...categories];
+  };
+  arts.forEach(art => { art.dataset.categories = categoriesFor(art).join(' '); });
+  const imageItems = arts.filter(art => art.querySelector('img'));
+  const visibleItems = () => imageItems.filter(art => !art.hidden);
   let cur = 0;
   const show = (i) => {
+    const items = visibleItems();
+    if (!items.length) return;
     cur = (i + items.length) % items.length;
     const art = items[cur];
     lbImg.src = art.querySelector('img').src;
@@ -104,11 +130,36 @@
     lbDesc.textContent = art.dataset.desc || '';
     lbDesc.style.display = art.dataset.desc ? '' : 'none';
   };
-  items.forEach((art, i) => {
+  imageItems.forEach(art => {
     art.addEventListener('click', () => {
-      show(i);
+      show(visibleItems().indexOf(art));
       lb.classList.add('open');
       document.body.style.overflow = 'hidden';
+    });
+  });
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+      let shown = 0;
+      arts.forEach(art => {
+        const visible = filter === 'all' || art.dataset.categories.split(' ').includes(filter);
+        art.hidden = !visible;
+        if (visible) {
+          shown += 1;
+          art.classList.add('in');
+        }
+        const video = art.querySelector('video');
+        if (video) {
+          if (visible) video.play().catch(() => {});
+          else video.pause();
+        }
+      });
+      filterButtons.forEach(item => {
+        const active = item === button;
+        item.classList.toggle('is-active', active);
+        item.setAttribute('aria-pressed', String(active));
+      });
+      filterStatus.textContent = `${shown} ${shown === 1 ? 'project' : 'projects'} shown for ${button.textContent}.`;
     });
   });
   document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); show(cur - 1); });
@@ -119,6 +170,8 @@
     if (e.key === 'ArrowRight') show(cur + 1);
   });
   const close = () => { lb.classList.remove('open'); document.body.style.overflow = ''; };
+  lb.querySelector('figure').addEventListener('click', e => e.stopPropagation());
+  document.getElementById('lb-close').addEventListener('click', e => { e.stopPropagation(); close(); });
   lb.addEventListener('click', close);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 })();
@@ -136,6 +189,7 @@
     </div>
   </div>
 </footer>
+<script src="site-nav.js?v=20260820-full-width-nav"></script>
 <script>
 document.documentElement.classList.add('js');
 const _io = new IntersectionObserver(es => es.forEach(e => {

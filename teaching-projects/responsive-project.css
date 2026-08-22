@@ -1,0 +1,24 @@
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+svg,
+canvas,
+img,
+video {
+  max-width: 100%;
+}
+
+svg,
+img,
+video {
+  height: auto;
+}

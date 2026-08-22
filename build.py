@@ -13,15 +13,14 @@ def _ext(wix_id):
     return os.path.splitext(wix_id.replace("~mv2", ""))[1] or ".png"
 
 def A(name, wix_id, mode="fill", w=1280, h=840):
-    """Register an asset; returns local path. GIFs are fetched as originals (keep animation)."""
+    """Register the original Wix asset and return its local path.
+
+    Resizing belongs in the local optimization step. Downloading a Wix
+    ``/v1/fit`` or ``/v1/fill`` derivative here permanently discards detail
+    before the responsive website has a chance to size the image.
+    """
     local = f"{name}{_ext(wix_id)}"
-    if wix_id.endswith(".gif"):
-        url = MED + wix_id
-    elif mode == "orig":
-        url = MED + wix_id
-    else:
-        url = f"{MED}{wix_id}/v1/{mode}/w_{w},h_{h},al_c,q_90/{wix_id}" if mode == "fill" \
-              else f"{MED}{wix_id}/v1/fit/w_{w},h_{h},q_90/{wix_id}"
+    url = MED + wix_id
     MANIFEST[local] = url
     return "assets/" + local
 
@@ -53,19 +52,20 @@ PDF_HEYTEDDY = PDF("HeyTeddy_IMWUT19.pdf", "https://www.dayekang.info/_files/ugd
 PDF_CHOCO    = PDF("Chocolate_DIS19.pdf", "https://www.dayekang.info/_files/ugd/f4a835_565b5f2b321b4a2881bd633c51797129.pdf")
 
 NAV = [
-    ("index.html", "About"),
     ("publications.html", "Publications"),
-    ("data-science.html", "Data Science"),
-    ("ux-research.html", "UX Research"),
-    ("artwork.html", "Art Work"),
+    ("ux-research.html", "UX Projects"),
+    ("artwork.html", "Visual Design"),
     ("teaching.html", "Teaching"),
 ]
 
-def page(title, active, body, desc="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science."):
+def page(title, active, body, desc="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.", body_class=""):
     ACT = ' class="active"'
     nav_items = "\n        ".join(
-        f'<li><a href="{f}"{ACT if f == active else ""}>{t}</a></li>' for f, t in NAV
+        f'<li><a href="{f}?v=20260820-full-width-nav"{ACT if f == active else ""}>{t}</a></li>' for f, t in NAV
     )
+    brand_class = "brand home-brand"
+    brand_content = ('<span class="brand-name">Daye Kang</span>'
+                     '<span class="brand-role">Designer · Researcher</span>')
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,13 +75,13 @@ def page(title, active, body, desc="Daye Kang — designer and HCI researcher. P
 <meta name="description" content="{desc}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260821-ux-single-column">
 </head>
-<body>
+<body{f' class="{body_class}"' if body_class else ''}>
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">Daye Kang</a>
+    <a class="{brand_class}" href="index.html?v=20260820-full-width-nav">{brand_content}</a>
     <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
     <nav>
       <ul>
@@ -104,6 +104,7 @@ def page(title, active, body, desc="Daye Kang — designer and HCI researcher. P
     </div>
   </div>
 </footer>
+<script src="site-nav.js?v=20260820-full-width-nav"></script>
 <script>
 document.documentElement.classList.add('js');
 const _io = new IntersectionObserver(es => es.forEach(e => {{
@@ -118,7 +119,8 @@ document.querySelectorAll('.reveal').forEach(el => _io.observe(el));
 # ================= INDEX =================
 PORTRAIT = A("portrait", "f4a835_bada0c4f923c4b598b1052f08f6bba7e~mv2.png", "fill", 900, 1026)
 # Organic profile: portrait blob (front) + nature video blob (behind), matching the original site.
-NATURE_VID = "assets/video/nature2.mp4"
+NATURE_VID = "assets/optimized/video/nature2.mp4"
+NATURE_POSTER = "assets/optimized/video/nature2-poster.jpg"
 # Blob clip-paths (objectBoundingBox 0..1). Recreated from the original organic masks.
 PPATH = ("M 0.44068,0.00890 C 0.34289,0.02506 0.24120,0.06355 0.17565,0.12501 C 0.11011,0.18647 0.05210,0.30778 0.02670,0.39708 C 0.00130,0.48638 -0.01011,0.60912 0.01523,0.68899 C 0.04056,0.76886 0.11117,0.85264 0.18673,0.90150 C 0.26229,0.95036 0.39447,0.99056 0.49245,0.99758 C 0.59044,1.00460 0.72650,0.98536 0.80558,0.94584 C 0.88466,0.90631 0.96891,0.81382 0.99190,0.74794 C 1.01489,0.68205 0.97697,0.59644 0.95078,0.52974 C 0.92460,0.46303 0.82968,0.38948 0.82654,0.32664 C 0.82341,0.26380 0.93627,0.18093 0.93099,0.13285 C 0.92572,0.08476 0.87088,0.04259 0.79325,0.02296 C 0.71562,0.00334 0.53847,-0.00726 0.44068,0.00890 Z")
 NPATH = ("M 0.34851,0.00316 C 0.27940,0.01305 0.20972,0.05224 0.16283,0.11113 C 0.11594,0.17002 0.07757,0.29357 0.05236,0.37512 C 0.02715,0.45668 -0.00904,0.55341 0.00360,0.62620 C 0.01624,0.69900 0.07715,0.77920 0.13217,0.83490 C 0.18718,0.89060 0.27970,0.95446 0.35107,0.97797 C 0.42245,1.00147 0.51327,1.00803 0.58297,0.98334 C 0.65266,0.95864 0.72992,0.87916 0.79126,0.82200 C 0.85259,0.76485 0.93954,0.68824 0.97035,0.62235 C 1.00115,0.55646 1.00839,0.47409 0.98583,0.40585 C 0.96326,0.33762 0.88904,0.24796 0.82784,0.19141 C 0.76664,0.13485 0.67520,0.07846 0.59931,0.04866 C 0.52341,0.01885 0.41762,-0.00673 0.34851,0.00316 Z")
@@ -130,7 +132,7 @@ news = [
         <li><a href="https://ai-tools-for-thought.github.io/workshop/" target="_blank" rel="noopener">Tools for Thought: Understanding, Protecting, and Augmenting Human Cognition with Generative AI — From Vision to Implementation</a></li>
         <li><a href="https://vischi.org/" target="_blank" rel="noopener">Visual Storytelling Beyond the Human: Co-Creation, Culture, and Futures</a></li>
       </ul>"""),
-    ("Oct 2025", '<span class="badge">🏅 Honorable Mention Award</span> at CSCW’25 — “ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System.”'),
+    ("Oct 2025", '<span class="badge">🏅 Best Paper Honorable Mention Award</span> at CSCW’25 — “ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System.”'),
     ("Jun 2025", """I will attend DIS 2025 workshops. See you at DIS!
       <ul>
         <li><a href="https://dis25designknowledgeinai.myportfolio.com/" target="_blank" rel="noopener">Design Knowledge in AI: Navigating Temporality and Continuity</a> — Examining the Effects of Human-AI Collaboration in Creative Visual Imagery</li>
@@ -154,7 +156,7 @@ index_body = f"""
     <div class="hero-grid">
       <aside class="hero-side">
         <div class="portrait-organic reveal">
-          <video class="po-nature" src="{NATURE_VID}" autoplay muted loop playsinline aria-hidden="true"></video>
+          <video class="po-nature" src="{NATURE_VID}" poster="{NATURE_POSTER}" preload="auto" autoplay muted loop playsinline aria-hidden="true"></video>
           <img class="po-portrait" src="{PORTRAIT}" alt="Portrait of Daye Kang">
           <svg class="po-defs" width="0" height="0" aria-hidden="true" focusable="false">
             <defs>
@@ -165,26 +167,117 @@ index_body = f"""
         </div>
         <div class="hero-links">
           <div class="hl-text">
-            <a href="{CV}" target="_blank" rel="noopener">CV</a><span class="hl-sep">|</span><a href="https://scholar.google.com/citations?user=LQQPHtcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-          </div>
-          <div class="hl-icons">
-            <a href="mailto:dk564@cornell.edu" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.8" width="18.8" height="14.4" rx="1.6"/><path d="M3.4 6.2 12 13l8.6-6.8"/></svg></a>
-            <a href="https://www.linkedin.com/in/daye-kang-98475a128/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+            <a href="{CV}" target="_blank" rel="noopener">CV</a><span class="hl-sep">|</span><a href="https://scholar.google.com/citations?user=LQQPHtcAAAAJ" target="_blank" rel="noopener">Google Scholar</a><span class="hl-sep">|</span><a class="hl-email" href="mailto:dk564@cornell.edu" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.8" width="18.8" height="14.4" rx="1.6"/><path d="M3.4 6.2 12 13l8.6-6.8"/></svg></a>
+            <a class="hl-linkedin" href="https://www.linkedin.com/in/daye-kang-98475a128/" target="_blank" rel="noopener" aria-label="LinkedIn" hidden><svg viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
           </div>
         </div>
+        <a class="selected-jump selected-jump-desktop is-hidden" href="#selected-work">
+          <span class="selected-jump-label">See<br>selected<br>work</span>
+          <span class="selected-jump-arrow" aria-hidden="true">↓</span>
+        </a>
       </aside>
-      <div>
-        <div class="kicker">HCI Researcher · Designer</div>
-        <h1>Hello!</h1>
-        <div class="bio">
-          <p class="lead">I’m Daye Kang — I study and design human-AI interaction for health, data, and everyday life.</p>
-          <p>My research interests lie at the intersection of Human-Computer Interaction (HCI), human-AI interaction, and design. I have extensive experience in UX research — understanding user needs and designing systems that support data work by incorporating visualization and human-AI interaction. Currently, I am focusing on supporting holistic health management using multimodal AI in the context of personal informatics.</p>
-          <p>I started my academic career in Visual Communication Design at Hongik University, received my MS in Industrial Design (HCI) from KAIST advised by Dr. <a href="https://makinteract.kaist.ac.kr/andrea" target="_blank" rel="noopener">Andrea Bianchi</a>, and am now a Ph.D. candidate at Cornell University’s Information Science Department, working with my advisor Dr. <a href="https://mjung.infosci.cornell.edu/" target="_blank" rel="noopener">Malte Jung</a>. My dissertation committee members are Dr. <a href="https://jeffrz.com/" target="_blank" rel="noopener">Jeff Rzeszotarski</a>, Dr. <a href="https://mimno.infosci.cornell.edu/" target="_blank" rel="noopener">David Mimno</a>, Dr. <a href="https://qianyang.co/" target="_blank" rel="noopener">Qian Yang</a>, and Dr. <a href="https://people.dbmi.columbia.edu/noemie/" target="_blank" rel="noopener">Noémie Elhadad</a>.</p>
-          <p class="pron">Pronounced Da-Ye [da yé]</p>
+      <div class="hero-copy">
+        <h1 class="hello-heading">Hello!</h1>
+        <div class="bio bio-primary">
+          <p class="intro-name">Welcome to my website. My name is Daye Kang :)</p>
+          <p>My research interests lie at the intersection of <strong>design</strong>, <strong>Human-Computer Interaction (HCI)</strong>, and <strong>human-AI interaction</strong>.</p>
+          <p>People have access to more data than ever, but more data does not lead to better understanding. I pursue this across three domains: reflective practice in qualitative data analysis, managing chronic conditions with health tracking tools, and data storytelling through comics.</p>
+          <p>I use qualitative methods, including co-design and first-person studies, to understand people’s contexts, then design and evaluate systems that combine visualization and AI to support data sensemaking.</p>
         </div>
-        <div class="cta">
-          <a class="btn ghost" href="publications.html">See publications</a>
+        <div class="bio bio-secondary">
+          <p>My research has been published at ACM CHI and CSCW, leading venues in human-computer interaction (HCI), and has received a Best Paper Award and a Best Paper Honorable Mention Award.</p>
+          <p>I am currently a Ph.D. candidate in Information Science at Cornell University, advised by <a class="academic-link" href="https://mjung.infosci.cornell.edu/" target="_blank" rel="noopener">Malte Jung</a>. Previously, I received my MS in Industrial Design from KAIST, advised by <a class="academic-link" href="https://make.kaist.ac.kr/andrea" target="_blank" rel="noopener">Andrea Bianchi</a>, after receiving a BFA in Visual Communication Design at Hongik University.</p>
+          <p class="pron">My name is pronounced Da-Ye [da ye].</p>
+          <p class="job-market">I am on the academic job market for the 2026–27 cycle.</p>
         </div>
+        <a class="selected-work-link" href="#selected-work">
+          <span>See selected work</span>
+          <span class="selected-work-link-arrow" aria-hidden="true">↓</span>
+        </a>
+      </div>
+      <a class="selected-jump selected-jump-mobile is-hidden" href="#selected-work">
+        <span class="selected-jump-label">See<br>selected<br>work</span>
+        <span class="selected-jump-arrow" aria-hidden="true">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section selected-work-section" id="selected-work" aria-labelledby="selected-work-title">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2 id="selected-work-title">Selected work</h2>
+      </div>
+
+      <div class="selected-work-groups">
+        <section class="selected-group reveal" aria-labelledby="selected-publications-title">
+          <div class="selected-group-head">
+            <h3 id="selected-publications-title">Publications</h3>
+          </div>
+          <ol class="selected-pub-list">
+            <li>
+              <div class="selected-pub-conference">CSCW 2025</div>
+              <p>ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System</p>
+              <div class="selected-pub-award-row"><span class="selected-award"><span class="selected-award-icon" aria-hidden="true">🏅</span>Best Paper Honorable Mention Award</span></div>
+              <div class="selected-pub-links"><a href="assets/pdf/ThemeViz_CSCW25.pdf" target="_blank" rel="noopener">PDF</a><a href="https://dl.acm.org/doi/10.1145/3757675" target="_blank" rel="noopener">DOI</a></div>
+            </li>
+            <li>
+              <div class="selected-pub-conference">CHI 2025</div>
+              <p>Towards Hormone Health: An Autoethnography of Long-Term Holistic Tracking to Manage PCOS</p>
+              <div class="selected-pub-award-row"><span class="selected-award"><span class="selected-award-icon" aria-hidden="true">🏆</span>Best Paper Award</span></div>
+              <div class="selected-pub-links"><a href="assets/pdf/HormoneHealth_CHI25.pdf" target="_blank" rel="noopener">PDF</a><a href="https://dl.acm.org/doi/abs/10.1145/3706598.3713619" target="_blank" rel="noopener">DOI</a></div>
+            </li>
+            <li>
+              <div class="selected-pub-conference">CHI 2021</div>
+              <p>ToonNote: Improving Communication in Computational Notebooks Using Interactive Data Comics</p>
+              <div class="selected-pub-award-row" aria-hidden="true"></div>
+              <div class="selected-pub-links"><a href="assets/pdf/ToonNote_CHI21.pdf" target="_blank" rel="noopener">PDF</a><a href="https://dl.acm.org/doi/10.1145/3411764.3445434" target="_blank" rel="noopener">DOI</a></div>
+            </li>
+          </ol>
+          <a class="selected-more" href="publications.html?v=20260820-full-width-nav"><span class="selected-more-label">See all publications</span><span class="selected-more-arrow" aria-hidden="true">→</span></a>
+        </section>
+
+        <section class="selected-group selected-design-group reveal" aria-labelledby="selected-design-title">
+          <div class="selected-group-head">
+            <h3 id="selected-design-title">Design Projects</h3>
+          </div>
+          <div class="design-branches">
+            <article class="design-branch">
+              <h4>UX Design</h4>
+              <div class="design-image-grid">
+                <img class="design-project-image" src="assets/optimized/ux_lexia.webp" alt="Lexia in Wonderland UX project" loading="lazy">
+              </div>
+              <div class="design-project-details">
+                <h5>Lexia in Wonderland</h5>
+                <div class="design-project-awards" aria-label="Awards">
+                  <span class="selected-award">2017 ADAA Semifinalist</span>
+                  <span class="selected-award">2017 KSDS Excellence Award</span>
+                  <span class="selected-award">2017 Hongik Excellence Graduation Work</span>
+                </div>
+              </div>
+              <a class="selected-more" href="ux-research.html?v=20260820-full-width-nav"><span class="selected-more-label">See all UX projects</span><span class="selected-more-arrow" aria-hidden="true">→</span></a>
+            </article>
+
+            <article class="design-branch">
+              <h4>Visual Storytelling</h4>
+              <div class="design-image-grid">
+                <img class="design-project-image" src="assets/optimized/pub_toonnote.webp" alt="Interactive data comics from ToonNote" loading="lazy">
+              </div>
+              <div class="design-project-details">
+                <h5>ToonNote</h5>
+              </div>
+            </article>
+
+            <article class="design-branch">
+              <h4>Graphic Design</h4>
+              <div class="design-image-grid">
+                <img class="design-project-image" src="assets/optimized/art_02.webp" alt="Black-and-white graphic design study" loading="lazy">
+              </div>
+              <div class="design-project-details">
+                <h5>Digital Artwork</h5>
+              </div>
+            </article>
+          </div>
+        </section>
       </div>
     </div>
   </section>
@@ -193,24 +286,20 @@ index_body = f"""
     <div class="wrap">
       <div class="sec-head reveal">
         <h2>News</h2>
-        <span class="num">01</span>
       </div>
-      <ul class="news">
+      <ul class="news news-scroll">
 {news_html}
       </ul>
     </div>
   </section>
 
-  <div class="bleed video-strip reveal">
-    {video_tag(V("tiger", "11062b_92ee532ce1f74d77b5b1fcd7dc1c40b8"))}
-  </div>
 </main>
 """
 W("index.html", page("Daye Kang — Designer & HCI Researcher", "index.html", index_body))
 
 # ================= PUBLICATIONS =================
 pubs = [
-    dict(venue="CSCW 2025", award="🏅 Honorable Mention Award",
+    dict(venue="CSCW 2025", award="🏅 Best Paper Honorable Mention Award",
          thumb=A("pub_themeviz_teaser", "f4a835_5bf2731eb386491ca9c3a4e8683428b9~mv2.png", "fill", 1000, 726),
          title="ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System",
          authors="<b>Daye Kang</b>, Zhuolun Han, Jiahe Tian, Muhan Zhang, and Jeff Rzeszotarski",
@@ -280,10 +369,15 @@ def pub_html(p):
 pubs_body = f"""
 <main>
   <div class="wrap">
+    <div class="bleed ux-video-hero publication-video-hero reveal">
+      {video_tag("assets/optimized/video/tiger.mp4")}
+    </div>
     <div class="page-head">
       <div class="kicker">Peer-reviewed research</div>
       <h1>Publications</h1>
-      <p class="lede">Selected work across human-AI interaction, personal informatics &amp; health, qualitative research tools, and data storytelling.</p>
+      <p class="lede">My research agenda is to design human-AI interaction that makes data easier to use, understand, and communicate. People have access to more data than ever, but more data does not lead to better understanding. Data sits fragmented across tools, separated from the personal and social contexts that gave it meaning. When those contexts are lost, people struggle to see patterns, to build a coherent account of what the data says, or to pass that account on to someone else.</p>
+      <p class="lede">I see this gap as a design problem. More capable AI models do not by themselves decide whether people can make sense of data. How information is organized, connected, represented, and made available for interaction matters as well.</p>
+      <p class="lede">I pursue this across three domains: reflective practice in qualitative data analysis, managing chronic conditions with health tracking tools, and data storytelling through comics.</p>
     </div>
 {chr(10).join(pub_html(p) for p in pubs)}
   </div>
@@ -297,65 +391,74 @@ def card(href, img_path, tag, title, desc):
         <span class="arrow">&#8599;</span>
         <div class="frame"><img src="{img_path}" alt="{html.escape(title)}" loading="lazy"></div>
         <div class="pad">
-          <span class="tag">{tag}</span>
           <h3>{title}</h3>
+          <span class="tag">{tag}</span>
           <p>{desc}</p>
         </div>
       </a>"""
 
-# ================= DATA SCIENCE =================
-ds_body = f"""
-<main>
+def placeholder_card(href, tag, title, desc):
+    return f"""      <a class="card reveal" href="{href}">
+        <span class="arrow">&#8599;</span>
+        <div class="frame project-placeholder" role="img" aria-label="{html.escape(title)} representative image to be added"></div>
+        <div class="pad">
+          <h3>{title}</h3>
+          <span class="tag">{tag}</span>
+          <p>{desc}</p>
+        </div>
+      </a>"""
+
+# ================= UX RESEARCH =================
+ux_body = f"""
+<main class="ux-projects-page">
   <div class="wrap">
-    <div class="page-head">
-      <div class="kicker">Data</div>
-      <h1>Data Science</h1>
+    <div class="bleed ux-video-hero reveal">
+      {video_tag("assets/optimized/video/shark.mp4")}
     </div>
     <div class="cards">
 {card("bookrecommendation.html", A("ds_bookrec", "f4a835_ddc7400150214afebb07f52a82c092f8~mv2.png", "fill", 1280, 840),
       "Recommendation · R Shiny", "Book Recommendation System",
       "We designed and developed a book recommendation system that recommends the next few books for our target users based on their own reading tastes.")}
-{card("color.html", A("ds_color", "f4a835_cdf1a9d4f79641689564fb7756457b21~mv2.png", "fill", 1280, 840),
-      "Color analysis · Statistics", "Different Color Palettes for Four Types of Recovery",
-      "Finding the appropriate combinations of color for each type of recovery (Relaxation, Psychological Detachment, Mastery Experience, Sleep) — and a method of designing a resting place based on the findings.")}
-    </div>
-    <div class="bleed video-strip reveal">
-      {video_tag("assets/video/shark.mp4")}
-    </div>
-  </div>
-</main>
-"""
-W("data-science.html", page("Data Science — Daye Kang", "data-science.html", ds_body))
-
-# ================= UX RESEARCH =================
-ux_body = f"""
-<main>
-  <div class="wrap">
-    <div class="page-head">
-      <div class="kicker">UX projects</div>
-      <h1>User Experience</h1>
-    </div>
-    <div class="cards">
 {card("lexiainwonderland.html", A("ux_lexia", "f4a835_eb3d171453984c1d8ab28fd7eeabb5dc~mv2.png", "fill", 1280, 840),
       "Education · Gamification", "Lexia in Wonderland",
-      "A Korean education app for imaginative, dyslexic children — scientifically proven treatment methods wrapped in a fun adventure.")}
+      "A Korean education app for imaginative, dyslexic children that wraps scientifically proven treatment methods in a fun adventure.")}
 {card("nudgedesign.html", A("ux_nudge", "f4a835_e2efb323288c47bdb4926afd3b024a76~mv2.png", "fill", 1280, 840),
       "Nudge design · Health", "Nudge Design for Hospitalized Children",
-      "Footprint stickers and story wallpapers that nudge hospitalized children to walk and stretch — turning a dull hallway into a place to play.")}
-{card("mylittlehero.html", A("ux_mlh", "f4a835_3d8b8d07c649443eb876b0fe6214a5d4~mv2.png", "fill", 1280, 840),
+      "Footprint stickers and story wallpapers that turn a dull hallway into a place to play and encourage hospitalized children to walk and stretch.")}
+{card("mylittlehero.html", "assets/optimized/ux_mlh.webp",
       "Game · Family engagement", "My Little Hero",
       "A digital game that facilitates communication between long-term hospitalized children and their family members through play.")}
-{card("sunshine.html", A("ux_sunshine", "f4a835_fc925c5cd5f74eb8a3d00fb118fd9232~mv2.png", "fill", 1280, 840),
+{card("sunshine.html", "assets/optimized/sun_hero.webp",
       "IoT · Multisensory", "Sunshine",
-      "An IoT digital window that changes the view — with matching scents, sounds, and breeze — controlled from a smartphone app.")}
+      "An IoT digital window controlled from a smartphone app that changes the view with matching scents, sounds, and breeze.")}
 {card("tomorrow.html", A("ux_tomorrow", "f4a835_ff310f1c911b4a118aa6d9619bfe9afa~mv2.png", "fill", 1280, 840),
       "Education · Social impact", "Tomorrow",
       "Teaching coding and French to refugee children in France through donated devices, classic children’s books, and block coding.")}
+{placeholder_card("pmos-comics.html", "Interactive comics · Series", "PMOS.Comics",
+      "A project series exploring personal health data through interactive comics. Full project description coming soon.")}
     </div>
   </div>
 </main>
 """
-W("ux-research.html", page("UX Research — Daye Kang", "ux-research.html", ux_body))
+W("ux-research.html", page("UX Projects — Daye Kang", "ux-research.html", ux_body))
+
+# Keep old bookmarks working without restoring the removed Data Science section.
+W("data-science.html", """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=ux-research.html">
+<link rel="canonical" href="ux-research.html">
+<title>UX Projects — Daye Kang</title>
+<script>window.location.replace("ux-research.html" + window.location.search + window.location.hash);</script>
+</head>
+<body>
+<p><a href="ux-research.html">Continue to UX Projects</a></p>
+</body>
+</html>
+""")
 
 # ================= ARTWORK =================
 # (id, title, description) — collected from the original Wix gallery expand view, in gallery order
@@ -382,7 +485,7 @@ ART = [
     ("f4a835_ae2e827b40084d7d80d93460d59f14ae~mv2.jpg", "Graphic Poster", "Digital artwork — Illustrator", "2013", "A4", "Made by Daye Kang", ""),
     ("f4a835_8aeda735d1374112bf3dc48097b29eff~mv2.png", "Zarathustra", "Drawing &amp; collage on aluminum foil — Pen, Crayons, Oil paper, Black paper", "2013", "50×40 cm", "Made by Daye Kang", "This artwork depicts members of the music club ‘Zarathustra’ gathered in the club room."),
     ("f4a835_03cddcf2da7f4ec3ad97c348b39ab7e7~mv2.jpg", "Conversation", "Drawing — Watercolor, Pen", "2013", "15×10 cm", "Made by Daye Kang", ""),
-    ("f4a835_e5ba8d7d6c054610bae71c5cff2fed73~mv2.png", "QinQin Hou", "", "", "", "", ""),
+    ("f4a835_e5ba8d7d6c054610bae71c5cff2fed73~mv2.png", "QinQin Hou", "2D & 3D animation — Watercolor, Pen", "2016", "1920×1080 · 3 minutes", "Directed by Daye Kang", "This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards."),
     ("f4a835_e4f6cb606cd3481799170e7049942898~mv2.jpg", "Coca-Cola building", "Poster", "2014", "A2", "Made by Daye Kang", "Made after taking photos of the exteriors of the Coca-Cola building in California. The images were cropped and rearranged to express the streamlined design of the building."),
     ("f4a835_6e2ed7df286f40a0b56c94cef5039731~mv2.png", "Experimental Typography", "Experimental typography", "2016", "A3", "Made by Daye Kang", "Focusing on liquid and flowing forms."),
     ("f4a835_9b04971e5940440ea13193f70b3b0f8d~mv2.png", "Plastic Bags Photography Book", "", "", "", "", ""),
@@ -408,13 +511,22 @@ art_imgs = "\n".join(_art_item(n, *item) for n, item in enumerate(ART, 1))
 art_body = f"""
 <main>
   <div class="wrap">
-    <div class="page-head">
-      <div class="kicker">Illustration · Animation · Comics</div>
-      <h1>Artwork</h1>
+    <div class="bleed artwork-video-hero reveal">
+      {video_tag("assets/optimized/video/bird4.mp4")}
+      <div class="artwork-video-copy" hidden>
+        <div class="kicker">Illustration · Animation · Comics</div>
+        <h1>Visual Design</h1>
+      </div>
     </div>
-    <div class="bleed video-strip reveal">
-      {video_tag("assets/video/bird4.mp4")}
+    <div class="artwork-filters" role="group" aria-label="Filter visual design projects by category">
+      <button class="artwork-filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="artwork-filter" type="button" data-filter="visual-storytelling" aria-pressed="false">Visual storytelling</button>
+      <button class="artwork-filter" type="button" data-filter="graphic-design" aria-pressed="false">Graphic design</button>
+      <button class="artwork-filter" type="button" data-filter="installation" aria-pressed="false">Installation</button>
+      <button class="artwork-filter" type="button" data-filter="illustration" aria-pressed="false">Illustration</button>
+      <button class="artwork-filter" type="button" data-filter="photography" aria-pressed="false">Photography</button>
     </div>
+    <p class="artwork-filter-status" aria-live="polite">All 31 projects shown.</p>
     <div class="gallery">
 {art_imgs}
     </div>
@@ -423,6 +535,7 @@ art_body = f"""
 <div class="lightbox" id="lightbox" role="dialog" aria-label="Enlarged artwork">
   <button class="lb-nav prev" id="lb-prev" aria-label="Previous artwork">&#8249;</button>
   <button class="lb-nav next" id="lb-next" aria-label="Next artwork">&#8250;</button>
+  <button class="lb-close" id="lb-close" aria-label="Close artwork">&times;</button>
   <figure>
     <img src="" alt="Artwork enlarged">
     <figcaption>
@@ -439,9 +552,27 @@ art_body = f"""
   const lbTitle = document.getElementById('lb-title');
   const lbDesc = document.getElementById('lb-desc');
   const lbMeta = document.getElementById('lb-meta');
-  const items = [...document.querySelectorAll('.gallery .art')].filter(a => a.querySelector('img'));
+  const arts = [...document.querySelectorAll('.gallery .art')];
+  const filterButtons = [...document.querySelectorAll('.artwork-filter')];
+  const filterStatus = document.querySelector('.artwork-filter-status');
+  const categoriesFor = (art) => {{
+    const text = `${{art.dataset.title || ''}} ${{art.dataset.medium || ''}}`.toLowerCase();
+    const categories = new Set();
+    if (/animation|video/.test(text)) categories.add('visual-storytelling');
+    if (/installation/.test(text)) categories.add('installation');
+    if (/photography|photograph|photoshoot/.test(text)) categories.add('photography');
+    if (/illustration|drawing|watercolor|pencil|collage/.test(text)) categories.add('illustration');
+    if (/graphic design|digital artwork|typography|poster|experimental graphics/.test(text)) categories.add('graphic-design');
+    if (!categories.size) categories.add('graphic-design');
+    return [...categories];
+  }};
+  arts.forEach(art => {{ art.dataset.categories = categoriesFor(art).join(' '); }});
+  const imageItems = arts.filter(art => art.querySelector('img'));
+  const visibleItems = () => imageItems.filter(art => !art.hidden);
   let cur = 0;
   const show = (i) => {{
+    const items = visibleItems();
+    if (!items.length) return;
     cur = (i + items.length) % items.length;
     const art = items[cur];
     lbImg.src = art.querySelector('img').src;
@@ -452,11 +583,36 @@ art_body = f"""
     lbDesc.textContent = art.dataset.desc || '';
     lbDesc.style.display = art.dataset.desc ? '' : 'none';
   }};
-  items.forEach((art, i) => {{
+  imageItems.forEach(art => {{
     art.addEventListener('click', () => {{
-      show(i);
+      show(visibleItems().indexOf(art));
       lb.classList.add('open');
       document.body.style.overflow = 'hidden';
+    }});
+  }});
+  filterButtons.forEach(button => {{
+    button.addEventListener('click', () => {{
+      const filter = button.dataset.filter;
+      let shown = 0;
+      arts.forEach(art => {{
+        const visible = filter === 'all' || art.dataset.categories.split(' ').includes(filter);
+        art.hidden = !visible;
+        if (visible) {{
+          shown += 1;
+          art.classList.add('in');
+        }}
+        const video = art.querySelector('video');
+        if (video) {{
+          if (visible) video.play().catch(() => {{}});
+          else video.pause();
+        }}
+      }});
+      filterButtons.forEach(item => {{
+        const active = item === button;
+        item.classList.toggle('is-active', active);
+        item.setAttribute('aria-pressed', String(active));
+      }});
+      filterStatus.textContent = `${{shown}} ${{shown === 1 ? 'project' : 'projects'}} shown for ${{button.textContent}}.`;
     }});
   }});
   document.getElementById('lb-prev').addEventListener('click', e => {{ e.stopPropagation(); show(cur - 1); }});
@@ -467,18 +623,51 @@ art_body = f"""
     if (e.key === 'ArrowRight') show(cur + 1);
   }});
   const close = () => {{ lb.classList.remove('open'); document.body.style.overflow = ''; }};
+  lb.querySelector('figure').addEventListener('click', e => e.stopPropagation());
+  document.getElementById('lb-close').addEventListener('click', e => {{ e.stopPropagation(); close(); }});
   lb.addEventListener('click', close);
   document.addEventListener('keydown', e => {{ if (e.key === 'Escape') close(); }});
 }})();
 </script>"""
-W("artwork.html", page("Art Work — Daye Kang", "artwork.html", art_body))
+W("artwork.html", page("Visual Design — Daye Kang", "artwork.html", art_body))
+
+# ================= QINQIN HOU — permanent CV URL =================
+# Public filename contract: do not rename qinqinhou.html.
+qinqin_body = """
+<main class="qinqin-page">
+  <div class="qinqin-player-wrap">
+    <!-- Add the final MP4 as a source here once the original video file is available. -->
+    <video class="qinqin-player" controls preload="none" poster="assets/optimized/art_22.webp" aria-label="QinQin Hou animation">
+      Your browser does not support HTML video.
+    </video>
+  </div>
+  <div class="wrap">
+    <article class="qinqin-copy">
+      <div class="kicker">2D &amp; 3D Animation · 2016</div>
+      <h1>QinQin Hou</h1>
+      <div class="qinqin-award"><span aria-hidden="true">🏆</span>Excellence Award, Times Young Creative Awards</div>
+      <p class="qinqin-description">This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards.</p>
+      <dl class="meta-grid">
+        <div><dt>Medium</dt><dd>2D &amp; 3D animation — Watercolor, Pen</dd></div>
+        <div><dt>Format</dt><dd>1920×1080 · 3 minutes</dd></div>
+        <div><dt>Credit</dt><dd>Directed by Daye Kang</dd></div>
+      </dl>
+      <a class="back-home" href="artwork.html">&larr; Back to Visual Design</a>
+    </article>
+  </div>
+</main>
+"""
+W("qinqinhou.html", page(
+    "QinQin Hou — Daye Kang",
+    None,
+    qinqin_body,
+    "QinQin Hou — a 2D and 3D animation directed by Daye Kang, recognized by the Times Young Creative Awards."))
 
 # ================= TEACHING =================
 teaching_body = """
 <main>
   <div class="wrap">
     <div class="page-head">
-      <div class="kicker">Courses · Mentoring</div>
       <h1>Teaching</h1>
     </div>
     <div class="placeholder reveal">
@@ -488,7 +677,12 @@ teaching_body = """
   </div>
 </main>
 """
-W("teaching.html", page("Teaching — Daye Kang", "teaching.html", teaching_body))
+# The teaching portfolio is maintained by hand because it contains student
+# artifacts and interactive project links. Keep a future site rebuild from
+# replacing it with the original placeholder.
+teaching_path = os.path.join(ROOT, "teaching.html")
+if not os.path.exists(teaching_path):
+    W("teaching.html", page("Teaching — Daye Kang", "teaching.html", teaching_body))
 
 # ================= DETAIL PAGES =================
 def hero_img(name, wix_id, alt=""):
@@ -511,6 +705,7 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
             sec_html += content + "\n"
     side_nav = ""
     spy_js = ""
+    kicker_html = "" if back == "ux-research.html" else f'<div class="kicker">{kicker}</div>'
     if len(nav_items) >= 3:
         side_nav = f'<nav class="side-nav" aria-label="Page sections">{"".join(nav_items)}</nav>'
         spy_js = """
@@ -533,7 +728,7 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
 <main>
   <div class="wrap">
     <div class="page-head">
-      <div class="kicker">{kicker}</div>
+      {kicker_html}
       <h1>{title}</h1>
     </div>
     <article class="detail">
@@ -548,7 +743,12 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
   </div>
 </main>
 {spy_js}"""
-    W(fname, page(f"{title} — Daye Kang", None, body))
+    W(fname, page(
+        f"{title} — Daye Kang",
+        None,
+        body,
+        body_class="lexia-page" if fname == "lexiainwonderland.html" else "",
+    ))
 
 def dimg(name, wix_id, alt=""):
     return f'<img class="reveal" src="{A(name, wix_id, "fit", 1600, 2000)}" alt="{html.escape(alt)}" loading="lazy">'
@@ -596,7 +796,7 @@ def flow_center(label, img_html, caption=None):
     c = f'<p class="caption" style="margin-top:4px">{caption}</p>' if caption else ""
     return f'<div class="flow-center"><div class="lcol-label">{label}</div>{img_html}{c}<div class="flow-arrows" aria-hidden="true"><span>&#8601;</span><span>&#8600;</span></div></div>'
 
-detail("bookrecommendation.html", "Book Recommendation System", "Data Science",
+detail("bookrecommendation.html", "Book Recommendation System", "UX Projects",
     [("Keywords", "Recommendation, Collaborative Filtering, R Shiny App"),
      ("Members", "Eda Zhang, Radhika Kulkarni, Daye Kang, Eunhee Sung"),
      ("My contribution", "Collaborative Filtering, Explorative Data Analysis, UI mockup"),
@@ -690,65 +890,10 @@ detail("bookrecommendation.html", "Book Recommendation System", "Data Science",
       "<li>Riesterer, N., Brand, D., &amp; Ragni, M. (2020). Uncovering the Data-Related Limits of Human Reasoning Research: An Analysis based on Recommender Systems. arXiv:2003.05196.</li>"
       "<li><a href='https://towardsdatascience.com/10-tips-for-choosing-the-optimal-number-of-clusters-277e93d72d92' target='_blank' rel='noopener'>Choosing an optimal number of clusters</a></li>"
       "<li><a href='https://towardsdatascience.com/how-exactly-umap-works-13e3040e1668' target='_blank' rel='noopener'>Working and benefits of UMAP</a></li>"
-      "</ul>")], back="data-science.html",
+      "</ul>")], back="ux-research.html",
     hero=hero_img("book_hero", "f4a835_ddc7400150214afebb07f52a82c092f8~mv2.png", "Book Recommendation System"))
 
-detail("color.html", "Different Color Palettes for Four Types of Recovery", "Data Science",
-    [("Members", "Daye Kang, Hio-been Han"),
-     ("My contribution", "Study design, Generating Palette"),
-     ("Year", "10.2018 – 12.2018")],
-    "<p>The goal of this study is to find the appropriate combinations of color for each type of recovery (Relaxation, Psychological Detachment, Mastery Experience, Sleep). Based on the findings, we came up with a method of designing a resting place.</p>",
-    [("Goal of the Experiment",
-      "<h3>Background and goals</h3>"
-      "<p>Recovery can be conceptualized as the process that is opposite to the stress process because it reverses the negative consequences of job demands and allows an individual's functional system to return to the baseline level. One can restore physical and mental resources (e.g., energy and self-regulatory resources) during recovery (Meijman &amp; Mulder, 1998). Previous studies divided recovery experiences into four types: ‘Relaxation’, ‘Psychological Detachment’, ‘Mastery Experience’, and ‘Sleep’ (Sonnentag, Binnewies, &amp; Mojza, 2008). Even though ‘recovery’ can be achieved in many different places with various purposes, designs of rest places are somewhat homogeneous. In this study, we attempt to find the proper combination of colors to design a better resting place.</p>"),
-     ("Experiment",
-      "<h3>Subjects / Participants</h3>"
-      "<p>Twenty-four participants (58.3% female) were recruited. We did not ask their age. Instead, they described themselves as a graduate student (54.2%), an undergraduate student (37.5%), an office worker (4.2%), or unemployed (4.2%).</p>"
-      "<h3>Stimuli / Materials</h3>"
-      "<p>The primary purpose of the survey was to collect category-specific words for SNS searching. To improve the understanding of topics, representative images for each recovery category were provided (Figure 1a). To select the intuitive and well-representable picture, we conducted a design workshop with 5 professional visual designers. After searching images of each category on Pinterest (the preferred image-searching application among designers), we asked designers to choose the best one. Another design workshop with 3 experts was held to generate work-related stress scenarios (Figure 1c).</p>"
-      + dimg_m("col_f01", "f4a835_e68d95bafd1f4b2d93d819b58dd744ae~mv2.png", "Figure 1")
-      + cap("Figure 1. Survey procedure. Screen capture of (a) survey introduction page, (b) questionnaires for hashtags &amp; words collecting, and (c) questionnaires for scenario decision-making task.")
-      + "<h3>Measuring responses</h3>"
-      "<p>To collect words, we asked participants to write down five different SNS keywords (Figure 1b). To measure the category-specific needs of rest, we used a 5-point Likert scale (Figure 1c).</p>"),
-     ("Results",
-      "<p>After collecting images from SNS keywords (hashtags), we analyzed the proportion of colors from the 10,643 images, each of which has high ‘like’ scores (more than 50 likes). Normalizing the pixel proportion and eliminating infrequently used colors (below 0.1%), we obtained a relative proportion of pixels within all categories (Figure 3c). Using this, we performed a Chi-square test with a null hypothesis that assumes each color has 25% of the relative proportion, indicating there is no difference of color combinations across the categories.</p>"
-      + dimg_m("col_f02", "f4a835_333034b77cef4b07bd56d66cbef3e29a~mv2.png", "Figure 2")
-      + cap("Figure 2. Image crawling methods. (a) Schematic illustration of the image crawling procedure starting from the survey. (b) Example hashtags (1st–20th ranks) identified by step 3 in (a). Numbers in parentheses indicate the number of observations throughout steps 2–3.")
-      + dimg_m("col_f03", "f4a835_fcff7d1ba11d4110b6d930cffd9d73d1~mv2.png", "Figure 3")
-      + cap("Figure 3. Result of image color-parsing. (a) Example color-parsing. (b) Result of color-parsing for each category. (c) Normalized result of color-parsing for each category — non-frequently used colors (below 0.1% of total) were eliminated.")
-      + "<p><b>First opinion:</b> There was a clear difference between hashtags over the four categories. Therefore, we expected an accordingly different color palette for each rest type.</p>"
-      "<h3>Statistical technique</h3>"
-      "<p>The primary purpose of the statistical test was to find a difference in color proportions across categories. To do this, we extracted the color from every pixel of images of four different categories and performed Chi-square analysis to compare frequencies of colors. If there is no difference in color proportion, the expected value (chance level) of relative color proportion is 25%. We also used a non-parametric one-way repeated-measures ANOVA (Friedman test) on scenario decision-making tasks.</p>"
-      + dimg_m("col_f04", "f4a835_fbd0dca7dc834398a0bc3097a678a147~mv2.png", "Figure 4")
-      + cap("Figure 4. Combination of good (a) and bad (b) colors for each type of rest. Five colors that have the highest and lowest scores, respectively, were selected.")
-      + "<h3>Statistical results</h3>"
-      "<p>From the normalized result of color-parsing (Figure 3c), we performed a Chi-square test. For all the categories, we found a significant difference of color proportions against the chance level of 25% (Relax: χ²(38) = 1176.04, p &lt; 0.001; Detachment: χ²(38) = 923.44, p &lt; 0.001; Mastery: χ²(38) = 945.08, p &lt; 0.001; Sleep: χ²(38) = 978.00, p &lt; 0.001). The best and worst five colors for each category are summarized in Figure 4.</p>"
-      "<p>Next, we performed a Friedman test for each scenario. Except ‘After-work relief’ (χ²(38) = 4.89, p = 0.18), there was a statistically significant main effect of rest type on preferences, χ²(3)s &gt; 16.76, ps &lt; .001. Post-hoc Bonferroni tests also revealed significant differences between rest types (Figure 5).</p>"
-      + dimg_m("col_f05", "f4a835_906eb3ebc11c4165900e692df4ee34a2~mv2.png", "Figure 5")
-      + cap("Figure 5. Preferred type of rest. Black dot-headed bars indicate significant differences between preference scores (p &lt; .05; Bonferroni multiple comparisons after Friedman's test).")),
-     ("Findings",
-      dimg_m("col_f06", "f4a835_b0256e58ae8a4f45b6b3766a6066c8a9~mv2.png", "Figure 6")
-      + cap("Figure 6. Best images that represent a color palette. The pictures match the proportion of the color palette of each category.")
-      + "<h3>Major findings</h3>"
-      "<p>The main finding of this study is that different color combinations fit different categories of rest. Secondly, we also found people's needs for rest are dependent on the situation. Combining the results, our finding suggests that the design of a place to rest can be improved by considering the different needs of rest and matching colors accordingly.</p>"
-      "<p>Additionally, we picked two representative images (Figure 6), based on the top 5 color palettes. We asked five graphic designers to select two pictures that are most suited for each category. The most frequently used colors of the ‘Relax’ category are divided into two groups: green (olive drab, dark sea green) and blue (light steel blue, cornflower blue, lavender). These colors may reflect the daytime of an urban park area — green from trees and grass, cornflower blue from the river or sky, lavender and light steel blue from low-contrast clouds, city buildings, roads, and other man-made objects.</p>"
-      "<p>The color palette associated with the ‘Detachment’ category consisted of blue colors. Unlike the blue-gray colors of the Relax category, these blues are warmer and greenish. Cadet blue and steel blue come from images of deep, warm oceans; powder blue and light blue come from the surface of water and clear skies.</p>"
-      "<p>The color palette of the ‘Mastery’ category consisted of bright yellow to dark red colors. As many people study in a cozy cafe or library, colors associated with fire and light bulbs are dominant. There were many images of people wearing revealing sportswear for working out — people who enjoy exercise regularly tend to have tanned skin, which contributed reddish-brown colors to the palette.</p>"
-      "<p>Interestingly, the color palette for the ‘Sleep’ category consists of mainly pink. On Instagram, people tend to upload pictures of their pets and babies when they're napping. People seem to feel relaxed seeing a napping kitten's pink jelly and fuzzy fur. Baby pictures are pinkish because of their soft, rosy skin. Also, there were many pictures of soft, pink blankets.</p>"
-      "<h3>Supported hypotheses</h3>"
-      "<p>Hypothesis 1: Depending on rest types, people prefer different colors. Hypothesis 2: Needs for rest differ depending on the work situation.</p>"
-      "<h3>Summary of the study</h3>"
-      "<p>Through SNS big-data crawling, we identified the difference of cognition shared by people across the four categories of recovery: Relax — greenish and bluish; Detachment — bluish; Mastery experience — dark reddish and bright yellowish; Sleep — pinkish. Through scenario decision-making tasks, we also identified heterogeneous needs of recovery based on the stress-related situations people experience in everyday life. Our results not only provide valuable insight into the psychological architecture of ‘recovery’ represented in our cognitive system but also suggest empirical findings that would aid designers in creating resting areas in the workplace.</p>"),
-     ("References",
-      "<ul>"
-      "<li>Kamaruzzaman, N. &amp; Marinie, E. (2010). Influence of employees' perception of colour preferences on productivity in Malaysia office buildings. Journal of Sustainable Development, 3(3), 283–287.</li>"
-      "<li>Meijman, T. F., &amp; Mulder, G. (1998). Psychological aspects of workload. Handbook of Work and Organizational Psychology, 2.</li>"
-      "<li>O'Brien, S. (2007). Color Theory. Journal of Business Mexico, 6(2), 20–22.</li>"
-      "<li>Sonnentag, S., Binnewies, C., &amp; Mojza, E. J. (2008). “Did you have a nice evening?” A day-level study on recovery experiences, sleep, and affect. Journal of Applied Psychology, 93(3), 674–684.</li>"
-      "</ul>")], back="data-science.html",
-    hero=hero_img("col_hero", "f4a835_879a998e9aba4148b0ddbd9029685087~mv2.jpg", "Color palettes for recovery"))
-
-detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Research",
+detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Projects",
     [("Keywords", "Multisensory Instruction, Gamification, UX research"),
      ("Members", "Daye Kang, Hye-Ryeong Kim, Ji-Hae Lee"),
      ("My contribution", "Team Leader, UX research, Prototyping, Illustration"),
@@ -915,7 +1060,7 @@ detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Research",
     awards="2017 ADAA (Adobe Design Achievement Award) Semifinalist · 2017 KSDS Excellence Award · 2017 Hongik University Excellence Graduation Work",
     hero=hero_img("lex_hero", "f4a835_f2337819babf4271ad20dca7ad430aa5~mv2.png", "Lexia in Wonderland"))
 
-detail("nudgedesign.html", "Nudge Design to Increase Physical Activities of Hospitalized Children", "UX Research",
+detail("nudgedesign.html", "Nudge Design to Increase Physical Activities of Hospitalized Children", "UX Projects",
     [("Keywords", "Nudge Design, Gamification, UX research, Hospitalized children"),
      ("Members", "3"),
      ("My contribution", "Team Leader, UX research, Prototyping, Illustration"),
@@ -989,7 +1134,36 @@ detail("nudgedesign.html", "Nudge Design to Increase Physical Activities of Hosp
     awards="2017 KSDS Poster Honor Awards · 2017 Samsung Tomorrow Solution Finalist",
     hero=hero_img("nud_hero", "f4a835_f2d0d2cd57bc464ca212f9d517af2278~mv2.png", "Nudge design"))
 
-detail("mylittlehero.html", "My Little Hero", "UX Research",
+MLH_HOW_TO_PLAY = """<p class="mlh-flow-intro">The hospitalized child plays with the participation and help of family members. Each person has a distinct role: the child becomes the immune-cell hero, the caregiver in the hospital serves as the DNA mentor, and family members outside the hospital support the quest as other cells such as neurons.</p>
+<div class="mlh-play-diagram" aria-label="How the child and family members interact during the game">
+  <div class="mlh-lifelines" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+  <div class="mlh-flow-actors">
+    <article class="mlh-actor"><img src="assets/optimized/mlh_hp_3.webp" alt="Child player" loading="lazy"><h3>Child in the hospital</h3><p>Immune-cell hero</p></article>
+    <article class="mlh-actor"><img src="assets/optimized/mlh_hp_4.webp" alt="Caregiver staying with the child" loading="lazy"><h3>Caregiver in the hospital</h3><p>DNA mentor</p></article>
+    <article class="mlh-actor"><img src="assets/optimized/mlh_hp_9.webp" alt="Caregiver outside the hospital" loading="lazy"><h3>Caregiver outside the hospital</h3><p>Quest supporter</p></article>
+    <article class="mlh-actor"><img src="assets/optimized/mlh_hp_12.webp" alt="Sibling outside the hospital" loading="lazy"><h3>Sibling outside the hospital</h3><p>Neuron helper</p></article>
+  </div>
+  <div class="mlh-flow-timeline">
+    <div class="mlh-stage"><article class="mlh-flow-step mlh-col-child"><span class="mlh-step-number">01</span><img src="assets/optimized/mlh_hp_5.webp" alt="Hero character customization screen" loading="lazy"><h3>Start the game</h3><p>The child defines a hero character and begins exploring the body.</p></article></div>
+    <div class="mlh-stage"><article class="mlh-flow-step mlh-col-child"><span class="mlh-step-number">02</span><img src="assets/optimized/mlh_hp_6.webp" alt="The hero encounters a germ" loading="lazy"><h3>Meet the germ</h3><p>The hero encounters a germ and needs support from the family to fight it.</p></article></div>
+    <div class="mlh-stage mlh-stage-message"><div class="mlh-message mlh-span-2 is-reverse"><span>DNA mentor → hero: advice and a quest</span></div></div>
+    <div class="mlh-stage"><article class="mlh-flow-step mlh-col-child"><span class="mlh-step-number">03</span><img src="assets/optimized/mlh_hp_7.webp" alt="The DNA mentor explains how to defeat the germ" loading="lazy"><h3>Get help from the mentor</h3><p>The caregiver in the hospital explains how to defeat the germ and identifies the ingredients the hero needs.</p></article></div>
+    <div class="mlh-stage mlh-stage-message"><div class="mlh-message mlh-span-3 is-forward"><span>Hero → outside caregiver: send a song quest</span></div></div>
+    <div class="mlh-stage mlh-stage-message"><div class="mlh-message mlh-span-4 is-forward"><span>Hero → sibling: ask for help collecting honey</span></div></div>
+    <div class="mlh-stage mlh-stage-parallel">
+      <article class="mlh-flow-step"><span class="mlh-step-number">04A</span><img src="assets/optimized/mlh_hp_10.webp" alt="Song recording quest" loading="lazy"><h3>Sing a song to father</h3><p>The caregiver receives the quest, hears the child's voice, and turns the recording into a bonding moment.</p></article>
+      <article class="mlh-flow-step"><span class="mlh-step-number">04B</span><img src="assets/optimized/mlh_hp_13.webp" alt="Honey collection mini-game" loading="lazy"><h3>Collect honey</h3><p>The sibling plays a mini-game to collect honey for the child in the hospital.</p></article>
+    </div>
+    <div class="mlh-stage"><article class="mlh-flow-step mlh-col-outside"><span class="mlh-step-number">05</span><img src="assets/optimized/mlh_hp_11.webp" alt="Mini-game maze screen" loading="lazy"><h3>Unlock the mini-game</h3><p>When the caregiver receives the recording, the child's next mini-game becomes available.</p></article></div>
+    <div class="mlh-stage mlh-stage-message"><div class="mlh-message mlh-span-3 is-reverse"><span>Outside caregiver → hero: recording received</span></div></div>
+    <div class="mlh-stage mlh-stage-message"><div class="mlh-message mlh-span-4 is-reverse"><span>Sibling → hero: honey collected</span></div></div>
+    <div class="mlh-stage mlh-stage-message"><div class="mlh-message mlh-span-2 is-reverse"><span>Caregiver in hospital → hero: quest approved</span></div></div>
+    <div class="mlh-stage"><article class="mlh-flow-step mlh-col-child"><span class="mlh-step-number">06</span><img src="assets/optimized/mlh_hp_8.webp" alt="Completed quest confirmation screen" loading="lazy"><h3>Finish the task</h3><p>With every ingredient collected and the quest approved, the hero defeats the germ and moves to the next level.</p></article></div>
+    <div class="mlh-stage"><p class="mlh-flow-note">The game turns care into a shared family activity: the child leads the story, family members contribute short tasks, and every response helps the hero progress.</p></div>
+  </div>
+</div>"""
+
+detail("mylittlehero.html", "My Little Hero", "UX Projects",
     [("Keywords", "Long-Term Hospitalized Children, Gamification, UX research, Storytelling, Family Engagement"),
      ("Members", "Personal Project"),
      ("My contribution", "UX research, UI design, Illustration"),
@@ -1051,32 +1225,10 @@ detail("mylittlehero.html", "My Little Hero", "UX Research",
       + "<h3>Final Design</h3>"
       + dimg_m("mlh_de_7", "f4a835_e1e40395fa05489797bd82ced5167ad3~mv2.png", "Final design screens")
       + dimg_s("mlh_de_6", "f4a835_ec514a08c86d4a669fe3ae0c934aeff3~mv2.png", "Final design")),
-     ("How to play",
-      "<p>The hospitalized child can play the game with the participation and help of family members. Each member has a role in the game — immune cell, DNA, neuron. The child who is in the hospital is an immune cell who will later be a hero of the body and make the whole body healthy. One of the parents who stays with the child will be a mentor during the game. The remaining parents and siblings become other cells from the body, such as a neuron.</p>"
-      + row("c3",
-            dimg_s("mlh_hp_1", "f4a835_76a46d6d51914b30a26b4463f73f8b7e~mv2.png", "Immune cell"),
-            dimg_s("mlh_hp_2", "f4a835_6670489c963244ebba7666766b8a63a0~mv2.png", "DNA"),
-            dimg_s("mlh_hp_3", "f4a835_edd37b0146f94a48bbce0b6f387beaac~mv2.png", "Neuron"),
-            dimg_s("mlh_hp_4", "f4a835_cd94e87ee2264186a979b1348b0c4bef~mv2.png", "Family roles"),
-            dimg_s("mlh_hp_9", "f4a835_748854990f4b4ec89d997206a105934b~mv2.png", "Caregiver role"),
-            dimg_s("mlh_hp_12", "f4a835_5e1c36b2694d4c8bb577ca5a4dbada76~mv2.png", "Sibling role"))
-      + "<p><b>Child in the hospital</b><br><b>Start the game:</b> The child starts the game and defines his or her hero character.<br><b>Meet the germ:</b> Once he or she starts the game they meet a germ in the body and they have to fight germs with the help of supporters.<br><b>The help of the mentor:</b> Whenever the hero character meets the germ, the DNA cell (which is one of the parents) gives advice on how to defeat the germ. The DNA cell gives quests to get the ingredients to fight the germ. The child can send the quest to other family members: another parent who is at work, or siblings.<br><b>Finish the task:</b> When all the ingredients are collected, the caregiver staying in the hospital with the child approves the finish of the quest and the hero can defeat the germ and go to the next level.</p>"
-      "<p><b>Caregiver outside of the hospital</b><br><b>Sing a song to father:</b> The parent who is not at the hospital as a caregiver receives the quest and gives a task of recording songs. The parent can hear the voice of the child and the child can sing a song to the parent so they can have bonding moments.<br><b>The child plays a mini game:</b> Once the parent receives the recording, the child gets a chance to play a mini game to finish the quest.</p>"
-      "<p><b>Sibling outside of the hospital</b><br><b>Mini game:</b> The sibling will play a mini game to collect honey for his or her sibling at the hospital.</p>"
-      + row("c3",
-            lcol("Child in the hospital",
-                 dimg_s("mlh_hp_5", "f4a835_89419f00ddc7424cb814fc5632a4a182~mv2.png", "Start the game"),
-                 dimg_s("mlh_hp_6", "f4a835_3a3d93c5157442bfa28b1789b2df2b7a~mv2.png", "Meet the germ"),
-                 dimg_s("mlh_hp_7", "f4a835_745d522279224c638267925e14c48239~mv2.png", "Help of the mentor"),
-                 dimg_s("mlh_hp_8", "f4a835_55aadca2f4f442d1b0b9b4de7f8ca586~mv2.png", "Finish the task")),
-            lcol("Caregiver outside",
-                 dimg_s("mlh_hp_10", "f4a835_307c74c95ab7400fba27c65759b85951~mv2.png", "Sing a song"),
-                 dimg_s("mlh_hp_11", "f4a835_da26d18797e14fb581b9a3afc582b911~mv2.png", "Mini game")),
-            lcol("Sibling outside",
-                 dimg_s("mlh_hp_13", "f4a835_961091b7ef3c420f9ab18da46ee7f04c~mv2.png", "Sibling mini game"))))],
+     ("How to play", MLH_HOW_TO_PLAY)],
     hero=hero_img("mlh_hero", "f4a835_235d6c02d9f14eddafb5032202f6c247~mv2.png", "My Little Hero"))
 
-detail("sunshine.html", "Sunshine", "UX Research",
+detail("sunshine.html", "Sunshine", "UX Projects",
     [("Keywords", "Digital Window, Sunlight, Multisense"),
      ("Members", "Personal Project"),
      ("My contribution", "UX / Product design"),
@@ -1084,7 +1236,31 @@ detail("sunshine.html", "Sunshine", "UX Research",
     "<p>‘Sunshine’ is an IoT device. Digital lighting can change the views, and users can feel scents, sounds, and breeze accordingly. A user can choose the place from their smart device and the digital window displays the user's chosen view from the app. Also, the user can adjust the level of lights, breeze, scent, and sounds. The fan is located inside the frame so it can purify the indoor air and send it out like a breeze from the window.</p>",
     [], hero=hero_img("sun_hero", "f4a835_b5f05335dd2e4f04a25119a39e2fc238~mv2.png", "Sunshine"))
 
-detail("tomorrow.html", "Tomorrow", "UX Research",
+TOMORROW_DESIGN = (
+    "<p class=\"tmr-design-intro\">The service has two connected versions: one for French citizens who donate unused devices or record stories, and one for refugee children who learn French and coding through those stories.</p>"
+    "<div class=\"tmr-role-flow\">"
+    "<article class=\"tmr-role-row reveal\">"
+    "<figure class=\"tmr-role-figure\">"
+    + dimg_m("tmr_d_1", "f4a835_d8f11d16649442058c5a3113a3f37ff7~mv2.png", "Donator app screens")
+    + "</figure>"
+    "<div class=\"tmr-role-copy\"><span class=\"tmr-role-kicker\">French citizen</span><h3>Donator</h3>"
+    "<ol class=\"tmr-step-list\"><li>Donate unused smart devices to refugee children.</li><li>Record a French audiobook for a child to listen to.</li></ol>"
+    "</div></article>"
+    "<article class=\"tmr-role-row reveal\">"
+    "<figure class=\"tmr-role-figure\">"
+    + dimg_m("tmr_d_2", "f4a835_a790961de54f4bbfb73bd6b53259a886~mv2.png", "Refugee child app screens")
+    + "</figure>"
+    "<div class=\"tmr-role-copy\"><span class=\"tmr-role-kicker\">Learner</span><h3>Refugee child</h3>"
+    "<ol class=\"tmr-step-list\"><li>Read a children's book while learning French and coding.</li><li>Unlock and read more interactive books.</li><li>Join learning events created for children.</li></ol>"
+    "</div></article></div>"
+    "<article class=\"tmr-reading-flow reveal\">"
+    "<div class=\"tmr-reading-head\"><span class=\"tmr-role-kicker\">Learning interface</span><h3>Reading Page</h3></div>"
+    + dimg("tmr_d_3", "f4a835_21bcd67af3e5478f81f8e80632e63986~mv2.png", "Interactive reading page")
+    + "<ol class=\"tmr-reading-steps\"><li>Study French through dialogue from the book.</li><li>Learn code with simple block-coding methods.</li><li>Fill in the blank with the correct French word.</li><li>See the Little Prince react, then continue the story.</li></ol>"
+    "</article>"
+)
+
+detail("tomorrow.html", "Tomorrow", "UX Projects",
     [("Keywords", "Refugee Children, Coding Education, French Education, Interaction"),
      ("Members", "Personal Project"),
      ("My contribution", "UX research, UI design"),
@@ -1097,15 +1273,21 @@ detail("tomorrow.html", "Tomorrow", "UX Research",
       "<p><b>Problem:</b> Refugee children in France do not have enough educational opportunities, and as they can't speak French, they can't hang out with their peers and feel alienated. In addition to that, they have trauma from the war.</p>"
       "<p><b>Solution:</b> Refugee children can use French children's books to learn French. It can help them adjust to society. As classic children's books do not have copyright, children can use them for free. With French citizens' help and donations, children can get recorded audiobooks in French and donated cellphones to study. They can enjoy the learning process while they make the book interactive.</p>"
       "<p><b>Importance:</b> It can contribute to a more harmonious society and the education of refugee children. Also, IT education can contribute to solving Europe's workforce deficiency.</p>"),
-     ("Design",
-      "<p>The service has two versions. One is for French citizens who donate their unused cellphones or recordings. The other is for refugee children.</p>"
-      "<p><b>Donator:</b><br>1. Donate smart devices to refugee children<br>2. Record an audiobook in French</p>"
-      + dimg_m("tmr_d_1", "f4a835_d8f11d16649442058c5a3113a3f37ff7~mv2.png", "Donator flow")
-      + "<p><b>Refugee child:</b><br>1. Read a children's book and learn French and coding<br>2. Can read more books<br>3. Attend events for children</p>"
-      + dimg_m("tmr_d_2", "f4a835_a790961de54f4bbfb73bd6b53259a886~mv2.png", "Refugee child flow")
-      + "<p><b>Reading Page:</b><br>1. Study French using French dialogue in the book<br>2. Study code using block coding methods<br>3. Fill in the blank with the right French word<br>4. The Little Prince interacts accordingly, then proceeds to the next step</p>"
-      + dimg("tmr_d_3", "f4a835_21bcd67af3e5478f81f8e80632e63986~mv2.png", "Reading page"))],
+     ("Design", TOMORROW_DESIGN)],
     hero=hero_img("tmr_hero", "f4a835_ff310f1c911b4a118aa6d9619bfe9afa~mv2.png", "Tomorrow"))
+
+# Public filename contract: do not rename pmos-comics.html.
+detail("pmos-comics.html", "PMOS.Comics", "UX Projects · Series",
+    [("Project type", "Interactive comics series"),
+     ("Status", "In development")],
+    "<p>Project description will be added here.</p>",
+    [("Overview",
+      '<div class="project-content-placeholder"><p>Project overview will be added here.</p></div>'),
+     ("Design Process",
+      '<div class="project-content-placeholder"><p>Design process and project materials will be added here.</p></div>'),
+     ("Outcomes",
+      '<div class="project-content-placeholder"><p>Project outcomes will be added here.</p></div>')],
+    hero='<div class="bleed detail-placeholder-hero" role="img" aria-label="PMOS.Comics hero image to be added"></div>')
 
 # ================= MANIFEST + DOWNLOAD SCRIPT =================
 with open(os.path.join(ROOT, "assets_manifest.txt"), "w") as f:

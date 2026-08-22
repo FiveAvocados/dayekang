@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!-- Permanent public URL: do not rename pmos-comics.html. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PMOS.Comics — Daye Kang</title>
+<meta name="description" content="PMOS.Comics — an interactive comics series by Daye Kang.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20260820-permanent-project-pages">
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="brand home-brand" href="index.html?v=20260820-full-width-nav"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
+    <nav>
+      <ul>
+        <li><a href="publications.html?v=20260820-full-width-nav">Publications</a></li>
+        <li><a href="ux-research.html?v=20260820-full-width-nav">UX Projects</a></li>
+        <li><a href="artwork.html?v=20260820-full-width-nav">Visual Design</a></li>
+        <li><a href="teaching.html?v=20260820-full-width-nav">Teaching</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<nav class="side-nav" aria-label="Page sections"><a href="#intro">Intro</a><a href="#s1">Overview</a><a href="#s2">Design Process</a><a href="#s3">Outcomes</a></nav>
+<main>
+  <div class="wrap">
+    <div class="page-head">
+      <h1>PMOS.Comics</h1>
+    </div>
+    <article class="detail">
+      <div id="intro">
+        <p>Project description will be added here.</p>
+        <dl class="meta-grid"><div><dt>Project type</dt><dd>Interactive comics series</dd></div><div><dt>Status</dt><dd>In development</dd></div></dl>
+      </div>
+      <div class="bleed detail-placeholder-hero" role="img" aria-label="PMOS.Comics hero image to be added"></div>
+      <section class="dsec" id="s1">
+        <h2 class="reveal">Overview</h2>
+        <div class="project-content-placeholder"><p>Project overview will be added here.</p></div>
+      </section>
+      <section class="dsec" id="s2">
+        <h2 class="reveal">Design Process</h2>
+        <div class="project-content-placeholder"><p>Design process and project materials will be added here.</p></div>
+      </section>
+      <section class="dsec" id="s3">
+        <h2 class="reveal">Outcomes</h2>
+        <div class="project-content-placeholder"><p>Project outcomes will be added here.</p></div>
+      </section>
+      <a class="back-home" href="ux-research.html">&larr; Back to projects</a>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="kicker">Get in touch</div>
+    <a class="big-link" href="mailto:dk564@cornell.edu">dk564@cornell.edu</a>
+    <div class="foot-row">
+      <div>&copy; 2026 Daye Kang &mdash; Ithaca, NY</div>
+      <div>
+        <a href="assets/pdf/DayeKang_CV.pdf" target="_blank" rel="noopener">CV</a>
+        <a href="https://www.dayekang.info" target="_blank" rel="noopener">dayekang.info</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="site-nav.js?v=20260820-full-width-nav"></script>
+<script>
+document.documentElement.classList.add('js');
+const _io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); _io.unobserve(e.target); }
+}), { threshold: .07 });
+document.querySelectorAll('.reveal').forEach(el => _io.observe(el));
+</script>
+<script>
+(function() {
+  const secs = [document.getElementById('intro'), ...document.querySelectorAll('.dsec')].filter(Boolean);
+  const links = [...document.querySelectorAll('.side-nav a')];
+  const spy = () => {
+    let cur = 0;
+    secs.forEach((s, i) => { if (s.getBoundingClientRect().top < 160) cur = i; });
+    links.forEach((l, i) => l.classList.toggle('on', i === cur));
+  };
+  document.addEventListener('scroll', spy, { passive: true });
+  window.addEventListener('resize', spy);
+  spy();
+})();
+</script>
+</body>
+</html>

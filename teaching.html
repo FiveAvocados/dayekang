@@ -4,25 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Teaching — Daye Kang</title>
-<meta name="description" content="Teaching portfolio of Daye Kang, including anonymized interactive data visualization outcomes from courses supported as a teaching assistant.">
+<meta name="description" content="Teaching portfolio of Daye Kang, featuring courses in human-AI interaction and interactive data visualization.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=14">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20260820-full-width-nav">
 </head>
 <body class="teaching-page">
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">Daye Kang</a>
-    <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
-    <nav>
+    <a class="brand home-brand" href="index.html?v=20260820-full-width-nav"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-navigation" onclick="const menu=document.getElementById('site-navigation'); const open=menu.classList.toggle('open'); this.setAttribute('aria-expanded', open)">&#9776;</button>
+    <nav id="site-navigation">
       <ul>
-        <li><a href="index.html">About</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="data-science.html">Data Science</a></li>
-        <li><a href="ux-research.html">UX Research</a></li>
-        <li><a href="artwork.html">Art Work</a></li>
-        <li><a href="teaching.html" class="active">Teaching</a></li>
+        <li><a href="publications.html?v=20260820-full-width-nav">Publications</a></li>
+        <li><a href="ux-research.html?v=20260820-full-width-nav">UX Projects</a></li>
+        <li><a href="artwork.html?v=20260820-full-width-nav">Visual Design</a></li>
+        <li><a href="teaching.html?v=20260820-full-width-nav" class="active">Teaching</a></li>
       </ul>
     </nav>
   </div>
@@ -31,19 +29,186 @@
 <main>
   <div class="wrap">
     <div class="page-head">
-      <div class="kicker">Courses · Teaching Assistance · Mentoring</div>
       <h1>Teaching</h1>
-      <p class="lede">I support students in turning data into clear, responsible, and engaging visual explanations through iterative critique and hands-on technical guidance.</p>
+      <p class="lede">I support students in designing responsible, human-centered technologies through iterative critique, interdisciplinary collaboration, and hands-on technical guidance.</p>
     </div>
+
+    <section class="teaching-course teaching-course--white teaching-course--summary reveal" aria-labelledby="course-info4940">
+      <div class="teaching-course-head">
+        <div class="course-term">
+          <span>Cornell University</span>
+          <span>Spring 2025, 2026</span>
+        </div>
+        <div class="course-identity">
+          <h2 id="course-info4940">Design AI Products and Services</h2>
+        </div>
+        <dl class="course-details">
+          <div class="course-detail-row">
+            <dt>Course Number</dt>
+            <dd class="course-code">INFO 4940 / INFO 5940</dd>
+          </div>
+          <div class="course-detail-row">
+            <dt>Role</dt>
+            <dd class="course-role">As a teaching assistant, I contributed to the development of stakeholder-mapping and role-play activities about AI limitations and harms, facilitated class discussions, and met with teams weekly to critique the sociotechnical context of their projects.</dd>
+          </div>
+          <div class="course-detail-row">
+            <dt>Course Length</dt>
+            <dd>15 Weeks</dd>
+          </div>
+          <div class="course-detail-row">
+            <dt>Course Description</dt>
+            <dd class="course-summary">This course prepares students to design AI products and services that maximize societal benefit while minimizing risk and harm. Through hands-on projects and discussion, students examine the sociotechnical ecosystems surrounding AI systems, apply principles of effective human–AI interaction—including collaboration, explainability, trust, and fairness—and work in interdisciplinary teams to create systems that empower users, benefit society, and resist bias and manipulation.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <h3 class="teaching-subtitle">Student work</h3>
+
+      <div class="teaching-projects">
+        <article class="teaching-project">
+          <div class="teaching-preview teaching-preview--fit">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/razzle-dazzle.jpg?v=2" aria-label="Razzle Dazzle AI-assisted creative coding workflow and sketch refinement preview">
+              <source src="assets/optimized/teaching/razzle-dazzle.mp4?v=2" type="video/mp4">
+            </video>
+          </div>
+          <div class="teaching-project-copy">
+            <span class="project-number">01</span>
+            <div><h3>Razzle Dazzle</h3><p class="student-credit">Raymond Xu, Falak Raheja, Rayhan Khanna, Amy Wang, Alexander De Leon, and Alex Shi</p><p>An AI-assisted creative coding tool that helps users translate stories and emotions into interactive sketches, compare multiple directions, refine a selected concept through feedback, and review safety warnings before export.</p></div>
+          </div>
+        </article>
+
+        <article class="teaching-project">
+          <div class="teaching-preview teaching-preview--fit">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/p5-sketch-maker.jpg?v=1" aria-label="p5 Sketch Maker generating an interactive visual sketch from a personal story and emotional cues">
+              <source src="assets/optimized/teaching/p5-sketch-maker.mp4?v=1" type="video/mp4">
+            </video>
+          </div>
+          <div class="teaching-project-copy">
+            <span class="project-number">02</span>
+            <div><h3>p5 Sketch Maker</h3><p class="student-credit">Funmi Olukanmi, Grant Zhao, Ben Shvartsman, Akinwale Agesin, TJ Swidorski, and Alec Daveynis</p><p>An AI-assisted creative coding tool that turns personal memories and emotional cues into interactive p5.js sketches. Users compare concept directions, generate editable code, adjust visual parameters, and refine the result through iterative feedback.</p></div>
+          </div>
+        </article>
+
+        <article class="teaching-project">
+          <div class="teaching-preview teaching-preview--fit">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/brick-finder.jpg?v=1" aria-label="Brick Finder identifying LEGO pieces and checking a user's assembly against step-by-step instructions">
+              <source src="assets/optimized/teaching/brick-finder.mp4?v=1" type="video/mp4">
+            </video>
+          </div>
+          <div class="teaching-project-copy">
+            <span class="project-number">03</span>
+            <div><h3>Brick Finder</h3><p class="student-credit">Meet Baani Kaur, Rachel Kan, Noam Canter, Lazim Jarif, Matthew Zhang, Ganesh Rayavarapu, Gillian Fang, and Patrick Evuleocha</p><p>A camera-enabled AI assistant for LEGO building that helps users locate required pieces, compare an in-progress assembly with the current instruction step, understand what is correct or missing, and recover from recognition errors while keeping the builder in control.</p></div>
+          </div>
+        </article>
+
+        <article class="teaching-project">
+          <div class="teaching-preview teaching-preview--fit teaching-preview--dating">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/be-my-cupid.jpg?v=1" aria-label="Be My Cupid translating a user's dating preferences into AI-generated matches and refining them through feedback">
+              <source src="assets/optimized/teaching/be-my-cupid.mp4?v=1" type="video/mp4">
+            </video>
+          </div>
+          <div class="teaching-project-copy">
+            <span class="project-number">04</span>
+            <div><h3>Be My Cupid</h3><p class="student-credit">Meg Isohata, Mohammad Labadi, Sander Rodman, Neha Arora, Damita George, and Abigail Joseph</p><p>An AI-assisted dating experience that turns natural-language values, preferences, and dealbreakers into a structured match profile. Users confirm the AI's interpretation, review generated candidates, and refine future matches through swipes and conversational feedback.</p></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="teaching-course teaching-course--white reveal" aria-labelledby="course-info3450">
+      <div class="teaching-course-head">
+        <div class="course-term">
+          <span>Cornell University</span>
+          <span>Fall 2022</span>
+        </div>
+        <div class="course-identity">
+          <h2 id="course-info3450">Human-Computer Interaction Design</h2>
+        </div>
+        <dl class="course-details">
+          <div class="course-detail-row">
+            <dt>Course Number</dt>
+            <dd class="course-code">INFO 3450 / COMM 3450 / INFO 5355</dd>
+          </div>
+          <div class="course-detail-row">
+            <dt>Role</dt>
+            <dd class="course-role">As a teaching assistant, I provided in-class studio support and weekly written feedback across user research, prototyping, evaluation, and final demos, formed project teams, and mentored students on collaboration, portfolios, and career decisions.</dd>
+          </div>
+          <div class="course-detail-row">
+            <dt>Course Length</dt>
+            <dd>14 Weeks</dd>
+          </div>
+          <div class="course-detail-row">
+            <dt>Course Description</dt>
+            <dd class="course-summary">This course introduces human-centered design as a process for creating digital products that work well for people. Students learn to conduct user research and define user needs, explore and justify design solutions, build and iterate interactive prototypes, evaluate usability and usefulness, and collaborate effectively in team-based design projects.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <h3 class="teaching-subtitle">Student work</h3>
+
+      <div class="teaching-projects">
+        <article class="teaching-project">
+          <div class="teaching-preview teaching-preview--contain teaching-preview--choreoscope">
+            <img src="assets/optimized/teaching/choreoscope-gray.png?v=1" alt="Three ChoreoScope mobile app screens for choreography inspiration, documentation, and progress tracking" loading="lazy">
+          </div>
+          <div class="teaching-project-copy">
+            <span class="project-number">01</span>
+            <div><h3>ChoreoScope</h3><p class="student-credit">Guo Chen, Christina Jin, Shek Shenghao, and Sofia Vaquerano</p><p>A human-centered concept pairing a mobile app with a mirror-mounted camera to guide beginner dancers through choreography. The experience supports inspiration, feedback, progress tracking, and documentation as dancers develop and refine routines.</p></div>
+          </div>
+          <a class="teaching-launch" href="https://sofiavaquerano.com/case-studies/choreoscope">View full case study <span aria-hidden="true">↗</span></a>
+        </article>
+
+        <article class="teaching-project">
+          <div class="teaching-preview teaching-preview--housing">
+            <img src="assets/Student%20work%20design/%20mockup.png?v=1" alt="Apartment Hunting at Cornell mockup showing apartment search, reviews, visit scheduling, and apartment details" loading="lazy" decoding="async">
+          </div>
+          <div class="teaching-project-copy">
+            <span class="project-number">02</span>
+            <div><h3>Apartment Hunting @ Cornell</h3><p class="student-credit">Blair Yu, Sybil Shu, Hye Lynn Suh, and Claire Stein</p><p>A student-centered housing concept that brings transparent apartment listings, peer reviews, roommate matching, housing activities, and visit planning into one experience for Cornell students searching for off-campus housing.</p></div>
+          </div>
+        </article>
+
+        <article class="teaching-project">
+          <div class="teaching-preview teaching-preview--fit teaching-preview--seat-finder">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/hci-seat-finder.jpg?v=2" aria-label="Seat Finder mobile app interaction showing campus study-space and seat availability features">
+              <source src="assets/optimized/teaching/hci-seat-finder.mp4?v=2" type="video/mp4">
+            </video>
+          </div>
+          <div class="teaching-project-copy">
+            <span class="project-number">03</span>
+            <div><h3>Seat Finder</h3><p class="student-credit">Prachi Kelkar, Alexander Htet Aung Kyaw, Monica Chen, and Alanna Kim</p><p>A campus study-space finder that helps Cornell students locate nearby places to work, filter spaces by amenities and seat availability, see where friends are studying, and inspect open seats within buildings.</p></div>
+          </div>
+        </article>
+      </div>
+    </section>
 
     <section class="teaching-course reveal" aria-labelledby="course-info3300">
       <div class="teaching-course-head">
-        <div>
-          <div class="kicker">Cornell University · Fall 2023</div>
-          <h2 id="course-info3300">Interactive Data Visualization</h2>
-          <p class="course-code">INFO 3300 / INFO 5100 / CS 3300 · Teaching Assistant</p>
+        <div class="course-term">
+          <span>Cornell University</span>
+          <span>Fall 2023, 2024</span>
         </div>
-        <p class="course-summary">Selected outcomes from Project 2, where students designed interactive visual explanations with D3.js. I supported the course as a teaching assistant through technical guidance, critique, and project feedback.</p>
+        <div class="course-identity">
+          <h2 id="course-info3300">Visual Data Analytics for the Web</h2>
+        </div>
+        <dl class="course-details">
+          <div class="course-detail-row">
+            <dt>Course Number</dt>
+            <dd class="course-code">INFO 3300 / INFO 5100 / CS 3300</dd>
+          </div>
+          <div class="course-detail-row">
+            <dt>Role</dt>
+            <dd class="course-role">As a teaching assistant, I advised students on visualization concepts and D3.js implementation, helping them work through technical barriers with guided questions and peer collaboration that strengthened independent problem-solving skills.</dd>
+          </div>
+          <div class="course-detail-row">
+            <dt>Course Length</dt>
+            <dd>15 Weeks</dd>
+          </div>
+          <div class="course-detail-row">
+            <dt>Course Description</dt>
+            <dd class="course-summary">This course is an introduction to designing and building interactive, web-based data visualizations with JavaScript, D3.js, and SVG. Students learn to gather and model real-world data, match data with effective visual forms, and apply visualization theory and critique to create clear dynamic visualizations.</dd>
+          </div>
+        </dl>
       </div>
 
       <h3 class="teaching-subtitle">Student work</h3>
@@ -51,7 +216,7 @@
       <div class="teaching-projects">
         <article class="teaching-project">
           <div class="teaching-preview">
-            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/nba-legends.webp" aria-label="NBA player statistics interactive visualization preview">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/nba-legends.webp?v=20260821-original" aria-label="NBA player statistics interactive visualization preview">
               <source src="assets/optimized/teaching/dataviz_1.mp4?v=4" type="video/mp4">
             </video>
           </div>
@@ -59,51 +224,59 @@
             <span class="project-number">01</span>
             <div><h3>NBA Legends: Career Highlights and Earnings</h3><p class="student-credit">Dylan Aquart, Ebenezer Eshetu, Tejhan Diallo, and Yvon Gatete</p><p>An interactive visualization for comparing Michael Jordan, Kobe Bryant, and LeBron James across seasons using user-selected performance and salary metrics. Hovering over a point reveals the corresponding season and player details, making standout seasons and statistical outliers easy to explore.</p></div>
           </div>
-          <a class="teaching-launch" href="teaching-projects/nba-legends/index.html" target="_blank" rel="noopener">Open interactive visualization <span aria-hidden="true">↗</span></a>
+          <a class="teaching-launch" href="teaching-projects/nba-legends/index.html">Open interactive visualization <span aria-hidden="true">↗</span></a>
         </article>
 
         <article class="teaching-project">
-          <div class="teaching-preview">
-            <img src="assets/optimized/teaching/streaming-catalogs.webp" alt="Netflix and Disney Plus catalog comparison visualization preview" loading="lazy">
+          <div class="teaching-preview teaching-preview--fit">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/streaming-catalogs.webp?v=20260821-original" aria-label="Netflix and Disney Plus catalog comparison visualization preview">
+              <source src="assets/optimized/teaching/dataviz_2.mp4?v=1" type="video/mp4">
+            </video>
           </div>
           <div class="teaching-project-copy">
             <span class="project-number">02</span>
             <div><h3>Netflix and Disney+: A Catalog Comparison</h3><p class="student-credit">Samarth Chitgopekar, Amad Kabir, Daniel Parker, and Aaishi Uppuluri</p><p>An interactive comparison of Netflix and Disney+ catalogs across genre distribution, country representation, and releases over time. The coordinated charts help viewers assess which service better matches their interests.</p></div>
           </div>
-          <a class="teaching-launch" href="teaching-projects/streaming-catalogs/index.html" target="_blank" rel="noopener">Open interactive visualization <span aria-hidden="true">↗</span></a>
+          <a class="teaching-launch" href="teaching-projects/streaming-catalogs/index.html">Open interactive visualization <span aria-hidden="true">↗</span></a>
         </article>
 
         <article class="teaching-project">
           <div class="teaching-preview">
-            <img src="assets/optimized/teaching/global-inequality-emissions.webp" alt="Global GDP, inequality, and emissions visualization preview" loading="lazy">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/global-inequality-emissions.webp?v=20260821-original" aria-label="Global GDP, inequality, and emissions visualization preview">
+              <source src="assets/optimized/teaching/dataviz_3.mp4?v=1" type="video/mp4">
+            </video>
           </div>
           <div class="teaching-project-copy">
             <span class="project-number">03</span>
             <div><h3>Global GDP, Inequality, and Emissions</h3><p class="student-credit">John Guo, Luke Murphy, Amy Li, and Jenny Chen</p><p>An interactive world map connects GDP, Gini inequality, and CO₂ emissions from 1990 to 2022. Viewers can change the year and indicator, then select a country to examine its economic, social, and environmental trends in detail.</p></div>
           </div>
-          <a class="teaching-launch" href="teaching-projects/global-inequality-emissions/index.html" target="_blank" rel="noopener">Open interactive visualization <span aria-hidden="true">↗</span></a>
+          <a class="teaching-launch" href="teaching-projects/global-inequality-emissions/index.html">Open interactive visualization <span aria-hidden="true">↗</span></a>
         </article>
 
         <article class="teaching-project">
-          <div class="teaching-preview">
-            <img src="assets/optimized/teaching/us-cost-of-living.webp" alt="United States cost-of-living visualization preview" loading="lazy">
+          <div class="teaching-preview teaching-preview--fit">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/us-cost-of-living.webp?v=20260821-original" aria-label="United States cost-of-living visualization preview">
+              <source src="assets/optimized/teaching/dataviz_4.mp4?v=1" type="video/mp4">
+            </video>
           </div>
           <div class="teaching-project-copy">
             <span class="project-number">04</span>
             <div><h3>Cost of Living Across the United States</h3><p class="student-credit">Carly Hu, Myna Lim, Tasnimul Taher, and Sydney Wan</p><p>A choropleth and linked charts compare annual living costs across U.S. states by expense category and family size. Filters reveal geographic patterns and how housing, food, transportation, healthcare, childcare, and taxes change across household configurations.</p></div>
           </div>
-          <a class="teaching-launch" href="teaching-projects/us-cost-of-living/index.html" target="_blank" rel="noopener">Open interactive visualization <span aria-hidden="true">↗</span></a>
+          <a class="teaching-launch" href="teaching-projects/us-cost-of-living/index.html">Open interactive visualization <span aria-hidden="true">↗</span></a>
         </article>
 
         <article class="teaching-project">
-          <div class="teaching-preview">
-            <img src="assets/optimized/teaching/natural-disaster-mortality.webp" alt="Global natural disaster mortality visualization preview" loading="lazy">
+          <div class="teaching-preview teaching-preview--fit">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/optimized/teaching/natural-disaster-mortality.webp?v=20260821-original" aria-label="Global natural disaster mortality visualization preview">
+              <source src="assets/optimized/teaching/dataviz_5.mp4?v=3" type="video/mp4">
+            </video>
           </div>
           <div class="teaching-project-copy">
             <span class="project-number">05</span>
             <div><h3>Global Natural Disaster Mortality</h3><p class="student-credit">Stella Han, Jennie Zhang, Jane Gao, and Kyung Min Lee</p><p>An interactive map traces deaths from natural disasters across countries and disaster types from 1900 to 2020. A companion line chart compares broader causes of death from 2000 to 2019, helping viewers examine distinct and overlapping mortality trends.</p></div>
           </div>
-          <a class="teaching-launch" href="teaching-projects/natural-disaster-mortality/index.html" target="_blank" rel="noopener">Open interactive visualization <span aria-hidden="true">↗</span></a>
+          <a class="teaching-launch" href="teaching-projects/natural-disaster-mortality/index.html">Open interactive visualization <span aria-hidden="true">↗</span></a>
         </article>
       </div>
     </section>
@@ -123,6 +296,7 @@
     </div>
   </div>
 </footer>
+<script src="site-nav.js?v=20260820-full-width-nav"></script>
 <script>
 document.documentElement.classList.add('js');
 const _io = new IntersectionObserver(es => es.forEach(e => {

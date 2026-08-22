@@ -3,81 +3,96 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>UX Research — Daye Kang</title>
+<title>UX Projects — Daye Kang</title>
 <meta name="description" content="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20260821-ux-image-sixteen-nine">
 </head>
 <body>
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">Daye Kang</a>
+    <a class="brand home-brand" href="index.html?v=20260820-full-width-nav"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
     <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
     <nav>
       <ul>
-        <li><a href="index.html">About</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="data-science.html">Data Science</a></li>
-        <li><a href="ux-research.html" class="active">UX Research</a></li>
-        <li><a href="artwork.html">Art Work</a></li>
-        <li><a href="teaching.html">Teaching</a></li>
+        <li><a href="publications.html?v=20260820-full-width-nav">Publications</a></li>
+        <li><a href="ux-research.html?v=20260820-full-width-nav" class="active">UX Projects</a></li>
+        <li><a href="artwork.html?v=20260820-full-width-nav">Visual Design</a></li>
+        <li><a href="teaching.html?v=20260820-full-width-nav">Teaching</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
-<main>
+<main class="ux-projects-page">
   <div class="wrap">
-    <div class="page-head">
-      <div class="kicker">UX projects</div>
-      <h1>User Experience</h1>
+    <div class="bleed ux-video-hero reveal">
+      <video src="assets/optimized/video/shark.mp4" autoplay muted loop playsinline></video>
     </div>
     <div class="cards">
+      <a class="card reveal" href="bookrecommendation.html">
+        <span class="arrow">&#8599;</span>
+        <div class="frame"><img src="assets/optimized/ds_bookrec.webp?v=20260821-original" alt="Book Recommendation System" loading="lazy"></div>
+        <div class="pad">
+          <h3>Book Recommendation System</h3>
+          <span class="tag">Recommendation · R Shiny</span>
+          <p>We designed and developed a book recommendation system that recommends the next few books for our target users based on their own reading tastes.</p>
+        </div>
+      </a>
       <a class="card reveal" href="lexiainwonderland.html">
         <span class="arrow">&#8599;</span>
-        <div class="frame"><img src="assets/optimized/ux_lexia.webp" alt="Lexia in Wonderland" loading="lazy"></div>
+        <div class="frame"><img src="assets/optimized/ux_lexia.webp?v=20260821-original" alt="Lexia in Wonderland" loading="lazy"></div>
         <div class="pad">
-          <span class="tag">Education · Gamification</span>
           <h3>Lexia in Wonderland</h3>
-          <p>A Korean education app for imaginative, dyslexic children — scientifically proven treatment methods wrapped in a fun adventure.</p>
+          <span class="tag">Education · Gamification</span>
+          <p>A Korean education app for imaginative, dyslexic children that wraps scientifically proven treatment methods in a fun adventure.</p>
         </div>
       </a>
       <a class="card reveal" href="nudgedesign.html">
         <span class="arrow">&#8599;</span>
-        <div class="frame"><img src="assets/optimized/ux_nudge.webp" alt="Nudge Design for Hospitalized Children" loading="lazy"></div>
+        <div class="frame"><img src="assets/optimized/ux_nudge.webp?v=20260821-original" alt="Nudge Design for Hospitalized Children" loading="lazy"></div>
         <div class="pad">
-          <span class="tag">Nudge design · Health</span>
           <h3>Nudge Design for Hospitalized Children</h3>
-          <p>Footprint stickers and story wallpapers that nudge hospitalized children to walk and stretch — turning a dull hallway into a place to play.</p>
+          <span class="tag">Nudge design · Health</span>
+          <p>Footprint stickers and story wallpapers that turn a dull hallway into a place to play and encourage hospitalized children to walk and stretch.</p>
         </div>
       </a>
       <a class="card reveal" href="mylittlehero.html">
         <span class="arrow">&#8599;</span>
-        <div class="frame"><img src="assets/optimized/ux_mlh.webp" alt="My Little Hero" loading="lazy"></div>
+        <div class="frame"><img src="assets/optimized/ux_mlh.webp?v=20260821-original" alt="My Little Hero" loading="lazy"></div>
         <div class="pad">
-          <span class="tag">Game · Family engagement</span>
           <h3>My Little Hero</h3>
+          <span class="tag">Game · Family engagement</span>
           <p>A digital game that facilitates communication between long-term hospitalized children and their family members through play.</p>
         </div>
       </a>
       <a class="card reveal" href="sunshine.html">
         <span class="arrow">&#8599;</span>
-        <div class="frame"><img src="assets/optimized/ux_sunshine.webp" alt="Sunshine" loading="lazy"></div>
+        <div class="frame"><img src="assets/optimized/sun_hero.webp?v=20260821-original" alt="Sunshine" loading="lazy"></div>
         <div class="pad">
-          <span class="tag">IoT · Multisensory</span>
           <h3>Sunshine</h3>
-          <p>An IoT digital window that changes the view — with matching scents, sounds, and breeze — controlled from a smartphone app.</p>
+          <span class="tag">IoT · Multisensory</span>
+          <p>An IoT digital window controlled from a smartphone app that changes the view with matching scents, sounds, and breeze.</p>
         </div>
       </a>
       <a class="card reveal" href="tomorrow.html">
         <span class="arrow">&#8599;</span>
-        <div class="frame"><img src="assets/optimized/ux_tomorrow.webp" alt="Tomorrow" loading="lazy"></div>
+        <div class="frame"><img src="assets/optimized/ux_tomorrow.webp?v=20260821-original" alt="Tomorrow" loading="lazy"></div>
         <div class="pad">
-          <span class="tag">Education · Social impact</span>
           <h3>Tomorrow</h3>
+          <span class="tag">Education · Social impact</span>
           <p>Teaching coding and French to refugee children in France through donated devices, classic children’s books, and block coding.</p>
+        </div>
+      </a>
+      <a class="card reveal" href="pmos-comics.html">
+        <span class="arrow">&#8599;</span>
+        <div class="frame project-placeholder" role="img" aria-label="PMOS.Comics representative image to be added"></div>
+        <div class="pad">
+          <h3>PMOS.Comics</h3>
+          <span class="tag">Interactive comics · Series</span>
+          <p>A project series exploring personal health data through interactive comics. Full project description coming soon.</p>
         </div>
       </a>
     </div>
@@ -97,6 +112,7 @@
     </div>
   </div>
 </footer>
+<script src="site-nav.js?v=20260820-full-width-nav"></script>
 <script>
 document.documentElement.classList.add('js');
 const _io = new IntersectionObserver(es => es.forEach(e => {

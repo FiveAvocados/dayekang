@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+
+# Local source media. The website uses the optimized files in assets/optimized/.
+assets/Student work video/
+assets/Student work design/
+assets/Workshop/
+
+# Local development notes and utilities.
+AGENTS.md
+CODEX_HANDOFF.md
+optimize_media.sh

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!-- Permanent CV URL: do not rename qinqinhou.html. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QinQin Hou — Daye Kang</title>
+<meta name="description" content="QinQin Hou — a 2D and 3D animation directed by Daye Kang, recognized by the Times Young Creative Awards.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20260820-permanent-project-pages">
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="brand home-brand" href="index.html?v=20260820-full-width-nav"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
+    <nav>
+      <ul>
+        <li><a href="publications.html?v=20260820-full-width-nav">Publications</a></li>
+        <li><a href="ux-research.html?v=20260820-full-width-nav">UX Projects</a></li>
+        <li><a href="artwork.html?v=20260820-full-width-nav">Visual Design</a></li>
+        <li><a href="teaching.html?v=20260820-full-width-nav">Teaching</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="qinqin-page">
+  <div class="qinqin-player-wrap">
+    <!-- Add the final MP4 as a source here once the original video file is available. -->
+    <video class="qinqin-player" controls preload="none" poster="assets/optimized/art_22.webp?v=20260821-original" aria-label="QinQin Hou animation">
+      Your browser does not support HTML video.
+    </video>
+  </div>
+  <div class="wrap">
+    <article class="qinqin-copy">
+      <div class="kicker">2D &amp; 3D Animation · 2016</div>
+      <h1>QinQin Hou</h1>
+      <div class="qinqin-award"><span aria-hidden="true">🏆</span>Excellence Award, Times Young Creative Awards</div>
+      <p class="qinqin-description">This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards.</p>
+      <dl class="meta-grid">
+        <div><dt>Medium</dt><dd>2D &amp; 3D animation — Watercolor, Pen</dd></div>
+        <div><dt>Format</dt><dd>1920×1080 · 3 minutes</dd></div>
+        <div><dt>Credit</dt><dd>Directed by Daye Kang</dd></div>
+      </dl>
+      <a class="back-home" href="artwork.html">&larr; Back to Visual Design</a>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="kicker">Get in touch</div>
+    <a class="big-link" href="mailto:dk564@cornell.edu">dk564@cornell.edu</a>
+    <div class="foot-row">
+      <div>&copy; 2026 Daye Kang &mdash; Ithaca, NY</div>
+      <div>
+        <a href="assets/pdf/DayeKang_CV.pdf" target="_blank" rel="noopener">CV</a>
+        <a href="https://www.dayekang.info" target="_blank" rel="noopener">dayekang.info</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="site-nav.js?v=20260820-full-width-nav"></script>
+<script>
+document.documentElement.classList.add('js');
+const _io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); _io.unobserve(e.target); }
+}), { threshold: .07 });
+document.querySelectorAll('.reveal').forEach(el => _io.observe(el));
+</script>
+</body>
+</html>

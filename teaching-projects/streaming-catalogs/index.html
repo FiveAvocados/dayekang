@@ -5,12 +5,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="../responsive-project.css?v=2" />
+    <script defer src="../responsive-project.js?v=2"></script>
 
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css" />
+    <script>
+        if (window.location.protocol === "file:") {
+            document.write('<script src="offline-data.js?v=1"></' + 'script>');
+        }
+    </script>
+
+    <script src="../vendor/d3.v7.9.0.min.js"></script>
     <style>
         * {
-            font-family: "Lato";
+            font-family: "Lato", Arial, sans-serif;
         }
 
         img {

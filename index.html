@@ -7,22 +7,23 @@
 <meta name="description" content="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260820-award-chips-unified">
 </head>
 <body>
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">Daye Kang</a>
+    <a class="brand home-brand" href="index.html?v=20260820-full-width-nav">
+      <span class="brand-name">Daye Kang</span>
+      <span class="brand-role">Designer · Researcher</span>
+    </a>
     <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
     <nav>
       <ul>
-        <li><a href="index.html" class="active">About</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="data-science.html">Data Science</a></li>
-        <li><a href="ux-research.html">UX Research</a></li>
-        <li><a href="artwork.html">Art Work</a></li>
-        <li><a href="teaching.html">Teaching</a></li>
+        <li><a href="publications.html?v=20260820-full-width-nav">Publications</a></li>
+        <li><a href="ux-research.html?v=20260820-full-width-nav">UX Projects</a></li>
+        <li><a href="artwork.html?v=20260820-full-width-nav">Visual Design</a></li>
+        <li><a href="teaching.html?v=20260820-full-width-nav">Teaching</a></li>
       </ul>
     </nav>
   </div>
@@ -33,8 +34,8 @@
     <div class="hero-grid">
       <aside class="hero-side">
         <div class="portrait-organic reveal">
-          <video class="po-nature" src="assets/optimized/video/nature2.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
-          <img class="po-portrait" src="assets/optimized/portrait.webp" alt="Portrait of Daye Kang">
+          <video class="po-nature" src="assets/optimized/video/nature2.mp4" poster="assets/optimized/video/nature2-poster.jpg" preload="auto" autoplay muted loop playsinline aria-hidden="true"></video>
+          <img class="po-portrait" src="assets/optimized/portrait.webp?v=20260821-original" alt="Portrait of Daye Kang">
           <svg class="po-defs" width="0" height="0" aria-hidden="true" focusable="false">
             <defs>
               <clipPath id="poPortraitClip" clipPathUnits="objectBoundingBox"><path d="M 0.44068,0.00890 C 0.34289,0.02506 0.24120,0.06355 0.17565,0.12501 C 0.11011,0.18647 0.05210,0.30778 0.02670,0.39708 C 0.00130,0.48638 -0.01011,0.60912 0.01523,0.68899 C 0.04056,0.76886 0.11117,0.85264 0.18673,0.90150 C 0.26229,0.95036 0.39447,0.99056 0.49245,0.99758 C 0.59044,1.00460 0.72650,0.98536 0.80558,0.94584 C 0.88466,0.90631 0.96891,0.81382 0.99190,0.74794 C 1.01489,0.68205 0.97697,0.59644 0.95078,0.52974 C 0.92460,0.46303 0.82968,0.38948 0.82654,0.32664 C 0.82341,0.26380 0.93627,0.18093 0.93099,0.13285 C 0.92572,0.08476 0.87088,0.04259 0.79325,0.02296 C 0.71562,0.00334 0.53847,-0.00726 0.44068,0.00890 Z"/></clipPath>
@@ -44,26 +45,117 @@
         </div>
         <div class="hero-links">
           <div class="hl-text">
-            <a href="assets/pdf/DayeKang_CV.pdf" target="_blank" rel="noopener">CV</a><span class="hl-sep">|</span><a href="https://scholar.google.com/citations?user=LQQPHtcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-          </div>
-          <div class="hl-icons">
-            <a href="mailto:dk564@cornell.edu" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.8" width="18.8" height="14.4" rx="1.6"/><path d="M3.4 6.2 12 13l8.6-6.8"/></svg></a>
-            <a href="https://www.linkedin.com/in/daye-kang-98475a128/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+            <a href="assets/pdf/DayeKang_CV.pdf" target="_blank" rel="noopener">CV</a><span class="hl-sep">|</span><a href="https://scholar.google.com/citations?user=LQQPHtcAAAAJ" target="_blank" rel="noopener">Google Scholar</a><span class="hl-sep">|</span><a class="hl-email" href="mailto:dk564@cornell.edu" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.8" width="18.8" height="14.4" rx="1.6"/><path d="M3.4 6.2 12 13l8.6-6.8"/></svg></a>
+            <a class="hl-linkedin" href="https://www.linkedin.com/in/daye-kang-98475a128/" target="_blank" rel="noopener" aria-label="LinkedIn" hidden><svg viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
           </div>
         </div>
+        <a class="selected-jump selected-jump-desktop is-hidden" href="#selected-work">
+          <span class="selected-jump-label">See<br>selected<br>work</span>
+          <span class="selected-jump-arrow" aria-hidden="true">↓</span>
+        </a>
       </aside>
-      <div>
-        <div class="kicker">HCI Researcher · Designer</div>
-        <h1>Hello!</h1>
-        <div class="bio">
-          <p class="lead">I’m Daye Kang — I study and design human-AI interaction for health, data, and everyday life.</p>
-          <p>My research interests lie at the intersection of Human-Computer Interaction (HCI), human-AI interaction, and design. I have extensive experience in UX research — understanding user needs and designing systems that support data work by incorporating visualization and human-AI interaction. Currently, I am focusing on supporting holistic health management using multimodal AI in the context of personal informatics.</p>
-          <p>I started my academic career in Visual Communication Design at Hongik University, received my MS in Industrial Design (HCI) from KAIST advised by Dr. <a href="https://makinteract.kaist.ac.kr/andrea" target="_blank" rel="noopener">Andrea Bianchi</a>, and am now a Ph.D. candidate at Cornell University’s Information Science Department, working with my advisor Dr. <a href="https://mjung.infosci.cornell.edu/" target="_blank" rel="noopener">Malte Jung</a>. My dissertation committee members are Dr. <a href="https://jeffrz.com/" target="_blank" rel="noopener">Jeff Rzeszotarski</a>, Dr. <a href="https://mimno.infosci.cornell.edu/" target="_blank" rel="noopener">David Mimno</a>, Dr. <a href="https://qianyang.co/" target="_blank" rel="noopener">Qian Yang</a>, and Dr. <a href="https://people.dbmi.columbia.edu/noemie/" target="_blank" rel="noopener">Noémie Elhadad</a>.</p>
-          <p class="pron">Pronounced Da-Ye [da yé]</p>
+      <div class="hero-copy">
+        <h1 class="hello-heading">Hello!</h1>
+        <div class="bio bio-primary">
+          <p class="intro-name">Welcome to my website. My name is Daye Kang :)</p>
+          <p>My research interests lie at the intersection of <strong>design</strong>, <strong>Human-Computer Interaction (HCI)</strong>, and <strong>human-AI interaction</strong>.</p>
+          <p>People have access to more data than ever, but more data does not lead to better understanding. I pursue this across three domains: reflective practice in qualitative data analysis, managing chronic conditions with health tracking tools, and data storytelling through comics.</p>
+          <p>I use qualitative methods, including co-design and first-person studies, to understand people’s contexts, then design and evaluate systems that combine visualization and AI to support data sensemaking.</p>
         </div>
-        <div class="cta">
-          <a class="btn ghost" href="publications.html">See publications</a>
+        <div class="bio bio-secondary">
+          <p>My research has been published at ACM CHI and CSCW, leading venues in human-computer interaction (HCI), and has received a Best Paper Award and a Best Paper Honorable Mention Award.</p>
+          <p>I am currently a Ph.D. candidate in Information Science at Cornell University, advised by <a class="academic-link" href="https://mjung.infosci.cornell.edu/" target="_blank" rel="noopener">Malte Jung</a>. Previously, I received my MS in Industrial Design from KAIST, advised by <a class="academic-link" href="https://make.kaist.ac.kr/andrea" target="_blank" rel="noopener">Andrea Bianchi</a>, after receiving a BFA in Visual Communication Design at Hongik University.</p>
+          <p class="pron">My name is pronounced Da-Ye [da ye].</p>
+          <p class="job-market">I am on the academic job market for the 2026–27 cycle.</p>
         </div>
+        <a class="selected-work-link" href="#selected-work">
+          <span>See selected work</span>
+          <span class="selected-work-link-arrow" aria-hidden="true">↓</span>
+        </a>
+      </div>
+      <a class="selected-jump selected-jump-mobile is-hidden" href="#selected-work">
+        <span class="selected-jump-label">See<br>selected<br>work</span>
+        <span class="selected-jump-arrow" aria-hidden="true">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section selected-work-section" id="selected-work" aria-labelledby="selected-work-title">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2 id="selected-work-title">Selected work</h2>
+      </div>
+
+      <div class="selected-work-groups">
+        <section class="selected-group reveal" aria-labelledby="selected-publications-title">
+          <div class="selected-group-head">
+            <h3 id="selected-publications-title">Publications</h3>
+          </div>
+          <ol class="selected-pub-list">
+            <li>
+              <div class="selected-pub-conference">CSCW 2025</div>
+              <p>ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System</p>
+              <div class="selected-pub-award-row"><span class="selected-award"><span class="selected-award-icon" aria-hidden="true">🏅</span>Best Paper Honorable Mention Award</span></div>
+              <div class="selected-pub-links"><a href="assets/pdf/ThemeViz_CSCW25.pdf" target="_blank" rel="noopener">PDF</a><a href="https://dl.acm.org/doi/10.1145/3757675" target="_blank" rel="noopener">DOI</a></div>
+            </li>
+            <li>
+              <div class="selected-pub-conference">CHI 2025</div>
+              <p>Towards Hormone Health: An Autoethnography of Long-Term Holistic Tracking to Manage PCOS</p>
+              <div class="selected-pub-award-row"><span class="selected-award"><span class="selected-award-icon" aria-hidden="true">🏆</span>Best Paper Award</span></div>
+              <div class="selected-pub-links"><a href="assets/pdf/HormoneHealth_CHI25.pdf" target="_blank" rel="noopener">PDF</a><a href="https://dl.acm.org/doi/abs/10.1145/3706598.3713619" target="_blank" rel="noopener">DOI</a></div>
+            </li>
+            <li>
+              <div class="selected-pub-conference">CHI 2021</div>
+              <p>ToonNote: Improving Communication in Computational Notebooks Using Interactive Data Comics</p>
+              <div class="selected-pub-award-row" aria-hidden="true"></div>
+              <div class="selected-pub-links"><a href="assets/pdf/ToonNote_CHI21.pdf" target="_blank" rel="noopener">PDF</a><a href="https://dl.acm.org/doi/10.1145/3411764.3445434" target="_blank" rel="noopener">DOI</a></div>
+            </li>
+          </ol>
+          <a class="selected-more" href="publications.html?v=20260820-full-width-nav"><span class="selected-more-label">See all publications</span><span class="selected-more-arrow" aria-hidden="true">→</span></a>
+        </section>
+
+        <section class="selected-group selected-design-group reveal" aria-labelledby="selected-design-title">
+          <div class="selected-group-head">
+            <h3 id="selected-design-title">Design Projects</h3>
+          </div>
+          <div class="design-branches">
+            <article class="design-branch">
+              <h4>UX Design</h4>
+              <div class="design-image-grid">
+                <img class="design-project-image" src="assets/optimized/ux_lexia.webp?v=20260821-original" alt="Lexia in Wonderland UX project" loading="lazy">
+              </div>
+              <div class="design-project-details">
+                <h5>Lexia in Wonderland</h5>
+                <div class="design-project-awards" aria-label="Awards">
+                  <span class="selected-award">2017 ADAA Semifinalist</span>
+                  <span class="selected-award">2017 KSDS Excellence Award</span>
+                  <span class="selected-award">2017 Hongik Excellence Graduation Work</span>
+                </div>
+              </div>
+              <a class="selected-more" href="ux-research.html?v=20260820-full-width-nav"><span class="selected-more-label">See all UX projects</span><span class="selected-more-arrow" aria-hidden="true">→</span></a>
+            </article>
+
+            <article class="design-branch">
+              <h4>Visual Storytelling</h4>
+              <div class="design-image-grid">
+                <img class="design-project-image" src="assets/optimized/pub_toonnote.webp?v=20260821-original" alt="Interactive data comics from ToonNote" loading="lazy">
+              </div>
+              <div class="design-project-details">
+                <h5>ToonNote</h5>
+              </div>
+            </article>
+
+            <article class="design-branch">
+              <h4>Graphic Design</h4>
+              <div class="design-image-grid">
+                <img class="design-project-image" src="assets/optimized/art_02.webp?v=20260821-original" alt="Black-and-white graphic design study" loading="lazy">
+              </div>
+              <div class="design-project-details">
+                <h5>Digital Artwork</h5>
+              </div>
+            </article>
+          </div>
+        </section>
       </div>
     </div>
   </section>
@@ -72,16 +164,15 @@
     <div class="wrap">
       <div class="sec-head reveal">
         <h2>News</h2>
-        <span class="num">01</span>
       </div>
-      <ul class="news">
+      <ul class="news news-scroll">
       <li class="reveal"><span class="date">Mar 2026</span><span class="what">I will attend CHI’26 to co-organize the Feminist HCI meet-up “<a href="https://feminist-hci.github.io/eastasia/" target="_blank" rel="noopener">Legitimizing, Developing, and Sustaining Feminist HCI in East Asia: Challenges and Opportunities</a>” and attend the following workshops. See you in Barcelona!
       <ul>
         <li><a href="https://chi26relationshipai.myportfolio.com/" target="_blank" rel="noopener">Toward Relationship-Centered Care with AI: Designing for Human Connections in Healthcare</a></li>
         <li><a href="https://ai-tools-for-thought.github.io/workshop/" target="_blank" rel="noopener">Tools for Thought: Understanding, Protecting, and Augmenting Human Cognition with Generative AI — From Vision to Implementation</a></li>
         <li><a href="https://vischi.org/" target="_blank" rel="noopener">Visual Storytelling Beyond the Human: Co-Creation, Culture, and Futures</a></li>
       </ul></span></li>
-      <li class="reveal"><span class="date">Oct 2025</span><span class="what"><span class="badge">🏅 Honorable Mention Award</span> at CSCW’25 — “ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System.”</span></li>
+      <li class="reveal"><span class="date">Oct 2025</span><span class="what"><span class="badge">🏅 Best Paper Honorable Mention Award</span> at CSCW’25 — “ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System.”</span></li>
       <li class="reveal"><span class="date">Jun 2025</span><span class="what">I will attend DIS 2025 workshops. See you at DIS!
       <ul>
         <li><a href="https://dis25designknowledgeinai.myportfolio.com/" target="_blank" rel="noopener">Design Knowledge in AI: Navigating Temporality and Continuity</a> — Examining the Effects of Human-AI Collaboration in Creative Visual Imagery</li>
@@ -98,9 +189,6 @@
     </div>
   </section>
 
-  <div class="bleed video-strip reveal">
-    <video src="assets/optimized/video/tiger.mp4" autoplay muted loop playsinline></video>
-  </div>
 </main>
 
 <footer>
@@ -116,6 +204,7 @@
     </div>
   </div>
 </footer>
+<script src="site-nav.js?v=20260820-full-width-nav"></script>
 <script>
 document.documentElement.classList.add('js');
 const _io = new IntersectionObserver(es => es.forEach(e => {

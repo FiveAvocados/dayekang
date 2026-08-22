@@ -7,22 +7,20 @@
 <meta name="description" content="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20260820-project-layouts">
 </head>
 <body>
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">Daye Kang</a>
+    <a class="brand home-brand" href="index.html?v=20260820-full-width-nav"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
     <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
     <nav>
       <ul>
-        <li><a href="index.html">About</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="data-science.html">Data Science</a></li>
-        <li><a href="ux-research.html">UX Research</a></li>
-        <li><a href="artwork.html">Art Work</a></li>
-        <li><a href="teaching.html">Teaching</a></li>
+        <li><a href="publications.html?v=20260820-full-width-nav">Publications</a></li>
+        <li><a href="ux-research.html?v=20260820-full-width-nav">UX Projects</a></li>
+        <li><a href="artwork.html?v=20260820-full-width-nav">Visual Design</a></li>
+        <li><a href="teaching.html?v=20260820-full-width-nav">Teaching</a></li>
       </ul>
     </nav>
   </div>
@@ -32,7 +30,6 @@
 <main>
   <div class="wrap">
     <div class="page-head">
-      <div class="kicker">UX Research</div>
       <h1>Tomorrow</h1>
     </div>
     <article class="detail">
@@ -40,7 +37,7 @@
         <p>‘Tomorrow’ is a service with the goal of teaching ‘code’ and ‘French’ to refugee children in France using French children's books. After children receive a smart device from a donator, they learn French and code simultaneously using French children's books. Using block coding methods, children can easily make interactive storybooks.</p>
         <dl class="meta-grid"><div><dt>Keywords</dt><dd>Refugee Children, Coding Education, French Education, Interaction</dd></div><div><dt>Members</dt><dd>Personal Project</dd></div><div><dt>My contribution</dt><dd>UX research, UI design</dd></div><div><dt>Year</dt><dd>6.2017</dd></div></dl>
       </div>
-      <div class="bleed"><img src="assets/optimized/tmr_hero.webp" alt="Tomorrow"></div>
+      <div class="bleed"><img src="assets/optimized/tmr_hero.webp?v=20260821-original" alt="Tomorrow"></div>
       
       <section class="dsec" id="s1"><h2 class="reveal">What inspired this project</h2>
 <p>While I was traveling in Paris, I witnessed the conflict between locals and refugees. There were police at the museums and the Eiffel tower. I thought about whether technology can help to ease the conflicts. After some research, I found out many refugees have difficulty adjusting to French society because of the language. Also, many of them did not have a chance to go to school. Meanwhile, Europe needed more IT experts. I wanted to help refugee children with an app, which they can use to learn French and coding together.</p>
@@ -51,10 +48,52 @@
 </section>
 
       <section class="dsec" id="s3"><h2 class="reveal">Design</h2>
-<p>The service has two versions. One is for French citizens who donate their unused cellphones or recordings. The other is for refugee children.</p><p><b>Donator:</b><br>1. Donate smart devices to refugee children<br>2. Record an audiobook in French</p><img class="reveal" src="assets/optimized/tmr_d_1.webp" alt="Donator flow" loading="lazy"><p><b>Refugee child:</b><br>1. Read a children's book and learn French and coding<br>2. Can read more books<br>3. Attend events for children</p><img class="reveal" src="assets/optimized/tmr_d_2.webp" alt="Refugee child flow" loading="lazy"><p><b>Reading Page:</b><br>1. Study French using French dialogue in the book<br>2. Study code using block coding methods<br>3. Fill in the blank with the right French word<br>4. The Little Prince interacts accordingly, then proceeds to the next step</p><img class="reveal" src="assets/optimized/tmr_d_3.webp" alt="Reading page" loading="lazy">
+<p class="tmr-design-intro">The service has two connected versions: one for French citizens who donate unused devices or record stories, and one for refugee children who learn French and coding through those stories.</p>
+<div class="tmr-role-flow">
+  <article class="tmr-role-row reveal">
+    <figure class="tmr-role-figure">
+      <img src="assets/optimized/tmr_d_1.webp?v=20260821-original" alt="Donator app screens" loading="lazy">
+    </figure>
+    <div class="tmr-role-copy">
+      <span class="tmr-role-kicker">French citizen</span>
+      <h3>Donator</h3>
+      <ol class="tmr-step-list">
+        <li>Donate unused smart devices to refugee children.</li>
+        <li>Record a French audiobook for a child to listen to.</li>
+      </ol>
+    </div>
+  </article>
+  <article class="tmr-role-row reveal">
+    <figure class="tmr-role-figure">
+      <img src="assets/optimized/tmr_d_2.webp?v=20260821-original" alt="Refugee child app screens" loading="lazy">
+    </figure>
+    <div class="tmr-role-copy">
+      <span class="tmr-role-kicker">Learner</span>
+      <h3>Refugee child</h3>
+      <ol class="tmr-step-list">
+        <li>Read a children's book while learning French and coding.</li>
+        <li>Unlock and read more interactive books.</li>
+        <li>Join learning events created for children.</li>
+      </ol>
+    </div>
+  </article>
+</div>
+<article class="tmr-reading-flow reveal">
+  <div class="tmr-reading-head">
+    <span class="tmr-role-kicker">Learning interface</span>
+    <h3>Reading Page</h3>
+  </div>
+  <img src="assets/optimized/tmr_d_3.webp?v=20260821-original" alt="Interactive reading page" loading="lazy">
+  <ol class="tmr-reading-steps">
+    <li>Study French through dialogue from the book.</li>
+    <li>Learn code with simple block-coding methods.</li>
+    <li>Fill in the blank with the correct French word.</li>
+    <li>See the Little Prince react, then continue the story.</li>
+  </ol>
+</article>
 </section>
 
-      <a class="back-home" href="ux-research.html">&larr; Back to projects</a>
+      <a class="back-home" href="ux-research.html?v=20260820-full-width-nav">&larr; Back to projects</a>
     </article>
   </div>
 </main>
@@ -86,6 +125,7 @@
     </div>
   </div>
 </footer>
+<script src="site-nav.js?v=20260820-full-width-nav"></script>
 <script>
 document.documentElement.classList.add('js');
 const _io = new IntersectionObserver(es => es.forEach(e => {

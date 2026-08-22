@@ -1,7 +1,15 @@
 <html>
     <head>
-        <script src="https://d3js.org/d3.v7.min.js"></script>
-        <script src="https://d3js.org/topojson.v3.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../responsive-project.css?v=2">
+        <script defer src="../responsive-project.js?v=2"></script>
+        <script>
+            if (window.location.protocol === "file:") {
+                document.write('<script src="offline-data.js?v=1"></' + 'script>');
+            }
+        </script>
+        <script src="../vendor/d3.v7.9.0.min.js"></script>
+        <script src="../vendor/topojson.v3.0.2.min.js"></script>
         <script src="scripts/render_map.js"></script>
         <script src="scripts/draw_legend.js"></script>
         <script src="scripts/load_data.js"></script>

@@ -9,13 +9,12 @@ Wix 사이트(dayekang.info)의 콘텐츠를 그대로 옮긴 정적 사이트�
 |---|---|
 | `index.html` | About (bio + News) |
 | `publications.html` | 논문 8편 (썸네일·초록·PDF/DOI 링크) |
-| `data-science.html` | Book Recommendation, Color Palette 카드 |
-| `ux-research.html` | Lexia, Nudge, My Little Hero, Sunshine, Tomorrow 카드 |
+| `ux-research.html` | Book Recommendation, Lexia, Nudge, My Little Hero, Sunshine, Tomorrow 카드 |
 | `artwork.html` | 아트워크 갤러리 (25점, masonry) |
-| `teaching.html` | Teaching 탭 (빈 틀 — 추후 채우기) |
-| 프로젝트 상세 7개 | bookrecommendation, color, lexiainwonderland, nudgedesign, mylittlehero, sunshine, tomorrow |
+| `teaching.html` | 수업 및 학생 프로젝트 포트폴리오 |
+| 프로젝트 상세 6개 | bookrecommendation, lexiainwonderland, nudgedesign, mylittlehero, sunshine, tomorrow |
 | `style.css` | 공용 스타일 |
-| `build.py` | 페이지 생성 스크립트 (수정 후 `python3 build.py`로 재생성) |
+| `build.py` | 페이지 생성 스크립트 (`teaching.html`은 수동 관리되므로 덮어쓰지 않음) |
 | `localize_images.py` | 이미지 로컬화 스크립트 (아래 참고) |
 
 ## GitHub Pages에 올리기
