@@ -16,8 +16,4 @@ window.VISUAL_PROJECT_GROUPS = [
     titles: ["Plastic Bags Photography Book", "Plastic Bags", "Photography"]
   }
 ];
-window.VISUAL_PROJECT_CONTENT = {
-  "qinqin-hou": {
-    mediaFromTitles: ["Video Artwork"]
-  }
-};
+window.VISUAL_PROJECT_CONTENT = {};

@@ -508,7 +508,7 @@ ART = [
     ("f4a835_ae2e827b40084d7d80d93460d59f14ae~mv2.jpg", "Graphic Poster", "Digital artwork — Illustrator", "2013", "A4", "Made by Daye Kang", ""),
     ("f4a835_8aeda735d1374112bf3dc48097b29eff~mv2.png", "Zarathustra", "Drawing &amp; collage on aluminum foil — Pen, Crayons, Oil paper, Black paper", "2013", "50×40 cm", "Made by Daye Kang", "This artwork depicts members of the music club ‘Zarathustra’ gathered in the club room."),
     ("f4a835_03cddcf2da7f4ec3ad97c348b39ab7e7~mv2.jpg", "Conversation", "Drawing — Watercolor, Pen", "2013", "15×10 cm", "Made by Daye Kang", ""),
-    ("f4a835_e5ba8d7d6c054610bae71c5cff2fed73~mv2.png", "QinQin Hou", "2D & 3D animation — Watercolor, Pen", "2016", "1920×1080 · 3 minutes", "Directed by Daye Kang", "This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards."),
+    ("LOCAL_VIDEO:assets/optimized/video/art_31.mp4", "QinQin Hou", "2D & 3D animation — Watercolor, Pen", "2016", "1920×1080 · 3 minutes", "Directed by Daye Kang", "This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards."),
     ("f4a835_e4f6cb606cd3481799170e7049942898~mv2.jpg", "Coca-Cola building", "Poster", "2014", "A2", "Made by Daye Kang", "Made after taking photos of the exteriors of the Coca-Cola building in California. The images were cropped and rearranged to express the streamlined design of the building."),
     ("f4a835_6e2ed7df286f40a0b56c94cef5039731~mv2.png", "Experimental Typography", "Experimental typography", "2016", "A3", "Made by Daye Kang", "Focusing on liquid and flowing forms."),
     ("f4a835_9b04971e5940440ea13193f70b3b0f8d~mv2.png", "Plastic Bags Photography Book", "", "", "", "", ""),
@@ -517,10 +517,11 @@ ART = [
     ("f4a835_460e9d4effae459b86759b83b110aeb8~mv2.png", "Experimental Graphics", "Digital artwork — Photoshop", "2016", "", "Made by Daye Kang", ""),
     ("f4a835_ac641b8b476742478d76ef61d91d9031~mv2.png", "Photography", "Photography", "2016", "", "Photoshoot by Daye Kang", "I explored the graphical forms of plastic bags."),
     ("f4a835_30d2277513364ceb8bc6e1a8b86cb72d~mv2.png", "Digital Illustration", "Digital illustration — Photoshop", "2016", "20×10 cm", "Drawn by Daye Kang", "I drew my friend during my travel in Shanghai."),
-    ("VIDEO:f4a835_ee38c65a21774ba7af4c60f64d329518", "Video Artwork", "Video", "", "", "Made by Daye Kang", ""),
 ]
 def _art_item(n, i, title, medium, year, size, credit, desc):
-    if i.startswith("VIDEO:"):
+    if i.startswith("LOCAL_VIDEO:"):
+        media = video_tag(i[len("LOCAL_VIDEO:"):])
+    elif i.startswith("VIDEO:"):
         media = video_tag(V(f"art_{n:02d}", i[6:]))
     else:
         media = f'<img src="{A(f"art_{n:02d}", i, "fit", 800, 1200)}" alt="{html.escape(title)}" loading="lazy">'
