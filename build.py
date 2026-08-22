@@ -77,7 +77,7 @@ def page(title, active, body, desc="Daye Kang — designer and HCI researcher. P
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260821-ux-single-column">
+  <link rel="stylesheet" href="style.css?v=20260822-home-body-16">
 </head>
 <body{f' class="{body_class}"' if body_class else ''}>
 <header>
