@@ -4,15 +4,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mindful, AI-Assisted Journaling System — Daye Kang</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Mindful — Daye Kang</title>
+<link rel="icon" href="favicon.svg?v=3" type="image/svg+xml">
 <meta name="description" content="Mindful, AI-Assisted Journaling System by Daye Kang.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260822-empty-ux-pages">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20260825-mindful-study-background">
 </head>
-<body>
+<body class="mindful-page">
 <header><div class="nav">
   <a class="brand home-brand" href="index.html"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
   <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
@@ -23,16 +23,96 @@
     <li><a href="teaching.html">Teaching</a></li>
   </ul></nav>
 </div></header>
-<main><div class="wrap">
-  <div class="page-head"><h1>Mindful, AI-Assisted Journaling System</h1></div>
-  <article class="detail empty-project-detail" aria-label="Project details to be added"></article>
-  <a class="back-home" href="ux-projects.html">&larr; Back to projects</a>
-</div></main>
+<nav class="side-nav" aria-label="Page sections"><a href="#intro">Intro</a><a href="#s1">Why Mindful</a><a href="#s2">Design Principles</a><a href="#s3">Design</a><a href="#s4">Responsible AI</a><a href="#s5">Study</a><a href="#s6">Results</a><a href="#s7">Design Implications</a></nav>
+<main>
+  <div class="wrap">
+    <div class="page-head"><h1>Mindful</h1></div>
+    <article class="detail">
+      <div id="intro">
+        <p class="mindful-deck">AI-Assisted Journaling for Reflection</p>
+        <dl class="meta-grid"><div><dt>Keywords</dt><dd>Human-AI interaction, Expressive writing, Reflection, Generative AI, AI-mediated journaling, Multimodal journaling</dd></div><div><dt>Members</dt><dd>Daye Kang, Wenhan Dong, Swati Mishra</dd></div><div><dt>My contribution</dt><dd><strong>Lead Researcher &amp; Designer</strong><br>Research framing, interaction and system design, responsible-AI workflow, study design, and qualitative analysis</dd></div><div><dt>Year</dt><dd>2025</dd></div></dl>
+      </div>
+      <div class="bleed mindful-hero"><img src="assets/optimized/mindful/mindful_v2@2x@2x.webp?v=20260825" alt="Mindful journal interface with AI-generated reflective questions and visual reflection displayed on a desktop monitor"></div>
+
+      <section class="dsec" id="s1"><h2>Why Mindful</h2>
+        <p>Expressive writing can help people process everyday emotions, but an empty journal does not automatically lead to reflection. Writers may stop at recounting events, struggle to name what they feel, or return to the same interpretation.</p>
+        <p>Generative AI makes this support responsive to each entry by tailoring reframing questions and visual cues to the writer&rsquo;s evolving narrative.</p>
+        <p>I designed Mindful to add gentle structure around the writer&rsquo;s own words. The system uses AI-generated reflective questions and imagery, along with mood trends, to help people reflect on and revisit their experiences from different perspectives.</p>
+        <div class="mindful-framing">
+          <article><h3>The design problem</h3><p>How might a journaling tool help people move from recording what happened to making meaning from it?</p></article>
+          <article><h3>The design response</h3><p>Keep writing open-ended, then offer optional visual and question-based prompts that make reflection easier to continue.</p></article>
+        </div>
+      </section>
+
+      <section class="dsec" id="s2"><h2>Design Principles</h2>
+        <div class="mindful-principles">
+          <article><div class="mindful-number">01</div><h3>Start with the writer, not the model</h3><p>People first describe their day in their own words. AI support comes afterward, so the journal remains an act of self-expression rather than AI-authored writing.</p></article>
+          <article><div class="mindful-number">02</div><h3>Ask instead of answering</h3><p>Mindful generates open-ended questions rather than advice or diagnoses. The questions invite people to elaborate, reconsider an experience, or notice a meaning they had not explored.</p></article>
+          <article><div class="mindful-number">03</div><h3>Make emotion easier to see</h3><p>AI-generated images offer another representation of the entry&rsquo;s emotional tone. Six visual styles let writers choose a language that feels closer to how the experience felt.</p></article>
+          <article><div class="mindful-number">04</div><h3>Support reflection over time</h3><p>A simple mood check, journal history, and visual timeline help writers reconnect daily emotions with the experiences that shaped them.</p></article>
+        </div>
+      </section>
+
+      <section class="dsec" id="s3"><h2>Design</h2>
+        <div class="mindful-interface-detail">
+          <figure><img src="assets/originals/mindful/mindful_v1.png?v=20260825" alt="Annotated Mindful journal interface with mood rating, reflective questions, personal reflection, and an AI-generated visual reflection"></figure>
+          <div class="mindful-steps">
+            <article><div class="mindful-number">1</div><h3>Write and check in</h3><p>Writers record their day freely and rate their mood with a lightweight emoji scale.</p></article>
+            <article><div class="mindful-number">2</div><h3>Receive reflective questions</h3><p>Questions grounded in the entry encourage deeper consideration without prescribing an answer.</p></article>
+            <article><div class="mindful-number">3</div><h3>Continue in your own words</h3><p>Writers choose what feels useful and add a reflection; the response is not fed back into an endless AI conversation.</p></article>
+            <article><div class="mindful-number">4</div><h3>See another perspective</h3><p>A generated image externalizes the day&rsquo;s emotional qualities and becomes a visual anchor for later review.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="dsec" id="s4"><h2>Designing for Responsible AI</h2>
+        <p>Personal journals can contain vulnerable experiences. A generated image or question that is inappropriate, misleading, stereotyped, or emotionally triggering can do more harm than a generic AI error.</p>
+        <div class="mindful-safety">
+          <article><h3>Review before delivery</h3><p>Generated questions and images stay hidden until a trained reviewer checks them for safety and emotional appropriateness. Rejected content is never shown to the writer.</p></article>
+          <article><h3>Balance safety with timing</h3><p>The study revealed a real tradeoff: human review protected participants, but delayed feedback could arrive after the reflective moment had passed. A future version would automate routine checks and reserve human review for flagged outputs.</p></article>
+        </div>
+      </section>
+
+      <section class="dsec" id="s5"><h2>Study</h2>
+        <div class="mindful-study-facts" aria-label="Study summary"><span><strong>30</strong> participants</span><span><strong>7</strong> days</span><span><strong>3</strong> conditions</span><span><strong>10</strong> follow-up interviews</span></div>
+        <p>We ran a seven-day field study with 30 adults to separate the effect of AI-generated visuals from the effect of reflective questions. Ten participants were randomly assigned to each condition.</p>
+        <div class="mindful-conditions">
+          <article><div class="mindful-number">Condition 1</div><h3>Writing only</h3><p>Daily expressive writing and mood check-ins without generated content.</p></article>
+          <article><div class="mindful-number">Condition 2</div><h3>Writing + AI visuals</h3><p>Daily writing followed by an AI-generated visual reflection.</p></article>
+          <article><div class="mindful-number">Condition 3</div><h3>Writing + visuals + questions</h3><p>Daily writing supported by both a generated image and reflective questions.</p></article>
+        </div>
+        <p>Participants completed a short survey after each session. Ten also joined 30–45 minute interviews about emotional expression, reflection, privacy, and how the AI support changed their experience.</p>
+      </section>
+
+      <section class="dsec" id="s6"><h2>Results</h2>
+        <p>The study did not show a simple &ldquo;more AI is better&rdquo; effect. The value of AI depended on whether it felt relevant, arrived at the right moment, and left the writer in control.</p>
+        <div class="mindful-findings">
+          <article><div class="mindful-result-number">1</div><h3>Writing remained the foundation</h3><p>Across conditions, participants credited the act of writing—not the generated content—with helping them process emotions and understand their own thinking.</p><blockquote class="mindful-result-quote"><p>&ldquo;Writing was just a tool that helped me better understand the train of thought for emotions.&rdquo;</p><cite>P31 · Condition 1 · Writing only</cite></blockquote></article>
+          <article><div class="mindful-result-number">2</div><h3>Images worked when they matched the feeling</h3><p>Emotionally resonant images made feelings more visible. Literal, generic, or identity-mismatched images broke trust and could distract from reflection.</p><blockquote class="mindful-result-quote"><p>&ldquo;Sometimes the image just made me realize my emotions I hadn&rsquo;t fully noticed when I&rsquo;m writing.&rdquo;</p><cite>P4 · Condition 2 · AI visuals</cite></blockquote></article>
+          <article><div class="mindful-result-number">3</div><h3>Questions offered a useful second perspective</h3><p>Reflective questions helped participants move beyond recounting events. Their tone still mattered: questions that sounded evaluative could feel like judgment.</p><blockquote class="mindful-result-quote"><p>&ldquo;When it came to the reflection question, I was like, &lsquo;Oh, I didn&rsquo;t think about that.&rsquo;&rdquo;</p><cite>P17 · Condition 3 · AI visuals + reflection prompts</cite></blockquote></article>
+          <article><div class="mindful-result-number">4</div><h3>Perceived value mattered more than feature count</h3><p>When people experienced the AI content as creative, expressive, and useful, they also reported deeper reflection and stronger engagement.</p><blockquote class="mindful-result-quote"><p>&ldquo;It was an interesting experience, because it not only forced me to journal consistently over a week but also there was an AI generated component to it, which increased my curiosity and anticipation when journaling.&rdquo;</p><cite>P22 · Condition 2 · AI visuals</cite></blockquote></article>
+        </div>
+      </section>
+
+      <section class="dsec" id="s7"><h2>Design Implications</h2>
+        <div class="mindful-implications">
+          <article><div class="mindful-result-number">1</div><h3>Make AI optional for every entry</h3><p>Participants diverged: some opened up to AI feedback, while others self-censored or preferred plain writing. Per-entry controls and a no-AI mode preserve choice and privacy.</p></article>
+          <article><div class="mindful-result-number">2</div><h3>Generate emotional atmosphere, not a literal event log</h3><p>Images helped when tone, color, and atmosphere carried the emotion. Literal or identity-mismatched scenes broke trust and distracted from reflection.</p></article>
+          <article><div class="mindful-result-number">3</div><h3>Let writers select the passage, adjust the style, and regenerate</h3><p>AI often overemphasized incidental details. Letting writers choose the passage, tune the style, and preview or regenerate the result would keep them in control.</p></article>
+          <article><div class="mindful-result-number">4</div><h3>Offer support at a chosen moment with safe, non-judgmental wording</h3><p>Delayed feedback missed the reflective moment, while evaluative questions could feel judgmental. Let writers choose the timing and use curious, skippable prompts reviewed for safety.</p></article>
+        </div>
+      </section>
+
+      <a class="back-home" href="ux-projects.html">&larr; Back to projects</a>
+    </article>
+  </div>
+</main>
 <footer><div class="foot">
   <div class="kicker">Get in touch</div>
   <a class="big-link" href="mailto:dk564@cornell.edu">dk564@cornell.edu</a>
   <div class="foot-row"><div>&copy; 2026 Daye Kang &mdash; Ithaca, NY</div><div><a href="assets/pdf/DayeKang_CV.pdf" target="_blank" rel="noopener">CV</a></div></div>
 </div></footer>
 <script src="site-nav.js"></script>
+<script src="detail-scrollspy.js?v=20260823"></script>
 </body>
 </html>

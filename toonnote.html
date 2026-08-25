@@ -4,15 +4,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ToonNote, Interactive Data Comics for Computational Notebooks — Daye Kang</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="description" content="ToonNote, Interactive Data Comics for Computational Notebooks by Daye Kang.">
+<title>ToonNote — Daye Kang</title>
+<link rel="icon" href="favicon.svg?v=3" type="image/svg+xml">
+<meta name="description" content="ToonNote turns computational notebooks into interactive data comics that preserve both high-level narrative and access to code.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260822-empty-ux-pages">
+<link rel="stylesheet" href="style.css?v=20260825-toonnote-pmos">
 </head>
-<body>
+<body class="toonnote-page">
 <header><div class="nav">
   <a class="brand home-brand" href="index.html"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
   <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
@@ -23,16 +23,90 @@
     <li><a href="teaching.html">Teaching</a></li>
   </ul></nav>
 </div></header>
-<main><div class="wrap">
-  <div class="page-head"><h1>ToonNote, Interactive Data Comics for Computational Notebooks</h1></div>
-  <article class="detail empty-project-detail" aria-label="Project details to be added"></article>
-  <a class="back-home" href="ux-projects.html">&larr; Back to projects</a>
-</div></main>
+
+<nav class="side-nav" aria-label="Page sections"><a href="#intro">Intro</a><a href="#s1">Challenge</a><a href="#s2">Formative Study</a><a href="#s3">System Design</a><a href="#s4">Interactions</a><a href="#s5">Evaluation</a><a href="#s6">Findings</a></nav>
+<main>
+  <div class="wrap">
+    <div class="page-head"><h1>ToonNote</h1></div>
+    <article class="detail">
+      <div id="intro">
+        <p class="toonnote-deck">Improving communication in computational notebooks through interactive data comics</p>
+        <dl class="meta-grid">
+          <div><dt>Keywords</dt><dd>Interactive data comics, Computational notebooks, Data storytelling, Multi-level interfaces</dd></div>
+          <div><dt>Members</dt><dd>Daye Kang, Tony Ho, Nicolai Marquardt, Bilge Mutlu, Andrea Bianchi</dd></div>
+          <div><dt>My contribution</dt><dd><strong>Lead Researcher &amp; Designer</strong><br>Research framing, formative research, system and interaction design, development, and user evaluation</dd></div>
+          <div><dt>Publication</dt><dd>ACM CHI 2021<br><a class="meta-paper-link" href="assets/pdf/ToonNote_CHI21.pdf" target="_blank" rel="noopener">Read the paper →</a></dd></div>
+        </dl>
+      </div>
+
+      <div class="bleed toonnote-hero"><img src="assets/originals/toonnote/hero.webp" alt="ToonNote transforms a long computational notebook into a concise sequence of interactive data-comic frames"></div>
+
+      <section class="dsec" id="s1"><h2>Challenge</h2>
+        <p>Computational notebooks combine code, notes, tables, and visualizations in one working document. That flexibility makes analysis easier to produce, but the resulting notebook is often long, loosely structured, and filled with intermediate work that obscures the author&rsquo;s main story.</p>
+        <p>Collaborators may need different levels of detail. A data scientist may want to inspect code and provenance, while a manager or domain expert may only need the central findings. Existing notebooks make both audiences move through the same dense, vertical document.</p>
+        <div class="toonnote-question"><span>Design question</span><p>How might a computational notebook communicate its high-level narrative without removing the code, detail, and interactivity that make the analysis trustworthy?</p></div>
+      </section>
+
+      <section class="dsec" id="s2"><h2>Formative Study</h2>
+        <p>We compared three representations of the same COVID-19 analysis: a concise curated notebook, a detailed notebook, and a static data comic. Twelve participants with data-science backgrounds evaluated how each format supported navigation, understanding, and sharing.</p>
+        <figure class="toonnote-figure"><img src="assets/originals/toonnote/formative.webp" alt="Curated notebook, detailed notebook, and comic document used in the ToonNote formative study"><figcaption>Three document formats used in the formative study.</figcaption></figure>
+        <div class="toonnote-facts" aria-label="Formative study results">
+          <span><strong>12</strong> participants</span>
+          <span><strong>3</strong> document formats</span>
+          <span><strong>10/12</strong> found the comic easier to understand</span>
+          <span><strong>11/12</strong> saw comics as suited to readers unfamiliar with the data</span>
+        </div>
+        <p>The comic felt welcoming, concise, and story-driven, but participants did not want to lose the notebook&rsquo;s detail or interactive graphs. This tension led us to a multi-level interface: preserve the notebook and add a comic view that readers can enter or leave at any time.</p>
+      </section>
+
+      <section class="dsec" id="s3"><h2>System Design</h2>
+        <p>ToonNote is a JupyterLab extension that lets an author tag selected markdown and output cells as comic content. Those cells become a compact sequence of frames, while unselected cells remain available in the original Notebook View.</p>
+        <div class="toonnote-principles">
+          <article><div class="toonnote-number">01</div><h3>Offer overview + detail</h3><p>Comic View communicates the high-level story; Notebook View preserves the full analytical process.</p></article>
+          <article><div class="toonnote-number">02</div><h3>Keep the author&rsquo;s narrative visible</h3><p>A deliberate sequence of frames and annotations guides attention to the findings the author wants to communicate.</p></article>
+          <article><div class="toonnote-number">03</div><h3>Preserve exploration</h3><p>Readers can inspect code and interact with visualizations without permanently changing the author&rsquo;s intended view.</p></article>
+        </div>
+        <figure class="toonnote-figure toonnote-comic-figure"><img src="assets/originals/toonnote/comic-view.webp" alt="A ToonNote comic view showing charts, annotations, and a data table in three frames"><figcaption>A comic can combine multiple visual outputs, annotations, and frame sizes in one curated view.</figcaption></figure>
+      </section>
+
+      <section class="dsec" id="s4"><h2>Core Interactions</h2>
+        <div class="toonnote-video" aria-label="ToonNote project video">
+          <iframe src="https://www.youtube-nocookie.com/embed/OKgT3HrORho" title="ToonNote project video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="toonnote-interactions">
+          <article><div class="toonnote-feature-index">1</div><div><h3>Toggle views</h3><p>Move between Comic View and Notebook View to shift from a curated narrative to the complete analytical document.</p></div></article>
+          <article><div class="toonnote-feature-index">2</div><div><h3>Peek at code</h3><p>Reveal the code behind one comic frame without leaving the story, supporting quick checks of how an output was produced.</p></div></article>
+          <article><div class="toonnote-feature-index">3</div><div><h3>Reset the author&rsquo;s view</h3><p>Explore an interactive chart, then restore the visualization to the state the author recorded for that frame.</p></div></article>
+        </div>
+      </section>
+
+      <section class="dsec" id="s5"><h2>Evaluation</h2>
+        <p>We ran a within-subjects study with 12 experienced data analysts. Participants used both standard and ToonNote-enabled notebooks to understand COVID-19 and Netflix datasets, answer seven comprehension questions, and evaluate the reading experience.</p>
+        <figure class="toonnote-figure toonnote-study-figure"><img src="assets/originals/toonnote/study-materials.webp" alt="Standard notebook and ToonNote comic-view study materials for COVID-19 and Netflix datasets"><figcaption>Study materials paired standard notebooks with ToonNote-enabled versions of two datasets.</figcaption></figure>
+      </section>
+
+      <section class="dsec" id="s6"><h2>Findings</h2>
+        <div class="toonnote-results">
+          <article><div class="toonnote-result-value">2.1×</div><h3>Faster high-level understanding</h3><p>Participants answered the study questions in 7.83 minutes with ToonNote versus 16.31 minutes with a standard notebook.</p></article>
+          <article><div class="toonnote-result-value">−69%</div><h3>Lower task load</h3><p>NASA-TLX scores fell from 69.86 to 21.67, indicating a substantially less demanding reading experience.</p></article>
+          <article><div class="toonnote-result-value">5.83</div><h3>Clearer authorial intent</h3><p>Participants rated understanding of the author&rsquo;s intention 5.83/7 with ToonNote versus 2.41/7 with the standard notebook.</p></article>
+          <article><div class="toonnote-result-value">6.08</div><h3>More engaging to read</h3><p>Enjoyment and engagement both averaged 6.08/7, compared with 2.58 and 2.08 for the standard notebook.</p></article>
+        </div>
+        <figure class="toonnote-figure toonnote-results-figure"><img src="assets/originals/toonnote/results.webp" alt="Charts comparing standard notebooks and ToonNote for time, accuracy, task load, intention, comprehension, enjoyment, engagement, and sharing"><figcaption>Study results across comprehension, experience, and sharing measures.</figcaption></figure>
+        <p class="toonnote-takeaway">ToonNote did not significantly improve overall comprehension among expert analysts, who were already skilled at reading conventional notebooks. Its value was in making the author&rsquo;s narrative faster to grasp, less cognitively demanding, and more engaging—while preserving a path back to the underlying analysis.</p>
+        <p class="toonnote-paper-cta"><a href="https://doi.org/10.1145/3411764.3445434" target="_blank" rel="noopener">Read the full ToonNote paper →</a></p>
+      </section>
+
+      <a class="back-home" href="ux-projects.html">&larr; Back to projects</a>
+    </article>
+  </div>
+</main>
 <footer><div class="foot">
   <div class="kicker">Get in touch</div>
   <a class="big-link" href="mailto:dk564@cornell.edu">dk564@cornell.edu</a>
   <div class="foot-row"><div>&copy; 2026 Daye Kang &mdash; Ithaca, NY</div><div><a href="assets/pdf/DayeKang_CV.pdf" target="_blank" rel="noopener">CV</a></div></div>
 </div></footer>
-<script src="site-nav.js"></script>
+<script src="site-nav.js?v=20260823-video-header"></script>
+<script src="detail-scrollspy.js?v=20260823"></script>
 </body>
 </html>

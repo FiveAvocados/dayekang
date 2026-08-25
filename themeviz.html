@@ -4,15 +4,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ThemeViz, LLM-Enhanced Visual System for Theme Development — Daye Kang</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>ThemeViz — Daye Kang</title>
+<link rel="icon" href="favicon.svg?v=3" type="image/svg+xml">
 <meta name="description" content="ThemeViz, LLM-Enhanced Visual System for Theme Development by Daye Kang.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260822-empty-ux-pages">
+<link rel="stylesheet" href="style.css?v=20260825-phase-group-dotted">
 </head>
-<body>
+<body class="themeviz-page">
 <header><div class="nav">
   <a class="brand home-brand" href="index.html"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
   <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
@@ -23,16 +23,141 @@
     <li><a href="teaching.html">Teaching</a></li>
   </ul></nav>
 </div></header>
-<main><div class="wrap">
-  <div class="page-head"><h1>ThemeViz, LLM-Enhanced Visual System for Theme Development</h1></div>
-  <article class="detail empty-project-detail" aria-label="Project details to be added"></article>
-  <a class="back-home" href="ux-projects.html">&larr; Back to projects</a>
-</div></main>
+<nav class="side-nav" aria-label="Page sections"><a href="#intro">Intro</a><a href="#s1">Background</a><a href="#s2">Research Questions</a><a href="#s3">Design Goals</a><a href="#s4">System Design</a><a href="#s5">Iterative Theme Development with&nbsp;AI</a><a href="#s6">Study</a><a href="#s7">Findings</a><a href="#s8">Design Implications</a></nav>
+<main>
+  <div class="wrap">
+    <div class="page-head"><h1>ThemeViz</h1></div>
+    <article class="detail">
+      <div id="intro">
+        <p>LLM-Enhanced Visual System for Theme Development</p>
+        <dl class="meta-grid"><div><dt>Keywords</dt><dd>Human-AI collaboration, Qualitative data analysis, Theme development, LLMs</dd></div><div><dt>Members</dt><dd>Daye Kang, Zhuolun Han, Jiahe Tian, Muhan Zhang, Jeff Rzeszotarski</dd></div><div><dt>My contribution</dt><dd>Lead Researcher<br>Research framing, study design, system design and development, data visualization, study execution, and data analysis</dd></div><div><dt>Year</dt><dd>2023</dd></div><div><dt>Awards</dt><dd>Best Paper Honorable Mention Award, ACM CSCW 2025<br><a class="meta-paper-link" href="https://dl.acm.org/doi/10.1145/3757675" target="_blank" rel="noopener">See published paper →</a></dd></div></dl>
+      </div>
+      <div class="bleed themeviz-hero"><img src="assets/originals/themeViz_main_v2.png?v=20260824" alt="ThemeViz interface shown across three connected displays on a blue background"></div>
+      <section class="dsec" id="s1"><h2>Background</h2>
+        <p>Thematic analysis is a research method used to identify patterns or themes within qualitative data. It is widely used in scientific research, user research, and product development, but it is also notoriously time-consuming and laborious.</p>
+        <div class="themeviz-phases" aria-label="Six phases of thematic analysis">
+          <article><img src="assets/originals/themeviz/six-phases/phase-1.png?v=20260824" alt="Illustration of a researcher reading transcripts"><div class="themeviz-phase-label"><span class="themeviz-phase-number">01</span><strong>Reading transcripts</strong></div></article>
+          <article><img src="assets/originals/themeviz/six-phases/phase-2.png?v=20260824" alt="Illustration of excerpts being assigned qualitative codes"><div class="themeviz-phase-label"><span class="themeviz-phase-number">02</span><strong>Coding</strong></div></article>
+          <div class="themeviz-phase-group"><span>Theme development steps</span></div>
+          <article class="is-theme-development"><img src="assets/originals/themeviz/six-phases/phase-3.png?v=20260824" alt="Illustration of codes being grouped while searching for themes"><div class="themeviz-phase-label"><span class="themeviz-phase-number">03</span><strong>Searching for themes</strong><span class="themeviz-phase-category">Theme development step</span></div></article>
+          <article class="is-theme-development"><img src="assets/originals/themeviz/six-phases/phase-4.png?v=20260824" alt="Illustration of code groups being reviewed and reorganized"><div class="themeviz-phase-label"><span class="themeviz-phase-number">04</span><strong>Reviewing themes</strong><span class="themeviz-phase-category">Theme development step</span></div></article>
+          <article class="is-theme-development"><img src="assets/originals/themeviz/six-phases/phase-5.png?v=20260824" alt="Illustration of themes and sub-themes being defined"><div class="themeviz-phase-label"><span class="themeviz-phase-number">05</span><strong>Defining themes</strong><span class="themeviz-phase-category">Theme development step</span></div></article>
+          <article><img src="assets/originals/themeviz/six-phases/phase-6.png?v=20260824" alt="Illustration of a researcher reporting thematic analysis findings"><div class="themeviz-phase-label"><span class="themeviz-phase-number">06</span><strong>Reporting</strong></div></article>
+        </div>
+        <p class="themeviz-reference">Figure. Six-phase framework (Braun and Clarke, 2012).</p>
+        <p>Previous computational research has largely focused on coding because it involves relatively clear tasks, such as labeling data with a predefined codebook. Theme development is harder to support. Searching for, reviewing, and defining themes require researchers to abstract, synthesize, and interpret meaning across a dataset.</p>
+        <p>This work becomes more challenging because researchers often create and compare multiple versions of themes before identifying the interpretation that best represents their data. LLMs can support this conceptual work by understanding text and developing candidate themes. More importantly, they may act as research collaborators by offering alternative interpretations of the data that researchers may not have initially considered.</p>
+        <p>ThemeViz investigates whether a purpose-built interface can turn these capabilities into meaningful human-AI collaboration during theme development.</p>
+      </section>
+      <section class="dsec" id="s2"><h2>Research Questions</h2>
+        <div class="themeviz-rq-list">
+          <article><div class="themeviz-rq-label">RQ1</div><p>How useful is ThemeViz for theme development compared with a conventional prompting interface such as ChatGPT?</p></article>
+          <article><div class="themeviz-rq-label">RQ2</div><p>To what extent does ThemeViz&rsquo;s design encourage users to view its AI assistant as a collaborative partner in theme development compared with a traditional interface such as ChatGPT?</p></article>
+        </div>
+      </section>
+      <section class="dsec" id="s3"><h2>Design Goals</h2>
+        <p>The following three design goals guided the system&rsquo;s design.</p>
+        <div class="themeviz-goals">
+          <article><div class="themeviz-goal-number">01</div><h3>Support user autonomy</h3><p>Qualitative researchers often resist fully automated analysis and want to remain responsible for interpretation. ThemeViz therefore preserves manual coding and manual theme development so researchers maintain control of the analysis.</p></article>
+          <article><div class="themeviz-goal-number">02</div><h3>Promote sensemaking</h3><p>Researchers often use visual media such as theme maps to understand relationships within data. Instead of returning long blocks of model-generated text, ThemeViz uses interactive bubble charts to make themes easier to inspect and compare.</p></article>
+          <article><div class="themeviz-goal-number">03</div><h3>Reduce prompting overhead</h3><p>Passing long text, metadata, and prior analysis back and forth through a chat interface is burdensome. ThemeViz centrally manages transcripts, user-generated codes, metadata, and prompts so researchers can focus on developing themes.</p></article>
+        </div>
+      </section>
+      <section class="dsec" id="s4"><h2>System Design</h2>
+        <p>ThemeViz supports the full analysis workflow while focusing AI assistance on searching for, reviewing, and defining themes. Researchers retain the ability to code and develop themes manually, then work with GPT-4 to generate and refine alternative theme structures.</p>
+        <div class="themeviz-system-flow" aria-label="ThemeViz analysis workflow">
+          <article class="themeviz-system-step">
+            <div class="themeviz-browser-frame"><video autoplay muted loop playsinline preload="metadata" poster="assets/originals/themeviz/system-design/manual-coding.png"><source src="assets/originals/themeviz/system-design/manual-coding.mp4" type="video/mp4">Your browser does not support this video.</video></div>
+            <div class="themeviz-system-step-copy"><div class="themeviz-system-step-number">1</div><h3>Manual coding</h3><p>On the coding page, users highlight text segments that capture key ideas. They can assign new codes or select existing codes from a dropdown menu.</p></div>
+          </article>
+          <article class="themeviz-system-step">
+            <div class="themeviz-browser-frame"><video autoplay muted loop playsinline preload="metadata" poster="assets/originals/themeviz/system-design/manual-theme-development.png"><source src="assets/originals/themeviz/system-design/manual-theme-development.mp4" type="video/mp4">Your browser does not support this video.</video></div>
+            <div class="themeviz-system-step-copy"><div class="themeviz-system-step-number">2</div><h3>Manual theme development</h3><p>On the left side of the page, ungrouped code&ndash;text pairs include both coded and uncoded data, with codes highlighted in yellow. Users create themes by selecting &ldquo;Add Theme,&rdquo; then drag and drop code&ndash;text pairs from the left panel into a theme box.</p></div>
+          </article>
+          <article class="themeviz-system-step is-ai-step">
+            <div class="themeviz-browser-frame"><video autoplay muted loop playsinline preload="metadata" poster="assets/originals/themeviz/system-design/iterative-theme-development-ai.png"><source src="assets/originals/themeviz/system-design/iterative-theme-development-ai.mp4" type="video/mp4">Your browser does not support this video.</video></div>
+            <div class="themeviz-system-step-copy"><div class="themeviz-system-step-number">3</div><h3>Iterative theme development with&nbsp;AI</h3><p>The left side of the page presents theme titles, theme explanations, and the code&ndash;text pairs assigned to each theme. On the right, an interactive bubble chart visualizes themes and their code&ndash;text pairs.</p></div>
+          </article>
+        </div>
+      </section>
+      <section class="dsec" id="s5"><h2>Iterative Theme Development with&nbsp;AI</h2>
+        <div class="themeviz-ai-page-detail" aria-labelledby="themeviz-ai-detail-title">
+          <h3 id="themeviz-ai-detail-title">Interface details</h3>
+          <div class="themeviz-annotated-interface">
+            <figure><img src="assets/originals/themeviz/system-design/phase3_version2.png?v=20260825" alt="Annotated ThemeViz interface showing theme details, linked selections, an interactive bubble chart, an AI prompt, an AI assistance button, and a theme-count slider"></figure>
+            <div class="themeviz-interface-callouts">
+              <article class="themeviz-interface-callout"><div class="themeviz-interface-callout-number">1</div><p><strong>Theme details:</strong> The left side presents theme titles, explanations, and the code&ndash;text pairs assigned to each theme.</p></article>
+              <article class="themeviz-interface-callout"><div class="themeviz-interface-callout-number">2 / 2a</div><p><strong>Interactive themes and codes:</strong> On the right, outer circles represent themes and color-coded bubbles represent code&ndash;text pairs. Linked interactions highlight connections between the two panels.</p></article>
+              <article class="themeviz-interface-callout"><div class="themeviz-interface-callout-number">3</div><p><strong>Prompt the AI:</strong> Users can describe how they want the AI to generate themes in the text input box.</p></article>
+              <article class="themeviz-interface-callout"><div class="themeviz-interface-callout-number">4</div><p><strong>Generate themes:</strong> Selecting &ldquo;AI assistance&rdquo; generates a new set of themes.</p></article>
+              <article class="themeviz-interface-callout"><div class="themeviz-interface-callout-number">5</div><p><strong>Set theme count:</strong> The slider adjusts the desired number of themes.</p></article>
+            </div>
+          </div>
+        </div>
+        <article class="themeviz-demo">
+          <div class="themeviz-demo-copy"><div class="themeviz-demo-number">Feature 1</div><h3>Adjust theme granularity</h3><p>A slider changes the requested number of themes. A smaller number produces broader, higher-level themes; a larger number produces more specific and granular themes.</p></div>
+          <video controls muted playsinline preload="metadata" poster="assets/originals/themeviz/theme-granularity-poster.png"><source src="assets/originals/themeviz/theme-granularity.mp4" type="video/mp4">Your browser does not support this video.</video>
+        </article>
+        <article class="themeviz-demo">
+          <div class="themeviz-demo-copy"><div class="themeviz-demo-number">Feature 2</div><h3>Guide the AI with custom prompts</h3><p>Researchers can direct the model toward a particular analytical lens. For example, they can ask it to focus on an interviewee&rsquo;s relationship with her parents and her personality, then inspect the newly generated themes.</p></div>
+          <video controls muted playsinline preload="metadata" poster="assets/originals/themeviz/custom-prompts-poster.png"><source src="assets/originals/themeviz/custom-prompts.mp4" type="video/mp4">Your browser does not support this video.</video>
+        </article>
+        <article class="themeviz-demo">
+          <div class="themeviz-demo-copy"><div class="themeviz-demo-number">Feature 3</div><h3>Examine theme quality</h3><p>Researchers can interact with the bubble chart at any time to inspect which codes belong to each AI-generated theme and judge whether the proposed structure is coherent.</p></div>
+          <video controls muted playsinline preload="metadata" poster="assets/originals/themeviz/theme-quality-third-poster.png?v=20260824-third"><source src="assets/originals/themeviz/theme-quality-third.mp4?v=20260824-third" type="video/mp4">Your browser does not support this video.</video>
+        </article>
+      </section>
+      <section class="dsec" id="s6"><h2>Study</h2>
+        <p>We conducted a between-subjects study with 28 participants, randomly assigning 14 participants to each condition. Both conditions used the same GPT-4 model so that the comparison focused on interaction design rather than model capability.</p>
+        <div class="themeviz-condition-grid">
+          <article><h3>ChatGPT condition</h3><p>Participants used Atlas.ti for coding and initial theme development, then used ChatGPT for AI-assisted theme development.</p></article>
+          <article><h3>ThemeViz condition</h3><p>Participants used ThemeViz for coding, initial theme development, and AI-assisted theme development within one integrated workflow.</p></article>
+        </div>
+        <p>Each session included 10 minutes of coding, 5 minutes of initial theme development, 20 minutes of AI-assisted theme development, 5 minutes to finalize themes and complete a survey, and a 10-minute interview.</p>
+        <figure class="themeviz-figure"><img src="assets/originals/themeviz/study-design.png" alt="Between-subjects study design comparing ChatGPT and ThemeViz conditions with 28 participants"></figure>
+      </section>
+      <section class="dsec" id="s7"><h2>Findings</h2>
+        <h3>RQ1: ThemeViz was more useful than a traditional ChatGPT interface</h3>
+        <p>ThemeViz users created more theme iterations and developed more diverse perspectives from the dataset. They also found that its interactive visualization helped them comprehend the data and rated the visual output as more useful than ChatGPT&rsquo;s text-based responses.</p>
+        <figure class="themeviz-figure themeviz-result-figure themeviz-result-figure--rq1">
+          <div class="themeviz-result-group-labels" aria-hidden="true">
+            <span>Usefulness in<br>theme development</span>
+            <span>Usefulness of<br>data visualization support</span>
+          </div>
+          <div class="themeviz-result-image-crop"><img src="assets/originals/themeviz/results-rq1-selected.png?v=20260824-rq-crops" alt="RQ1 bar charts showing more theme iterations and perspectives and higher ratings for data comprehension and visual output usefulness with ThemeViz than with ChatGPT"></div>
+          <figcaption class="themeviz-significance-key"><span>*** <i>p</i> &lt; .001</span><span>** <i>p</i> &lt; .01</span><span>* <i>p</i> &lt; .05</span></figcaption>
+        </figure>
+        <p class="themeviz-result-interpretation">Together, these differences suggest that ThemeViz supported both exploration and sensemaking: participants considered more possible theme structures while using the visualization to understand and compare the underlying data.</p>
+        <h3>RQ2: Interaction design shaped perceptions of collaboration</h3>
+        <p>Participants rated ThemeViz&rsquo;s assistant significantly higher as a collaborator and in its ability to collaborate than the same AI model presented through ChatGPT.</p>
+        <figure class="themeviz-figure themeviz-result-figure themeviz-result-figure--rq2">
+          <img src="assets/originals/themeviz/results-rq2-collaboration.png?v=20260824-rq-crops" alt="RQ2 bar charts showing higher collaborator and collaborative ability ratings for ThemeViz than for ChatGPT">
+          <figcaption class="themeviz-significance-key"><span>*** <i>p</i> &lt; .001</span><span>** <i>p</i> &lt; .01</span><span>* <i>p</i> &lt; .05</span></figcaption>
+        </figure>
+        <p class="themeviz-result-interpretation">Because both conditions used GPT-4, these results suggest that interaction design—not model capability alone—shaped how collaborative the AI felt. Even with these higher ratings, participants did not fully consider the AI a true collaborator. Our interviews revealed concerns about the AI&rsquo;s lack of agency and responsibility. Participants also pointed to limitations in the AI&rsquo;s passive communication style. They felt that simply seeing potential themes was not enough to support deeper thinking.</p>
+        <div class="themeviz-quote-grid">
+          <blockquote><p>&ldquo;AI assistant does not have its own &lsquo;mindset&rsquo; while human collaborators have their own.&rdquo;</p><cite>P10</cite></blockquote>
+          <blockquote><p>&ldquo;Being a collaborator implies that it has agency and can share responsibility for those mistakes or incorrect information. However, I don&rsquo;t think it has that responsibility.&rdquo;</p><cite>P23</cite></blockquote>
+          <blockquote><p>&ldquo;Good collaboration is like two people who either argue with each other or challenge each other to think, to create something new.&rdquo;</p><cite>P24</cite></blockquote>
+        </div>
+      </section>
+      <section class="dsec" id="s8"><h2>Design Implications</h2>
+        <div class="themeviz-implications">
+          <article><div class="themeviz-goal-number">01</div><h3>Support researcher autonomy</h3><p>AI lacks agency and responsibility. When AI can produce negative or misleading outcomes, researchers need clear control over their analytical process and final interpretations.</p></article>
+          <article><div class="themeviz-goal-number">02</div><h3>Design for proactive communication</h3><p>Questions and constructive challenges can deepen reflection. Future systems should explore questioning AI agents that prompt researchers to examine assumptions and think critically during theme development.</p></article>
+        </div>
+        <p class="themeviz-paper-cta"><a href="https://dl.acm.org/doi/10.1145/3757675" target="_blank" rel="noopener">Read the full ThemeViz paper →</a></p>
+      </section>
+      <a class="back-home" href="ux-projects.html">&larr; Back to projects</a>
+    </article>
+  </div>
+</main>
 <footer><div class="foot">
   <div class="kicker">Get in touch</div>
   <a class="big-link" href="mailto:dk564@cornell.edu">dk564@cornell.edu</a>
   <div class="foot-row"><div>&copy; 2026 Daye Kang &mdash; Ithaca, NY</div><div><a href="assets/pdf/DayeKang_CV.pdf" target="_blank" rel="noopener">CV</a></div></div>
 </div></footer>
 <script src="site-nav.js"></script>
+<script src="detail-scrollspy.js?v=20260823"></script>
 </body>
 </html>

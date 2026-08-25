@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UX Projects — Daye Kang</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=3" type="image/svg+xml">
 <meta name="description" content="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260822-ux-hero-cue">
+  <link rel="stylesheet" href="style.css?v=20260824-mindful-story">
 </head>
-<body>
+<body class="video-hero-page">
 <header>
   <div class="nav">
     <a class="brand home-brand" href="index.html?v=20260820-full-width-nav"><span class="brand-name">Daye Kang</span><span class="brand-role">Designer · Researcher</span></a>
@@ -32,40 +32,42 @@
     <div class="bleed ux-video-hero reveal">
       <video src="assets/optimized/video/shark.mp4" autoplay muted loop playsinline></video>
       <div class="ux-video-hero-copy"><h1>UX Projects</h1></div>
-      <a class="ux-hero-scroll" href="#ux-project-list" aria-label="Scroll to UX projects">&#8595;</a>
     </div>
     <div class="cards" id="ux-project-list">
-      <a class="card reveal" href="mindful-journaling.html">
-        <span class="arrow">&#8599;</span>
-        <div class="frame project-placeholder" role="img" aria-label="Mindful, AI-Assisted Journaling System representative image to be added"></div>
-        <div class="pad">
-          <h3>Mindful, AI-Assisted Journaling System</h3>
-          <span class="tag">Project page</span>
-        </div>
-      </a>
       <a class="card reveal" href="themeviz.html">
         <span class="arrow">&#8599;</span>
-        <div class="frame project-placeholder" role="img" aria-label="ThemeViz, LLM-Enhanced Visual System for Theme Development representative image to be added"></div>
+        <div class="frame"><img src="assets/originals/themeViz_main_v2.png?v=20260824" alt="ThemeViz interface shown across three connected displays" loading="lazy"></div>
         <div class="pad">
-          <h3>ThemeViz, LLM-Enhanced Visual System for Theme Development</h3>
-          <span class="tag">Project page</span>
+          <h3>ThemeViz</h3>
+          <span class="tag">Human-AI collaboration, Data sensemaking</span>
+          <p>LLM-Enhanced Visual System for Theme Development</p>
+        </div>
+      </a>
+      <a class="card reveal mindful-card" href="mindful-journaling.html">
+        <span class="arrow">&#8599;</span>
+        <div class="frame"><img src="assets/originals/mindful/mindful_v1@2x.png?v=20260825" alt="Mindful AI-assisted journaling and reflection workflow" loading="lazy"></div>
+        <div class="pad">
+          <h3>Mindful</h3>
+          <span class="tag">AI-mediated journaling, Multimodal journaling</span>
+          <p>AI-Assisted Journaling for Reflection</p>
         </div>
       </a>
       <a class="card reveal" href="toonnote.html">
         <span class="arrow">&#8599;</span>
-        <div class="frame project-placeholder" role="img" aria-label="ToonNote, Interactive Data Comics for Computational Notebooks representative image to be added"></div>
+        <div class="frame"><img src="assets/optimized/pub_toonnote.webp" alt="ToonNote interactive data comics interface" loading="lazy"></div>
         <div class="pad">
-          <h3>ToonNote, Interactive Data Comics for Computational Notebooks</h3>
-          <span class="tag">Project page</span>
+          <h3>ToonNote</h3>
+          <span class="tag">Human-computer interaction · Data storytelling</span>
+          <p>Interactive Data Comics for Computational Notebooks</p>
         </div>
       </a>
-      <a class="card reveal" href="bookrecommendation.html">
+      <a class="card reveal" href="pmos-comics.html">
         <span class="arrow">&#8599;</span>
-        <div class="frame"><img src="assets/optimized/ds_bookrec.webp?v=20260821-original" alt="Book Recommendation System" loading="lazy"></div>
+        <div class="frame pmos-card-frame"><img src="assets/originals/pmos/panel-2.webp" alt="PMOS.Comics character Hazel interpreting exercise and glucose changes" loading="lazy"></div>
         <div class="pad">
-          <h3>Book Recommendation System</h3>
-          <span class="tag">Recommendation · R Shiny</span>
-          <p>We designed and developed a book recommendation system that recommends the next few books for our target users based on their own reading tastes.</p>
+          <h3>PMOS.Comics</h3>
+          <span class="tag">Human-AI co-creation · Visual storytelling</span>
+          <p>Data-driven graphic pathography built from personal health data and lived experience</p>
         </div>
       </a>
       <a class="card reveal" href="lexiainwonderland.html">
@@ -95,6 +97,15 @@
           <p>A digital game that facilitates communication between long-term hospitalized children and their family members through play.</p>
         </div>
       </a>
+      <a class="card reveal" href="bookrecommendation.html">
+        <span class="arrow">&#8599;</span>
+        <div class="frame"><img src="assets/optimized/ds_bookrec.webp?v=20260821-original" alt="Book Recommendation System" loading="lazy"></div>
+        <div class="pad">
+          <h3>Book Recommendation System</h3>
+          <span class="tag">Recommendation · R Shiny</span>
+          <p>We designed and developed a book recommendation system that recommends the next few books for our target users based on their own reading tastes.</p>
+        </div>
+      </a>
       <a class="card reveal" href="sunshine.html">
         <span class="arrow">&#8599;</span>
         <div class="frame"><img src="assets/optimized/sun_hero.webp?v=20260821-original" alt="Sunshine" loading="lazy"></div>
@@ -113,15 +124,6 @@
           <p>Teaching coding and French to refugee children in France through donated devices, classic children’s books, and block coding.</p>
         </div>
       </a>
-      <a class="card reveal" href="pmos-comics.html">
-        <span class="arrow">&#8599;</span>
-        <div class="frame project-placeholder" role="img" aria-label="PMOS.Comics representative image to be added"></div>
-        <div class="pad">
-          <h3>PMOS.Comics</h3>
-          <span class="tag">Interactive comics · Series</span>
-          <p>A project series exploring personal health data through interactive comics. Full project description coming soon.</p>
-        </div>
-      </a>
     </div>
   </div>
 </main>
@@ -134,12 +136,12 @@
       <div>&copy; 2026 Daye Kang &mdash; Ithaca, NY</div>
       <div>
         <a href="assets/pdf/DayeKang_CV.pdf" target="_blank" rel="noopener">CV</a>
-        <a href="https://www.dayekang.info" target="_blank" rel="noopener">dayekang.info</a>
+        <a href="https://www.dayekang.com" target="_blank" rel="noopener">dayekang.com</a>
       </div>
     </div>
   </div>
 </footer>
-<script src="site-nav.js?v=20260820-full-width-nav"></script>
+<script src="site-nav.js?v=20260823-video-header"></script>
 <script>
 document.documentElement.classList.add('js');
 const _io = new IntersectionObserver(es => es.forEach(e => {

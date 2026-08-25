@@ -1,4 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="15" fill="#171717"/>
-  <text x="32" y="45" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="42" font-weight="600">D</text>
+  <title>Daye Kang</title>
+  <defs>
+    <linearGradient id="logo-gradient" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#050505"/>
+      <stop offset="1" stop-color="#9acd32"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#logo-gradient)"/>
 </svg>

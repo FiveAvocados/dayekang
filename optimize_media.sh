@@ -7,9 +7,11 @@ cd "$SITE_DIR"
 MEDIA_LIST="$(mktemp)"
 trap 'rm -f "$MEDIA_LIST"' EXIT
 
-rg -o 'assets/[A-Za-z0-9_./ -]+\.(png|jpg|jpeg|gif|mp4)' --glob '*.html' \
-  | sed 's/^[^:]*://' \
-  | sort -u > "$MEDIA_LIST"
+{
+  rg -o 'assets/[A-Za-z0-9_./ -]+\.(png|jpg|jpeg|gif|mp4)' --glob '*.html' \
+    | sed 's/^[^:]*://'
+  awk -F '\t' '$1 ~ /\.(png|jpg|jpeg|gif)$/ { print "assets/" $1 }' assets_manifest.txt
+} | grep -v '^assets/optimized/' | sort -u > "$MEDIA_LIST"
 
 image_dimensions() {
   local input="$1"
@@ -106,13 +108,11 @@ while IFS= read -r input; do
     continue
   fi
 
-  if [[ "$input" == assets/art_* ]]; then
-    quality=96
-    max_dimension=3000
-  else
-    quality=92
-    max_dimension=2400
-  fi
+  # Preserve fine text, interface details, and line work from the original
+  # portfolio media. 3200 px also supplies a true 2x source for the site's
+  # widest 1600 px presentation on high-density displays.
+  quality=96
+  max_dimension=3200
   read -r resize_width resize_height <<< "$(optimized_dimensions "$input" "$max_dimension")"
   echo "IMAGE  $input -> $output"
   encode_still "$input" "$output" "$quality" "$resize_width" "$resize_height"

@@ -72,12 +72,12 @@ def page(title, active, body, desc="Daye Kang — designer and HCI researcher. P
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
 <meta name="description" content="{desc}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260822-visual-project-pages">
+  <link rel="stylesheet" href="style.css?v=20260825-mindful-no-item-rules">
 </head>
 <body{f' class="{body_class}"' if body_class else ''}>
 <header>
@@ -100,12 +100,12 @@ def page(title, active, body, desc="Daye Kang — designer and HCI researcher. P
       <div>&copy; 2026 Daye Kang &mdash; Ithaca, NY</div>
       <div>
         <a href="{CV}" target="_blank" rel="noopener">CV</a>
-        <a href="https://www.dayekang.info" target="_blank" rel="noopener">dayekang.info</a>
+        <a href="https://www.dayekang.com" target="_blank" rel="noopener">dayekang.com</a>
       </div>
     </div>
   </div>
 </footer>
-<script src="site-nav.js?v=20260820-full-width-nav"></script>
+<script src="site-nav.js?v=20260823-video-header"></script>
 <script>
 document.documentElement.classList.add('js');
 const _io = new IntersectionObserver(es => es.forEach(e => {{
@@ -178,15 +178,13 @@ index_body = f"""
         </a>
       </aside>
       <div class="hero-copy">
-        <h1 class="hello-heading">Hello!</h1>
         <div class="bio bio-primary">
-          <p class="intro-name">Welcome to my website. My name is Daye Kang :)</p>
-          <p>My research interests lie at the intersection of <strong>design</strong>, <strong>Human-Computer Interaction (HCI)</strong>, and <strong>human-AI interaction</strong>.</p>
-          <p>People have access to more data than ever, but more data does not lead to better understanding. I pursue this across three domains: reflective practice in qualitative data analysis, managing chronic conditions with health tracking tools, and data storytelling through comics.</p>
+          <p>Welcome to my website. My name is Daye Kang. My research interests lie at the intersection of <strong>design</strong>, <strong>human-computer interaction (HCI)</strong>, and <strong>human-AI interaction</strong>.</p>
+          <p>People have access to more data than ever, but more data does not lead to better understanding. My research agenda is to design human-AI interaction that makes data easier to use, understand, and communicate.</p>
           <p>I use qualitative methods, including co-design and first-person studies, to understand people’s contexts, then design and evaluate systems that combine visualization and AI to support data sensemaking.</p>
         </div>
         <div class="bio bio-secondary">
-          <p>My research has been published at ACM CHI and CSCW, leading venues in human-computer interaction (HCI), and has received a Best Paper Award and a Best Paper Honorable Mention Award.</p>
+          <p>My research has been published at top-tier HCI conferences such as ACM CHI and CSCW, and has received a Best Paper Award and a Best Paper Honorable Mention Award.</p>
           <p>I am currently a Ph.D. candidate in Information Science at Cornell University, advised by <a class="academic-link" href="https://mjung.infosci.cornell.edu/" target="_blank" rel="noopener">Malte Jung</a>. Previously, I received my MS in Industrial Design from KAIST, advised by <a class="academic-link" href="https://make.kaist.ac.kr/andrea" target="_blank" rel="noopener">Andrea Bianchi</a>, after receiving a BFA in Visual Communication Design at Hongik University.</p>
           <p class="pron">My name is pronounced Da-Ye [da ye].</p>
           <p class="job-market">I am on the academic job market for the 2026–27 cycle.</p>
@@ -218,13 +216,13 @@ index_body = f"""
             <li>
               <div class="selected-pub-conference">CSCW 2025</div>
               <p>ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System</p>
-              <div class="selected-pub-award-row"><span class="selected-award"><span class="selected-award-icon" aria-hidden="true">🏅</span>Best Paper Honorable Mention Award</span></div>
+              <div class="selected-pub-award-row"><span class="selected-award">Best Paper Honorable Mention Award</span></div>
               <div class="selected-pub-links"><a href="assets/pdf/ThemeViz_CSCW25.pdf" target="_blank" rel="noopener">PDF</a><a href="https://dl.acm.org/doi/10.1145/3757675" target="_blank" rel="noopener">DOI</a></div>
             </li>
             <li>
               <div class="selected-pub-conference">CHI 2025</div>
               <p>Towards Hormone Health: An Autoethnography of Long-Term Holistic Tracking to Manage PCOS</p>
-              <div class="selected-pub-award-row"><span class="selected-award"><span class="selected-award-icon" aria-hidden="true">🏆</span>Best Paper Award</span></div>
+              <div class="selected-pub-award-row"><span class="selected-award">Best Paper Award</span></div>
               <div class="selected-pub-links"><a href="assets/pdf/HormoneHealth_CHI25.pdf" target="_blank" rel="noopener">PDF</a><a href="https://dl.acm.org/doi/abs/10.1145/3706598.3713619" target="_blank" rel="noopener">DOI</a></div>
             </li>
             <li>
@@ -250,7 +248,7 @@ index_body = f"""
               <div class="design-project-details">
                 <h5>Lexia in Wonderland</h5>
                 <div class="design-project-awards" aria-label="Awards">
-                  <span class="selected-award">2017 ADAA Semifinalist</span>
+                  <span class="selected-award">2017 Adobe Design Achievement Awards Semifinalist</span>
                   <span class="selected-award">2017 KSDS Excellence Award</span>
                   <span class="selected-award">2017 Hongik Excellence Graduation Work</span>
                 </div>
@@ -260,12 +258,18 @@ index_body = f"""
 
             <article class="design-branch">
               <h4>Visual Storytelling</h4>
-              <div class="design-image-grid">
-                <img class="design-project-image" src="assets/optimized/pub_toonnote.webp" alt="Interactive data comics from ToonNote" loading="lazy">
+              <div class="design-project-entry">
+                <div class="design-image-grid">
+                  <img class="design-project-image" src="assets/optimized/art_22.webp" alt="Still image from the QinQin Hou animation" loading="lazy">
+                </div>
+                <div class="design-project-details">
+                  <h5>QinQin Hou</h5>
+                  <div class="design-project-awards" aria-label="Awards">
+                    <span class="selected-award">Excellence Award, Times Young Creative Awards</span>
+                  </div>
+                </div>
               </div>
-              <div class="design-project-details">
-                <h5>ToonNote</h5>
-              </div>
+              <a class="selected-more" href="visual-design.html?v=20260820-full-width-nav"><span class="selected-more-label">See all visual design works</span><span class="selected-more-arrow" aria-hidden="true">→</span></a>
             </article>
 
             <article class="design-branch">
@@ -300,13 +304,13 @@ W("index.html", page("Daye Kang — Designer & HCI Researcher", "index.html", in
 
 # ================= PUBLICATIONS =================
 pubs = [
-    dict(venue="CSCW 2025", award="🏅 Best Paper Honorable Mention Award",
+    dict(venue="CSCW 2025", award="Best Paper Honorable Mention Award",
          thumb=A("pub_themeviz_teaser", "f4a835_5bf2731eb386491ca9c3a4e8683428b9~mv2.png", "fill", 1000, 726),
          title="ThemeViz: Understanding the Effect of Human-AI Collaboration in Theme Development with an LLM-enhanced Interactive Visual System",
          authors="<b>Daye Kang</b>, Zhuolun Han, Jiahe Tian, Muhan Zhang, and Jeff Rzeszotarski",
          abs="This paper explores the potential role of AI, e.g., large language models (LLMs), in supporting theme development in thematic analysis. While prior applications of AI in qualitative data analysis have focused on supporting coding, we investigate whether LLMs can effectively contribute as collaborators in the more abstract and conceptual phases of qualitative analysis, specifically theme development. We designed ThemeViz, an interactive system that uses GPT-4 to generate and visualize multiple versions of themes based on user input while allowing researchers to maintain control through manual coding and theme development.",
          links=[("PDF", PDF_THEMEVIZ), ("DOI", "https://dl.acm.org/doi/10.1145/3757675")]),
-    dict(venue="CHI 2025", award="🏆 Best Paper Award",
+    dict(venue="CHI 2025", award="Best Paper Award",
          thumb=A("pub_hormone", "f4a835_c97dfad2927340bb81ef92ed2e62a4d8~mv2.png", "fill", 1000, 726),
          title="Towards Hormone Health: An Autoethnography of Long-Term Holistic Tracking to Manage PCOS",
          authors="<b>Daye Kang</b>, Jingjin Li, Gilly Leshed, Jeff Rzeszotarski and Xi Lu",
@@ -372,6 +376,7 @@ pubs_body = f"""
   <div class="wrap">
     <div class="bleed ux-video-hero publication-video-hero reveal">
       {video_tag("assets/optimized/video/tiger.mp4")}
+      <div class="ux-video-hero-copy"><h1>Publications</h1></div>
     </div>
     <div class="page-head">
       <div class="kicker">Peer-reviewed research</div>
@@ -384,11 +389,12 @@ pubs_body = f"""
   </div>
 </main>
 """
-W("publications.html", page("Publications — Daye Kang", "publications.html", pubs_body))
+W("publications.html", page("Publications — Daye Kang", "publications.html", pubs_body, body_class="video-hero-page"))
 
 # ================= CARD helper =================
-def card(href, img_path, tag, title, desc):
-    return f"""      <a class="card reveal" href="{href}">
+def card(href, img_path, tag, title, desc, extra_class=""):
+    card_class = f"card reveal {extra_class}".strip()
+    return f"""      <a class="{card_class}" href="{href}">
         <span class="arrow">&#8599;</span>
         <div class="frame"><img src="{img_path}" alt="{html.escape(title)}" loading="lazy"></div>
         <div class="pad">
@@ -416,15 +422,13 @@ ux_body = f"""
     <div class="bleed ux-video-hero reveal">
       {video_tag("assets/optimized/video/shark.mp4")}
       <div class="ux-video-hero-copy"><h1>UX Projects</h1></div>
-      <a class="ux-hero-scroll" href="#ux-project-list" aria-label="Scroll to UX projects">&#8595;</a>
     </div>
     <div class="cards" id="ux-project-list">
-{placeholder_card("mindful-journaling.html", "Project page", "Mindful, AI-Assisted Journaling System", "")}
-{placeholder_card("themeviz.html", "Project page", "ThemeViz, LLM-Enhanced Visual System for Theme Development", "")}
-{placeholder_card("toonnote.html", "Project page", "ToonNote, Interactive Data Comics for Computational Notebooks", "")}
-{card("bookrecommendation.html", A("ds_bookrec", "f4a835_ddc7400150214afebb07f52a82c092f8~mv2.png", "fill", 1280, 840),
-      "Recommendation · R Shiny", "Book Recommendation System",
-      "We designed and developed a book recommendation system that recommends the next few books for our target users based on their own reading tastes.")}
+{card("themeviz.html", "assets/originals/themeViz_main_v2.png?v=20260824", "Human-AI collaboration, Data Sensemaking", "ThemeViz", "LLM-Enhanced Visual System for Theme Development")}
+{card("mindful-journaling.html", "assets/originals/mindful/mindful-workflow.png?v=20260824", "Project page", "Mindful", "AI-Assisted Journaling for Reflection", "mindful-card")}
+{placeholder_card("toonnote.html", "Project page", "ToonNote", "Interactive Data Comics for Computational Notebooks")}
+{placeholder_card("pmos-comics.html", "Interactive comics · Series", "PMOS.Comics",
+      "A project series exploring personal health data through interactive comics. Full project description coming soon.")}
 {card("lexiainwonderland.html", A("ux_lexia", "f4a835_eb3d171453984c1d8ab28fd7eeabb5dc~mv2.png", "fill", 1280, 840),
       "Education · Gamification", "Lexia in Wonderland",
       "A Korean education app for imaginative, dyslexic children that wraps scientifically proven treatment methods in a fun adventure.")}
@@ -434,19 +438,20 @@ ux_body = f"""
 {card("mylittlehero.html", "assets/optimized/ux_mlh.webp",
       "Game · Family engagement", "My Little Hero",
       "A digital game that facilitates communication between long-term hospitalized children and their family members through play.")}
+{card("bookrecommendation.html", A("ds_bookrec", "f4a835_ddc7400150214afebb07f52a82c092f8~mv2.png", "fill", 1280, 840),
+      "Recommendation · R Shiny", "Book Recommendation System",
+      "We designed and developed a book recommendation system that recommends the next few books for our target users based on their own reading tastes.")}
 {card("sunshine.html", "assets/optimized/sun_hero.webp",
       "IoT · Multisensory", "Sunshine",
       "An IoT digital window controlled from a smartphone app that changes the view with matching scents, sounds, and breeze.")}
 {card("tomorrow.html", A("ux_tomorrow", "f4a835_ff310f1c911b4a118aa6d9619bfe9afa~mv2.png", "fill", 1280, 840),
       "Education · Social impact", "Tomorrow",
       "Teaching coding and French to refugee children in France through donated devices, classic children’s books, and block coding.")}
-{placeholder_card("pmos-comics.html", "Interactive comics · Series", "PMOS.Comics",
-      "A project series exploring personal health data through interactive comics. Full project description coming soon.")}
     </div>
   </div>
 </main>
 """
-W("ux-projects.html", page("UX Projects — Daye Kang", "ux-projects.html", ux_body))
+W("ux-projects.html", page("UX Projects — Daye Kang", "ux-projects.html", ux_body, body_class="video-hero-page"))
 
 # Preserve the former URL while keeping the public page name aligned with the menu.
 W("ux-research.html", """<!DOCTYPE html>
@@ -474,7 +479,7 @@ W("data-science.html", """<!DOCTYPE html>
 <meta http-equiv="refresh" content="0; url=ux-projects.html">
 <link rel="canonical" href="ux-projects.html">
 <title>UX Projects — Daye Kang</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
 <script>window.location.replace("ux-projects.html" + window.location.search + window.location.hash);</script>
 </head>
 <body>
@@ -537,10 +542,7 @@ art_body = f"""
   <div class="wrap">
     <div class="bleed artwork-video-hero reveal">
       {video_tag("assets/optimized/video/bird4.mp4")}
-      <div class="artwork-video-copy" hidden>
-        <div class="kicker">Illustration · Animation · Comics</div>
-        <h1>Visual Design</h1>
-      </div>
+      <div class="ux-video-hero-copy"><h1>Visual Design</h1></div>
     </div>
     <div class="artwork-filters" role="group" aria-label="Filter visual design projects by category">
       <button class="artwork-filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
@@ -655,7 +657,7 @@ if (!window.ARTWORK_PROJECT_LINKS) (function() {{
   document.addEventListener('keydown', e => {{ if (e.key === 'Escape') close(); }});
 }})();
 </script>"""
-W("visual-design.html", page("Visual Design — Daye Kang", "visual-design.html", art_body))
+W("visual-design.html", page("Visual Design — Daye Kang", "visual-design.html", art_body, body_class="video-hero-page"))
 
 # Preserve the former URL while keeping the public page name aligned with the menu.
 W("artwork.html", """<!DOCTYPE html>
@@ -687,7 +689,7 @@ qinqin_body = """
     <article class="qinqin-copy">
       <div class="kicker">2D &amp; 3D Animation · 2016</div>
       <h1>QinQin Hou</h1>
-      <div class="qinqin-award"><span aria-hidden="true">🏆</span>Excellence Award, Times Young Creative Awards</div>
+      <div class="qinqin-award">Excellence Award, Times Young Creative Awards</div>
       <p class="qinqin-description">This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards.</p>
       <dl class="meta-grid">
         <div><dt>Medium</dt><dd>2D &amp; 3D animation — Watercolor, Pen</dd></div>
@@ -785,11 +787,16 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
   </div>
 </main>
 {spy_js}"""
+    detail_body_class = {
+        "lexiainwonderland.html": "lexia-page",
+        "themeviz.html": "themeviz-page",
+        "mindful-journaling.html": "mindful-page",
+    }.get(fname, "")
     W(fname, page(
         f"{title} — Daye Kang",
         None,
         body,
-        body_class="lexia-page" if fname == "lexiainwonderland.html" else "",
+        body_class=detail_body_class,
     ))
 
 def dimg(name, wix_id, alt=""):
@@ -939,7 +946,7 @@ detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Projects",
     [("Keywords", "Multisensory Instruction, Gamification, UX research"),
      ("Members", "Daye Kang, Hye-Ryeong Kim, Ji-Hae Lee"),
      ("My contribution", "Team Leader, UX research, Prototyping, Illustration"),
-     ("Year", "4.2017 – 11.2017")],
+     ("Year", "2017")],
     "<p>‘Lexia in Wonderland’ is a game that uses letter blocks to create nonwords, designed specifically for dyslexic children to help them learn phonics.</p>",
     [("What inspired this project",
       split(dimg_s("lex_inspire", "f4a835_49f52abf9825426989ceb479db4ac6d1~mv2.jpg", "Like Stars on Earth")
@@ -1099,7 +1106,7 @@ detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Projects",
                  dimg_s("lex_ex_2", "f4a835_e96674a0c066468cb8f42ffb0723cf75~mv2.png", "Exhibition poster"))
       + '<div style="max-width:420px;margin-left:auto">' + dimg_s("lex_ex_3", "f4a835_d8b5d10daa84464794a61f76461e7978~mv2.jpg", "Exhibition photo") + "</div>",
       "banded band-gray")],
-    awards="2017 ADAA (Adobe Design Achievement Award) Semifinalist · 2017 KSDS Excellence Award · 2017 Hongik University Excellence Graduation Work",
+    awards="2017 Adobe Design Achievement Awards Semifinalist · 2017 KSDS Excellence Award · 2017 Hongik University Excellence Graduation Work",
     hero=hero_img("lex_hero", "f4a835_f2337819babf4271ad20dca7ad430aa5~mv2.png", "Lexia in Wonderland"))
 
 detail("nudgedesign.html", "Nudge Design to Increase Physical Activities of Hospitalized Children", "UX Projects",
@@ -1209,7 +1216,7 @@ detail("mylittlehero.html", "My Little Hero", "UX Projects",
     [("Keywords", "Long-Term Hospitalized Children, Gamification, UX research, Storytelling, Family Engagement"),
      ("Members", "Personal Project"),
      ("My contribution", "UX research, UI design, Illustration"),
-     ("Year", "3.2017 – 5.2017")],
+     ("Year", "2017")],
     "<p>‘My Little Hero’ is a digital game designed to facilitate communications between long-term hospitalized children's family members. It encourages all family members to play with the child and help them make progress in the game. The game's story was designed to help children and their family members understand the interactions between diseases and the immune system.</p>",
     [("What inspired this project",
       "<p>I heard a story from my friend about how long-term hospitalization made her disconnected from the family when she was a child. She said long-term hospitalization makes the child lose connection with people outside of the hospital. It makes it difficult to have a common interest that the child can share with other family members. I decided to design an app that can connect families with long-term hospitalized children.</p>"),
@@ -1321,7 +1328,8 @@ detail("tomorrow.html", "Tomorrow", "UX Projects",
 # Public filename contract: do not rename pmos-comics.html.
 detail("pmos-comics.html", "PMOS.Comics", "UX Projects · Series",
     [("Project type", "Interactive comics series"),
-     ("Status", "In development")],
+     ("Status", "In development"),
+     ("Year", "2026 – Present")],
     "<p>Project description will be added here.</p>",
     [("Overview",
       '<div class="project-content-placeholder"><p>Project overview will be added here.</p></div>'),
@@ -1332,12 +1340,145 @@ detail("pmos-comics.html", "PMOS.Comics", "UX Projects · Series",
     hero='<div class="bleed detail-placeholder-hero" role="img" aria-label="PMOS.Comics hero image to be added"></div>')
 
 # Permanent public filename contracts: these pages are linked from the CV.
-detail("mindful-journaling.html", "Mindful, AI-Assisted Journaling System", "UX Projects",
-    [], "", [])
-detail("themeviz.html", "ThemeViz, LLM-Enhanced Visual System for Theme Development", "UX Projects",
-    [], "", [])
-detail("toonnote.html", "ToonNote, Interactive Data Comics for Computational Notebooks", "UX Projects",
-    [], "", [])
+PROJECT_PLACEHOLDER_SECTIONS = [
+    ("Overview", '<div class="project-content-placeholder"><p>Project overview will be added here.</p></div>'),
+    ("Design Process", '<div class="project-content-placeholder"><p>Design process and project materials will be added here.</p></div>'),
+    ("Outcomes", '<div class="project-content-placeholder"><p>Project outcomes will be added here.</p></div>'),
+]
+
+THEMEVIZ_SECTIONS = [
+    ("Background", """
+        <p>Thematic analysis is a research method used to identify patterns or themes within qualitative data. It is widely used in scientific research, user research, and product development, but it is also notoriously time-consuming and laborious.</p>
+        <div class="themeviz-phases" aria-label="Six phases of thematic analysis">
+          <article><img src="assets/originals/themeviz/six-phases/phase-1.png?v=20260824" alt="Illustration of a researcher reading transcripts"><div class="themeviz-phase-label"><span class="themeviz-phase-number">01</span><strong>Reading transcripts</strong></div></article>
+          <article><img src="assets/originals/themeviz/six-phases/phase-2.png?v=20260824" alt="Illustration of excerpts being assigned qualitative codes"><div class="themeviz-phase-label"><span class="themeviz-phase-number">02</span><strong>Coding</strong></div></article>
+          <div class="themeviz-phase-group"><span>Theme development steps</span></div>
+          <article class="is-theme-development"><img src="assets/originals/themeviz/six-phases/phase-3.png?v=20260824" alt="Illustration of codes being grouped while searching for themes"><div class="themeviz-phase-label"><span class="themeviz-phase-number">03</span><strong>Searching for themes</strong><span class="themeviz-phase-category">Theme development step</span></div></article>
+          <article class="is-theme-development"><img src="assets/originals/themeviz/six-phases/phase-4.png?v=20260824" alt="Illustration of code groups being reviewed and reorganized"><div class="themeviz-phase-label"><span class="themeviz-phase-number">04</span><strong>Reviewing themes</strong><span class="themeviz-phase-category">Theme development step</span></div></article>
+          <article class="is-theme-development"><img src="assets/originals/themeviz/six-phases/phase-5.png?v=20260824" alt="Illustration of themes and sub-themes being defined"><div class="themeviz-phase-label"><span class="themeviz-phase-number">05</span><strong>Defining themes</strong><span class="themeviz-phase-category">Theme development step</span></div></article>
+          <article><img src="assets/originals/themeviz/six-phases/phase-6.png?v=20260824" alt="Illustration of a researcher reporting thematic analysis findings"><div class="themeviz-phase-label"><span class="themeviz-phase-number">06</span><strong>Reporting</strong></div></article>
+        </div>
+        <p class="themeviz-reference">Figure. Six-phase framework (Braun and Clarke, 2012).</p>
+        <p>Previous computational research has largely focused on coding because it involves relatively clear tasks, such as labeling data with a predefined codebook. Theme development is harder to support. Searching for, reviewing, and defining themes require researchers to abstract, synthesize, and interpret meaning across a dataset.</p>
+        <p>This work becomes more challenging because researchers often create and compare multiple versions of themes before identifying the interpretation that best represents their data. LLMs can support this conceptual work by understanding text and developing candidate themes. More importantly, they may act as research collaborators by offering alternative interpretations of the data that researchers may not have initially considered.</p>
+        <p>ThemeViz investigates whether a purpose-built interface can turn these capabilities into meaningful human-AI collaboration during theme development.</p>"""),
+    ("Research Questions", """
+        <div class="themeviz-rq-list">
+          <article><div class="themeviz-rq-label">RQ1</div><p>How useful is ThemeViz for theme development compared with a conventional prompting interface such as ChatGPT?</p></article>
+          <article><div class="themeviz-rq-label">RQ2</div><p>To what extent does ThemeViz&rsquo;s design encourage users to view its AI assistant as a collaborative partner in theme development compared with a traditional interface such as ChatGPT?</p></article>
+        </div>"""),
+    ("Design Goals", """
+        <p>The following three design goals guided the system&rsquo;s design.</p>
+        <div class="themeviz-goals">
+          <article><div class="themeviz-goal-number">01</div><h3>Support user autonomy</h3><p>Qualitative researchers often resist fully automated analysis and want to remain responsible for interpretation. ThemeViz therefore preserves manual coding and manual theme development so researchers maintain control of the analysis.</p></article>
+          <article><div class="themeviz-goal-number">02</div><h3>Promote sensemaking</h3><p>Researchers often use visual media such as theme maps to understand relationships within data. Instead of returning long blocks of model-generated text, ThemeViz uses interactive bubble charts to make themes easier to inspect and compare.</p></article>
+          <article><div class="themeviz-goal-number">03</div><h3>Reduce prompting overhead</h3><p>Passing long text, metadata, and prior analysis back and forth through a chat interface is burdensome. ThemeViz centrally manages transcripts, user-generated codes, metadata, and prompts so researchers can focus on developing themes.</p></article>
+        </div>"""),
+    ("System Design", """
+        <p>ThemeViz supports the full analysis workflow while focusing AI assistance on searching for, reviewing, and defining themes. Researchers retain the ability to code and develop themes manually, then work with GPT-4 to generate and refine alternative theme structures.</p>
+        <div class="themeviz-system-flow" aria-label="ThemeViz analysis workflow">
+          <article class="themeviz-system-step">
+            <div class="themeviz-browser-frame"><div class="themeviz-browser-toolbar" aria-hidden="true"><span></span></div><div class="themeviz-system-video-crop"><video autoplay muted loop playsinline preload="metadata" poster="assets/originals/themeviz/system-design/manual-coding.png"><source src="assets/originals/themeviz/system-design/manual-coding.mp4" type="video/mp4">Your browser does not support this video.</video></div></div>
+            <div class="themeviz-system-step-copy"><div class="themeviz-system-step-number">1</div><h3>Manual coding</h3><p>On the coding page, users highlight text segments that capture key ideas. They can assign new codes or select existing codes from a dropdown menu. Codes are assigned to individual rows.</p></div>
+          </article>
+          <article class="themeviz-system-step">
+            <div class="themeviz-browser-frame"><div class="themeviz-browser-toolbar" aria-hidden="true"><span></span></div><div class="themeviz-system-video-crop"><video autoplay muted loop playsinline preload="metadata" poster="assets/originals/themeviz/system-design/manual-theme-development.png"><source src="assets/originals/themeviz/system-design/manual-theme-development.mp4" type="video/mp4">Your browser does not support this video.</video></div></div>
+            <div class="themeviz-system-step-copy"><div class="themeviz-system-step-number">2</div><h3>Manual theme development</h3><p>On the left side of the page, ungrouped code&ndash;text pairs include both coded and uncoded data, with codes highlighted in yellow. Users create themes by selecting &ldquo;Add Theme,&rdquo; then drag and drop code&ndash;text pairs from the left panel into a theme box.</p></div>
+          </article>
+          <article class="themeviz-system-step is-ai-step">
+            <div class="themeviz-browser-frame"><div class="themeviz-browser-toolbar" aria-hidden="true"><span></span></div><div class="themeviz-system-video-crop"><video autoplay muted loop playsinline preload="metadata" poster="assets/originals/themeviz/system-design/iterative-theme-development-ai.png"><source src="assets/originals/themeviz/system-design/iterative-theme-development-ai.mp4" type="video/mp4">Your browser does not support this video.</video></div></div>
+            <div class="themeviz-system-step-copy"><div class="themeviz-system-step-number">3</div><h3>Iterative theme development with&nbsp;AI</h3><p>The left side of the page presents theme titles, theme explanations, and the code&ndash;text pairs assigned to each theme. On the right, an interactive bubble chart visualizes themes and their code&ndash;text pairs.</p></div>
+          </article>
+        </div>"""),
+    ("Iterative Theme Development with&nbsp;AI", """
+        <div class="themeviz-ai-page-detail" aria-labelledby="themeviz-ai-detail-title">
+          <h3 id="themeviz-ai-detail-title">Interface details</h3>
+          <div class="themeviz-annotated-interface">
+            <div class="themeviz-interface-top-callouts">
+              <article class="themeviz-interface-callout"><div class="themeviz-interface-callout-heading"><span class="themeviz-interface-marker">3</span><h4>Prompt the AI</h4></div><p>Users can describe how they want the AI to generate themes in the text input box.</p></article>
+              <article class="themeviz-interface-callout"><div class="themeviz-interface-callout-heading"><span class="themeviz-interface-marker">4</span><h4>Generate themes</h4></div><p>Selecting &ldquo;AI assistance&rdquo; generates a new set of themes.</p></article>
+              <article class="themeviz-interface-callout"><div class="themeviz-interface-callout-heading"><span class="themeviz-interface-marker">5</span><h4>Set theme count</h4></div><p>The slider adjusts the desired number of themes.</p></article>
+            </div>
+            <article class="themeviz-interface-callout themeviz-interface-callout-left"><div class="themeviz-interface-callout-heading"><span class="themeviz-interface-marker">1</span><h4>Theme details</h4></div><p>The left side presents theme titles, explanations, and the code&ndash;text pairs assigned to each theme.</p></article>
+            <figure><img src="assets/originals/themeviz/system-design/phase3_version2.png?v=20260825" alt="Annotated ThemeViz interface showing theme details, linked selections, an interactive bubble chart, an AI prompt, an AI assistance button, and a theme-count slider"></figure>
+            <article class="themeviz-interface-callout themeviz-interface-callout-right"><div class="themeviz-interface-callout-heading"><span class="themeviz-interface-marker">2 / 2a</span><h4>Interactive themes and codes</h4></div><p>On the right, outer circles represent themes and color-coded bubbles represent code&ndash;text pairs. Linked interactions highlight connections between the two panels.</p></article>
+          </div>
+        </div>
+        <article class="themeviz-demo">
+          <div class="themeviz-demo-copy"><div class="themeviz-demo-number">01</div><h3>Adjust theme granularity</h3><p>A slider changes the requested number of themes. A smaller number produces broader, higher-level themes; a larger number produces more specific and granular themes.</p></div>
+          <video controls muted playsinline preload="metadata" poster="assets/originals/themeviz/theme-granularity-poster.png"><source src="assets/originals/themeviz/theme-granularity.mp4" type="video/mp4">Your browser does not support this video.</video>
+        </article>
+        <article class="themeviz-demo">
+          <div class="themeviz-demo-copy"><div class="themeviz-demo-number">02</div><h3>Guide the AI with custom prompts</h3><p>Researchers can direct the model toward a particular analytical lens. For example, they can ask it to focus on an interviewee&rsquo;s relationship with her parents and her personality, then inspect the newly generated themes.</p></div>
+          <video controls muted playsinline preload="metadata" poster="assets/originals/themeviz/custom-prompts-poster.png"><source src="assets/originals/themeviz/custom-prompts.mp4" type="video/mp4">Your browser does not support this video.</video>
+        </article>
+        <article class="themeviz-demo">
+          <div class="themeviz-demo-copy"><div class="themeviz-demo-number">03</div><h3>Examine theme quality</h3><p>Researchers can interact with the bubble chart at any time to inspect which codes belong to each AI-generated theme and judge whether the proposed structure is coherent.</p></div>
+          <video controls muted playsinline preload="metadata" poster="assets/originals/themeviz/theme-quality-third-poster.png?v=20260824-third"><source src="assets/originals/themeviz/theme-quality-third.mp4?v=20260824-third" type="video/mp4">Your browser does not support this video.</video>
+        </article>"""),
+    ("Study", """
+        <p>We conducted a between-subjects study with 28 participants, randomly assigning 14 participants to each condition. Both conditions used the same GPT-4 model so that the comparison focused on interaction design rather than model capability.</p>
+        <div class="themeviz-condition-grid">
+          <article><h3>ChatGPT condition</h3><p>Participants used Atlas.ti for coding and initial theme development, then used ChatGPT for AI-assisted theme development.</p></article>
+          <article><h3>ThemeViz condition</h3><p>Participants used ThemeViz for coding, initial theme development, and AI-assisted theme development within one integrated workflow.</p></article>
+        </div>
+        <p>Each session included 10 minutes of coding, 5 minutes of initial theme development, 20 minutes of AI-assisted theme development, 5 minutes to finalize themes and complete a survey, and a 10-minute interview.</p>
+        <figure class="themeviz-figure"><img src="assets/originals/themeviz/study-design.png" alt="Between-subjects study design comparing ChatGPT and ThemeViz conditions with 28 participants"></figure>"""),
+    ("Findings", """
+        <h3>RQ1: ThemeViz was more useful than a traditional ChatGPT interface</h3>
+        <p>ThemeViz users created more theme iterations and developed more diverse perspectives from the dataset. They also found that its interactive visualization helped them comprehend the data and rated the visual output as more useful than ChatGPT&rsquo;s text-based responses.</p>
+        <figure class="themeviz-figure themeviz-result-figure"><img src="assets/originals/themeviz/results-rq1-selected.png?v=20260824-rq-crops" alt="RQ1 bar charts showing more theme iterations and perspectives and higher ratings for data comprehension and visual output usefulness with ThemeViz than with ChatGPT"></figure>
+        <p class="themeviz-result-interpretation">Together, these differences suggest that ThemeViz supported both exploration and sensemaking: participants considered more possible theme structures while using the visualization to understand and compare the underlying data.</p>
+        <h3>RQ2: Interaction design shaped perceptions of collaboration</h3>
+        <p>Participants rated ThemeViz&rsquo;s assistant significantly higher as a collaborator and in its ability to collaborate than the same AI model presented through ChatGPT.</p>
+        <figure class="themeviz-figure themeviz-result-figure themeviz-result-figure--rq2"><img src="assets/originals/themeviz/results-rq2-collaboration.png?v=20260824-rq-crops" alt="RQ2 bar charts showing higher collaborator and collaborative ability ratings for ThemeViz than for ChatGPT"></figure>
+        <p class="themeviz-result-interpretation">Because both conditions used GPT-4, these results suggest that interaction design—not model capability alone—shaped how collaborative the AI felt. Even with these higher ratings, participants did not fully consider the AI a true collaborator. Our interviews revealed concerns about the AI&rsquo;s lack of agency and responsibility. Participants also pointed to limitations in the AI&rsquo;s passive communication style. They felt that simply seeing potential themes was not enough to support deeper thinking.</p>
+        <div class="themeviz-quote-grid">
+          <blockquote><p>&ldquo;AI assistant does not have its own &lsquo;mindset&rsquo; while human collaborators have their own.&rdquo;</p><cite>P10</cite></blockquote>
+          <blockquote><p>&ldquo;Being a collaborator implies that it has agency and can share responsibility for those mistakes or incorrect information. However, I don&rsquo;t think it has that responsibility.&rdquo;</p><cite>P23</cite></blockquote>
+          <blockquote><p>&ldquo;Good collaboration is like two people who either argue with each other or challenge each other to think, to create something new.&rdquo;</p><cite>P24</cite></blockquote>
+        </div>"""),
+    ("Design Implications", """
+        <div class="themeviz-implications">
+          <article><div class="themeviz-goal-number">01</div><h3>Support researcher autonomy</h3><p>AI lacks agency and responsibility. When AI can produce negative or misleading outcomes, researchers need clear control over their analytical process and final interpretations.</p></article>
+          <article><div class="themeviz-goal-number">02</div><h3>Design for proactive communication</h3><p>Questions and constructive challenges can deepen reflection. Future systems should explore questioning AI agents that prompt researchers to examine assumptions and think critically during theme development.</p></article>
+        </div>
+        <p class="themeviz-paper-cta"><a href="https://dl.acm.org/doi/10.1145/3757675" target="_blank" rel="noopener">Read the full ThemeViz paper →</a></p>"""),
+]
+
+# Mindful is a hand-authored long-form case study based on two research papers.
+# Keep the generated site from replacing its portfolio narrative with a generic
+# placeholder during routine rebuilds. The committed HTML remains the source for
+# that page, just as the teaching portfolio is preserved above.
+mindful_path = os.path.join(ROOT, "mindful-journaling.html")
+if not os.path.exists(mindful_path):
+    detail("mindful-journaling.html", "Mindful", "UX Projects",
+        [("Keywords", "Human-AI interaction, Expressive writing, Reflection, Generative AI"),
+         ("Members", "Daye Kang, Wenhan Dong, Swati Mishra"),
+         ("My contribution", "<strong>Lead Researcher &amp; Designer</strong><br>Research framing, interaction and system design, responsible-AI workflow, study design, and qualitative analysis"),
+         ("Year", "2025")],
+        '<p class="mindful-deck">AI-Assisted Journaling for Reflection</p>',
+        [("Project Story", "<p>This long-form portfolio story is maintained in mindful-journaling.html.</p>")],
+        hero='<div class="bleed mindful-hero"><img src="assets/originals/mindful/mindful-workflow.png?v=20260824" alt="Four-step Mindful workflow from journal writing to AI-assisted reflection and mood review"></div>')
+
+detail("themeviz.html", "ThemeViz", "UX Projects",
+    [("Keywords", "Human-AI collaboration, Qualitative data analysis, Theme development, LLMs"),
+     ("Members", "Daye Kang, Zhuolun Han, Jiahe Tian, Muhan Zhang, Jeff Rzeszotarski"),
+     ("My contribution", "Lead Researcher<br>Research framing, study design, system design and development, data visualization, study execution, and data analysis"),
+     ("Year", "2023")],
+    "<p>LLM-Enhanced Visual System for Theme Development</p>",
+    THEMEVIZ_SECTIONS,
+    awards='Best Paper Honorable Mention Award, ACM CSCW 2025<br><a class="meta-paper-link" href="https://dl.acm.org/doi/10.1145/3757675" target="_blank" rel="noopener">See published paper →</a>',
+    hero='<div class="bleed themeviz-hero"><img src="assets/originals/themeViz_main_v2.png?v=20260824" alt="ThemeViz interface shown across three connected displays on a blue background"></div>')
+
+detail("toonnote.html", "ToonNote", "UX Projects",
+    [("Keywords", "Interactive data comics, Computational notebooks, Data storytelling"),
+     ("Members", "Daye Kang, Tony Ho, Nicolai Marquardt, Bilge Mutlu, Andrea Bianchi"),
+     ("My contribution", "Research, system design and development, usability evaluation"),
+     ("Year", "2020")],
+    "<p>Interactive Data Comics for Computational Notebooks</p>",
+    PROJECT_PLACEHOLDER_SECTIONS,
+    hero='<div class="bleed detail-placeholder-hero" role="img" aria-label="ToonNote representative image to be added"></div>')
 
 # ================= MANIFEST + DOWNLOAD SCRIPT =================
 with open(os.path.join(ROOT, "assets_manifest.txt"), "w") as f:
