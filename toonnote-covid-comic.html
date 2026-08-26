@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COVID-19 Comic Document — ToonNote</title>
+<meta name="description" content="A web-native reconstruction of the COVID-19 comic document used in the ToonNote formative study.">
+<script src="teaching-projects/vendor/d3.v7.9.0.min.js"></script>
+<script src="teaching-projects/vendor/topojson.v3.0.2.min.js"></script>
+<style>
+  :root {
+    --ink: #171717;
+    --border: #111;
+    --ocean: #e4edf5;
+    --land: #fff9f5;
+    --map-line: #45494d;
+    --red-1: #fff2eb;
+    --red-2: #fcbba1;
+    --red-3: #fb6a4a;
+    --red-4: #cb181d;
+    --red-5: #7f0000;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; min-height: 100%; }
+
+  body {
+    background: #e9ecef;
+    color: var(--ink);
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .viewport {
+    min-height: 100vh;
+    display: grid;
+    place-items: start center;
+    padding: 24px;
+    overflow: auto;
+  }
+
+  .page {
+    position: relative;
+    width: 832px;
+    height: 1280px;
+    flex: 0 0 auto;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 18px 60px rgba(21, 27, 32, .16);
+  }
+
+  .page-title {
+    position: absolute;
+    top: 4px;
+    left: 126px;
+    margin: 0;
+    font-size: 59px;
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -.7px;
+  }
+
+  .comic-document {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    width: 762px;
+    height: 1127px;
+    border: 2px solid #aaa;
+    background: #fff;
+  }
+
+  .hero-banner {
+    position: absolute;
+    top: 20px;
+    left: 16px;
+    width: 607px;
+    height: 204px;
+    overflow: hidden;
+    border: 1px solid #7f91aa;
+  }
+
+  .hero-banner-image { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  .legend {
+    position: absolute;
+    top: 21px;
+    left: 661px;
+    width: 66px;
+    height: 214px;
+    color: #414141;
+    font-size: 8px;
+  }
+
+  .legend-title {
+    margin-bottom: 5px;
+    font-size: 8px;
+    font-weight: 700;
+  }
+
+  .legend-bar {
+    position: absolute;
+    top: 17px;
+    left: 0;
+    width: 19px;
+    height: 172px;
+    border: 1px solid #a7928c;
+    background: linear-gradient(to top, #fff5f0 0%, #fcbba1 34%, #fb6a4a 57%, #cb181d 78%, #7f0000 100%);
+  }
+
+  .legend-scale {
+    position: absolute;
+    top: 13px;
+    left: 24px;
+    display: grid;
+    grid-template-rows: repeat(11, 1fr);
+    width: 32px;
+    height: 181px;
+    align-items: start;
+  }
+
+  .panel {
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #111;
+    background: var(--ocean);
+  }
+
+  .panel svg.map {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .panel-tag,
+  .annotation {
+    position: absolute;
+    z-index: 4;
+    border: 1px solid #111;
+    background: rgba(255, 255, 255, .97);
+    color: #151515;
+  }
+
+  .panel-tag {
+    top: -1px;
+    left: -1px;
+    min-width: 120px;
+    padding: 8px 14px 7px;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .annotation {
+    left: -1px;
+    bottom: -1px;
+    padding: 7px 9px 6px;
+    font-size: 10.6px;
+    line-height: 1.27;
+  }
+
+  .december {
+    top: 233px;
+    left: 16px;
+    width: 292px;
+    height: 297px;
+  }
+
+  .december .annotation { width: 239px; }
+
+  .january {
+    top: 233px;
+    left: 327px;
+    width: 383px;
+    height: 297px;
+  }
+
+  .january .annotation { width: 206px; }
+
+  .asia-inset {
+    position: absolute;
+    z-index: 3;
+    top: 88px;
+    right: 0;
+    width: 119px;
+    height: 170px;
+    overflow: hidden;
+    border: 1px solid #111;
+    background: var(--ocean);
+  }
+
+  .asia-inset svg { display: block; width: 100%; height: 100%; }
+
+  .asia-inset .panel-tag {
+    top: -1px;
+    right: -1px;
+    left: auto;
+    min-width: 0;
+    padding: 6px 7px;
+    font-size: 10px;
+  }
+
+  .case-pill {
+    position: absolute;
+    z-index: 5;
+    top: 72px;
+    right: 4px;
+    padding: 8px 10px;
+    border-radius: 12px 4px 4px 12px;
+    background: #555;
+    color: #fff;
+    font-size: 7.5px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.25);
+  }
+
+  .inset-note {
+    position: absolute;
+    z-index: 5;
+    right: -1px;
+    bottom: -1px;
+    width: 119px;
+    padding: 5px 4px 4px;
+    border: 1px solid #111;
+    background: rgba(255,255,255,.96);
+    font-size: 6.9px;
+    line-height: 1.22;
+  }
+
+  .leader-line {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .leader-line line {
+    stroke: #181818;
+    stroke-width: 2;
+  }
+
+  .leader-line circle {
+    fill: #181818;
+  }
+
+  .march-world {
+    top: 547px;
+    left: 23px;
+    width: 518px;
+    height: 243px;
+  }
+
+  .march-world .panel-tag {
+    width: 100px;
+    min-width: 100px;
+    padding: 6px 5px;
+    font-size: 8.7px;
+    white-space: nowrap;
+  }
+  .march-world .annotation {
+    top: -1px;
+    left: 99px;
+    bottom: auto;
+    width: 349px;
+    border-left: 0;
+    padding: 6px 7px;
+    font-size: 10.4px;
+  }
+
+  .march-us {
+    top: 547px;
+    left: 554px;
+    width: 190px;
+    height: 243px;
+  }
+
+  .march-us .annotation {
+    top: -1px;
+    left: -1px;
+    bottom: auto;
+    width: 176px;
+    font-size: 10.2px;
+  }
+
+  .april-world {
+    top: 807px;
+    left: 23px;
+    width: 419px;
+    height: 296px;
+  }
+
+  .april-world .panel-tag { width: 115px; min-width: 115px; padding: 6px 7px; font-size: 10px; }
+  .april-world .annotation {
+    top: 26px;
+    left: -1px;
+    bottom: auto;
+    width: 314px;
+    padding: 6px 7px;
+    font-size: 10.4px;
+  }
+
+  .country {
+    vector-effect: non-scaling-stroke;
+    stroke: var(--map-line);
+    stroke-width: .95;
+    stroke-linejoin: round;
+  }
+
+  .country-label {
+    pointer-events: none;
+    fill: #202124;
+    stroke: rgba(255, 255, 255, .95);
+    stroke-width: 2.4px;
+    paint-order: stroke fill;
+    font-size: 7.5px;
+    font-weight: 650;
+    text-anchor: middle;
+  }
+
+  .country-label.light-label {
+    fill: #fff;
+    stroke: rgba(35, 35, 35, .65);
+    stroke-width: 2.2px;
+  }
+
+  .wuhan-dot {
+    fill: #e27577;
+    stroke: rgba(255,255,255,.8);
+    stroke-width: 1;
+  }
+
+  .wuhan-label {
+    fill: #202124;
+    stroke: rgba(255, 255, 255, .98);
+    stroke-width: 3px;
+    paint-order: stroke fill;
+    font-size: 9.5px;
+    font-weight: 650;
+    text-anchor: middle;
+  }
+
+  .map-error {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    padding: 30px;
+    text-align: center;
+    color: #555;
+    font-size: 14px;
+  }
+
+  @media (max-width: 879px) {
+    .viewport { display: block; padding: 0; overflow: hidden; }
+    .page {
+      transform: scale(calc(100vw / 832px));
+      transform-origin: top left;
+      box-shadow: none;
+    }
+    .viewport { min-height: 0; height: calc(100vw * 1280 / 832); }
+  }
+
+  @page { size: 832px 1280px; margin: 0; }
+
+  @media print {
+    html, body, .viewport { width: 832px; height: 1280px; min-height: 0; background: #fff; }
+    .viewport { display: block; padding: 0; overflow: hidden; }
+    .page { box-shadow: none; transform: none; }
+  }
+</style>
+</head>
+<body>
+<main class="viewport">
+  <article class="page" aria-label="COVID-19 comic document">
+    <h1 class="page-title">C. Comic document</h1>
+
+    <section class="comic-document">
+      <header class="hero-banner">
+        <img class="hero-banner-image" src="assets/toonnote-coronavirus-hero-upscaled.png" alt="CORONAVIRUS — Corona Virus spread over time">
+      </header>
+
+      <aside class="legend" aria-label="Confirmed cases legend">
+        <div class="legend-title">Confirmed</div>
+        <div class="legend-bar"></div>
+        <div class="legend-scale" aria-hidden="true">
+          <span>50k</span><span>45k</span><span>40k</span><span>35k</span><span>30k</span><span>25k</span><span>20k</span><span>15k</span><span>10k</span><span>5k</span><span>0</span>
+        </div>
+      </aside>
+
+      <section class="panel december" aria-label="December 2019: Wuhan outbreak">
+        <div class="panel-tag">December 2019</div>
+        <svg class="map" data-map="china" viewBox="0 0 292 297" aria-hidden="true"></svg>
+        <div class="annotation">The most recently discovered Coronavirus outbreak, COVID-19, began in Wuhan, China, in December 2019.</div>
+      </section>
+
+      <section class="panel january" aria-label="January to March 2020: spread near China">
+        <div class="panel-tag">January 2020</div>
+        <svg class="map" data-map="asia" viewBox="0 0 383 297" aria-hidden="true"></svg>
+        <svg class="leader-line" viewBox="0 0 383 297" aria-hidden="true">
+          <line></line>
+          <circle r="2.6"></circle>
+        </svg>
+        <div class="annotation">At the beginning, countries that are located near China were affected and showed a few confirmed patients.</div>
+        <div class="asia-inset">
+          <div class="panel-tag">22nd March 2020</div>
+          <svg data-map="korea" viewBox="0 0 119 170" aria-hidden="true"></svg>
+          <div class="case-pill">Confirmed = 8897</div>
+          <div class="inset-note">South Korea had over 7000 cases by 22nd March 2020</div>
+        </div>
+      </section>
+
+      <section class="panel march-world" aria-label="End of March 2020: China and Italy exceed 50,000 confirmed cases">
+        <div class="panel-tag">End of March 2020</div>
+        <div class="annotation">By this time, China and Italy reported a confirmed number over 50k.</div>
+        <svg class="map" data-map="eurasia" viewBox="0 0 518 243" aria-hidden="true"></svg>
+      </section>
+
+      <section class="panel march-us" aria-label="End of March 2020: cases start to rise in the United States">
+        <div class="annotation">At the end of March, the amount of confirmed cases in the US also started to become very high.</div>
+        <svg class="map" data-map="usa" viewBox="0 0 190 243" aria-hidden="true"></svg>
+      </section>
+
+      <section class="panel april-world" aria-label="Middle of April 2020: many countries exceed 50,000 confirmed cases">
+        <div class="panel-tag">Middle April 2020</div>
+        <div class="annotation">Currently, many countries report over 50k confirmed cases.</div>
+        <svg class="map" data-map="world" viewBox="0 0 419 296" aria-hidden="true"></svg>
+      </section>
+    </section>
+  </article>
+</main>
+
+<script>
+  (() => {
+    const palette = ['#fff7f3', '#fdd4c2', '#fca082', '#fb6a4a', '#cb181d', '#7f0000'];
+
+    // Date-specific historical snapshots derived from the JHU CSSE COVID-19 dataset.
+    const cases = {
+      december: { '156': 0 },
+      january: {
+        '156': 9783, '764': 19, '392': 15, '702': 13, '410': 11, '158': 10,
+        '344': 12, '446': 7, '250': 5, '276': 5, '036': 9, '784': 4,
+        '840': 6, '704': 2, '124': 4, '380': 2, '826': 2, '643': 2,
+        '524': 1, '116': 1, '144': 1, '246': 1, '608': 1, '356': 1, '752': 1
+      },
+      koreaMarch22: {
+        '156': 81397, '410': 8897, '392': 1101, '158': 169, '344': 317, '643': 367
+      },
+      march: {
+        '840': 188172, '380': 105792, '724': 95923, '156': 82279, '276': 71808,
+        '250': 52827, '364': 44605, '826': 25481, '756': 16605, '792': 13531,
+        '056': 12775, '528': 12667, '040': 10180, '410': 9786, '124': 8527,
+        '620': 7443, '076': 5717, '376': 5358, '036': 4559, '578': 4641,
+        '752': 4435, '372': 3235, '643': 2337, '356': 1397, '152': 2738
+      },
+      april: {
+        '840': 607670, '724': 172541, '380': 162488, '250': 143303, '276': 131359,
+        '826': 94845, '156': 83306, '364': 74877, '792': 65111, '056': 31119,
+        '528': 27419, '124': 27063, '756': 25936, '076': 25262, '643': 21102,
+        '620': 17448, '040': 14226, '376': 12046, '356': 11487, '372': 11479,
+        '752': 11445, '410': 10564, '604': 10303, '152': 7917, '392': 7645,
+        '616': 7202, '036': 6415, '484': 5399, '682': 5369, '710': 2415
+      }
+    };
+
+    function colorFor(value, kind) {
+      if (!value) return kind === 'eurasia' ? '#c7c5c5' : palette[0];
+      if (value < 5000) return palette[1];
+      if (value < 15000) return palette[2];
+      if (value < 30000) return palette[3];
+      if (value < 50000) return palette[4];
+      return palette[5];
+    }
+
+    function projectionFor(kind, width, height, featureCollection) {
+      if (kind === 'china') {
+        return d3.geoMercator().center([108, 30]).scale(420).translate([width * .46, height * .48]);
+      }
+      if (kind === 'asia') {
+        return d3.geoMercator().center([111, 27]).scale(280).translate([width * .45, height * .49]);
+      }
+      if (kind === 'korea') {
+        return d3.geoMercator().center([126.5, 36.5]).scale(500).translate([width * .49, height * .53]);
+      }
+      if (kind === 'eurasia') {
+        return d3.geoMercator().center([55, 31]).scale(150).translate([width * .51, height * .53]);
+      }
+      if (kind === 'usa') {
+        return d3.geoMercator().center([-100, 37]).scale(145).translate([width * .50, height * .57]);
+      }
+      return d3.geoNaturalEarth1().fitExtent([[5, 40], [width - 5, height - 8]], featureCollection);
+    }
+
+    function dataFor(kind) {
+      if (kind === 'china') return cases.december;
+      if (kind === 'asia') return cases.january;
+      if (kind === 'korea') return cases.koreaMarch22;
+      if (kind === 'eurasia' || kind === 'usa') return cases.march;
+      return cases.april;
+    }
+
+    function addMapLabels(svg, projection, kind) {
+      const labels = {
+        china: [
+          { coords: [104, 34], lines: ['China'], size: 9 }
+        ],
+        asia: [
+          { coords: [104, 35], lines: ['China'], size: 9 },
+          { coords: [127.7669, 35.9078], lines: ['South', 'Korea'], dx: -14, dy: -9, size: 8.2 },
+          { coords: [138, 36.5], lines: ['Japan'], dx: 9, size: 7.5 },
+          { coords: [101, 15], lines: ['Thailand'], size: 7.5 }
+        ],
+        korea: [
+          { coords: [127.7669, 35.9078], lines: ['S. Korea'], dx: -10, dy: 10, size: 7.7 }
+        ],
+        eurasia: [
+          { coords: [105, 35], lines: ['China'], tone: 'light', size: 10 },
+          { coords: [12.5, 42], lines: ['Italy'], tone: 'light', size: 7.5 }
+        ],
+        usa: [
+          { coords: [-99, 37], lines: ['United States'], tone: 'light', size: 8.5 }
+        ]
+      }[kind] || [];
+
+      labels.forEach(({ coords, lines, dx = 0, dy = 0, tone = 'dark', size = 7.5 }) => {
+        const point = projection(coords);
+        if (!point) return;
+        const text = svg.append('text')
+          .attr('class', `country-label${tone === 'light' ? ' light-label' : ''}`)
+          .attr('x', point[0] + dx)
+          .attr('y', point[1] + dy)
+          .style('font-size', `${size}px`);
+        lines.forEach((line, index) => {
+          text.append('tspan')
+            .attr('x', point[0] + dx)
+            .attr('dy', index === 0 ? 0 : '1.05em')
+            .text(line);
+        });
+      });
+
+      if (kind === 'china') {
+        const point = projection([114.3055, 30.5928]);
+        svg.append('circle').attr('class', 'wuhan-dot').attr('cx', point[0]).attr('cy', point[1]).attr('r', 13);
+        svg.append('text').attr('class', 'wuhan-label').attr('x', point[0]).attr('y', point[1] - 18).text('Wuhan');
+      }
+    }
+
+    function addSpotlights(svg, projection, kind) {
+      if (kind !== 'eurasia') return;
+      [
+        { coords: [105, 35], radius: 51 },
+        { coords: [12.5, 42], radius: 21 }
+      ].forEach(({ coords, radius }) => {
+        const point = projection(coords);
+        if (!point) return;
+        svg.append('circle')
+          .attr('cx', point[0])
+          .attr('cy', point[1])
+          .attr('r', radius)
+          .attr('fill', '#fff')
+          .attr('opacity', .9);
+      });
+    }
+
+    async function renderMaps() {
+      try {
+        const world = await d3.json('teaching-projects/natural-disaster-mortality/countries-110m.json');
+        const countries = topojson.feature(world, world.objects.countries);
+
+        document.querySelectorAll('svg[data-map]').forEach(node => {
+          const kind = node.dataset.map;
+          const viewBox = node.viewBox.baseVal;
+          const width = viewBox.width;
+          const height = viewBox.height;
+          const svg = d3.select(node);
+          const features = kind === 'world'
+            ? countries.features.filter(d => String(d.id).padStart(3, '0') !== '010')
+            : countries.features;
+          const featureCollection = { type: 'FeatureCollection', features };
+          const projection = projectionFor(kind, width, height, featureCollection);
+          const path = d3.geoPath(projection);
+          const values = dataFor(kind);
+
+          svg.append('rect').attr('width', width).attr('height', height).attr('fill', kind === 'eurasia' ? '#d3d3d3' : '#e4edf5');
+          addSpotlights(svg, projection, kind);
+          svg.append('g')
+            .selectAll('path')
+            .data(features)
+            .join('path')
+            .attr('class', 'country')
+            .attr('d', path)
+            .attr('fill', d => colorFor(values[String(d.id).padStart(3, '0')], kind))
+            .append('title')
+            .text(d => `${d.properties.name}: ${values[String(d.id).padStart(3, '0')] || 0} confirmed cases`);
+
+          addMapLabels(svg, projection, kind);
+
+          if (kind === 'asia') {
+            const southKorea = projection([127.766922, 35.907757]);
+            const overlay = d3.select(node.parentElement).select('svg.leader-line');
+            overlay.select('line')
+              .attr('x1', southKorea[0]).attr('y1', southKorea[1])
+              .attr('x2', 264).attr('y2', 126);
+            overlay.select('circle').attr('cx', southKorea[0]).attr('cy', southKorea[1]);
+          }
+        });
+
+        window.__COMIC_READY__ = true;
+        document.documentElement.dataset.rendered = 'true';
+      } catch (error) {
+        console.error(error);
+        document.querySelectorAll('svg[data-map]').forEach(node => {
+          node.outerHTML = '<div class="map-error">Map data could not be loaded.</div>';
+        });
+        window.__COMIC_READY__ = false;
+      }
+    }
+
+    renderMaps();
+  })();
+</script>
+</body>
+</html>

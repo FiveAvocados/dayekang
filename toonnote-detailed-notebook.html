@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detailed COVID-19 Analysis Notebook — ToonNote</title>
+<meta name="description" content="A long-form Jupyter-style exploratory data analysis notebook for the ToonNote detailed-document study condition.">
+<link rel="icon" href="favicon.svg?v=3" type="image/svg+xml">
+<script src="teaching-projects/vendor/d3.v7.9.0.min.js"></script>
+<script src="teaching-projects/vendor/topojson.v3.0.2.min.js"></script>
+<style>
+  :root {
+    --ui-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    --code-font: Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    --ink: #202124;
+    --muted: #6b7280;
+    --line: #d8dadd;
+    --line-dark: #b8bcc2;
+    --chrome: #f5f5f5;
+    --blue: #2f72b7;
+    --prompt: #2563a9;
+    --orange: #f37726;
+    --code-bg: #fff;
+    --output-bg: #fff;
+    --plot-grid: #e6e9ed;
+    --red: #b91c1c;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; min-height: 100%; }
+
+  body {
+    background: #eef0f2;
+    color: var(--ink);
+    font-family: var(--ui-font);
+  }
+
+  .figure-page {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    padding: 0 0 72px;
+  }
+
+  .notebook-shell {
+    overflow: hidden;
+    border: 1px solid #aeb3b8;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 22px 65px rgba(28, 36, 43, .16);
+  }
+
+  .window-bar {
+    display: grid;
+    grid-template-columns: 116px 1fr 116px;
+    align-items: center;
+    height: 38px;
+    padding: 0 13px;
+    border-bottom: 1px solid #cfd2d5;
+    background: linear-gradient(#f8f8f8, #ececec);
+    color: #4b4f54;
+    font-size: 12px;
+  }
+
+  .window-dots { display: flex; gap: 7px; }
+  .window-dots span { width: 12px; height: 12px; border-radius: 50%; }
+  .window-dots span:nth-child(1) { background: #ff5f57; border: 1px solid #e14640; }
+  .window-dots span:nth-child(2) { background: #febc2e; border: 1px solid #e6a523; }
+  .window-dots span:nth-child(3) { background: #28c840; border: 1px solid #20aa35; }
+  .window-title { text-align: center; }
+
+  .app-bar {
+    display: flex;
+    align-items: center;
+    min-height: 46px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
+
+  .jupyter-mark {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-right: 24px;
+    color: #4c4c4c;
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .jupyter-orbit {
+    position: relative;
+    width: 27px;
+    height: 27px;
+    border: 3px solid var(--orange);
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-radius: 50%;
+  }
+
+  .jupyter-orbit::before,
+  .jupyter-orbit::after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #777;
+  }
+
+  .jupyter-orbit::before { top: -7px; left: 2px; }
+  .jupyter-orbit::after { right: 1px; bottom: -6px; }
+
+  .menus { display: flex; flex-wrap: wrap; gap: 18px; color: #34383d; font-size: 13px; }
+  .kernel-status { margin-left: auto; color: #5f6368; font-size: 12px; }
+  .kernel-dot { display: inline-block; width: 10px; height: 10px; margin-left: 7px; border: 2px solid #6f7780; border-radius: 50%; }
+
+  .tab-row {
+    display: flex;
+    align-items: end;
+    height: 38px;
+    padding-left: 52px;
+    border-bottom: 1px solid #c8ccd0;
+    background: #eceeef;
+  }
+
+  .notebook-tab {
+    height: 32px;
+    padding: 7px 17px 0;
+    border: 1px solid #c8ccd0;
+    border-bottom-color: #fff;
+    border-radius: 4px 4px 0 0;
+    background: #fff;
+    font-size: 13px;
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 43px;
+    padding: 5px 18px;
+    border-bottom: 1px solid var(--line);
+    background: #fafafa;
+    color: #4a4f55;
+  }
+
+  .tool-button {
+    display: grid;
+    place-items: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 6px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-size: 15px;
+  }
+
+  .tool-divider { width: 1px; height: 22px; margin: 0 4px; background: #d4d6d9; }
+  .cell-kind { min-width: 118px; justify-content: start; border-color: #c9ccd0; background: #fff; font-size: 12px; }
+
+  .notebook {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 34px 32px 80px;
+    background: #fff;
+  }
+
+  .cell {
+    position: relative;
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    margin: 0 0 24px;
+  }
+
+  .cell:hover .cell-body { box-shadow: inset 2px 0 0 #d4d8dd; }
+
+  .prompt {
+    padding: 10px 11px 0 0;
+    color: var(--prompt);
+    font-family: var(--code-font);
+    font-size: 12px;
+    line-height: 1.65;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .prompt.out { color: #b85c00; }
+  .prompt.blank { color: transparent; user-select: none; }
+
+  .cell-body { min-width: 0; border-left: 2px solid transparent; }
+
+  .code-input {
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #d7dadd;
+    border-radius: 2px;
+    background: var(--code-bg);
+  }
+
+  pre {
+    margin: 0;
+    overflow-x: auto;
+    color: #222;
+    font-family: var(--code-font);
+    font-size: 12px;
+    line-height: 1.58;
+    tab-size: 4;
+  }
+
+  .kw { color: #0066b3; font-weight: 600; }
+  .mod { color: #7a3e9d; }
+  .fn { color: #006d5b; }
+  .str { color: #a31515; }
+  .num { color: #1460aa; }
+  .comment { color: #6a737d; font-style: italic; }
+  .op { color: #555; }
+
+  .markdown-cell .cell-body {
+    padding: 2px 18px 3px;
+  }
+
+  .markdown-cell h1 {
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e3e5e8;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+    font-weight: 500;
+  }
+
+  .markdown-cell h2 {
+    margin: 0 0 10px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 23px;
+    font-weight: 500;
+  }
+
+  .markdown-cell h3 { margin: 0 0 7px; font-size: 17px; font-weight: 600; }
+  .markdown-cell p, .markdown-cell li { font-family: Georgia, "Times New Roman", serif; font-size: 14px; line-height: 1.65; }
+  .markdown-cell p { margin: 7px 0; }
+  .markdown-cell ul { margin: 8px 0 0; padding-left: 22px; }
+
+  .covid-cover {
+    aspect-ratio: 3 / 1;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 1px solid #325486;
+  }
+
+  .covid-cover-image { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  .output-row {
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    margin: -16px 0 28px;
+  }
+
+  .output {
+    min-width: 0;
+    padding: 4px 12px 8px;
+    background: var(--output-bg);
+  }
+
+  .plain-output {
+    white-space: pre-wrap;
+    color: #24272a;
+    font-family: var(--code-font);
+    font-size: 11.5px;
+    line-height: 1.58;
+  }
+
+  .dataframe-wrap { overflow-x: auto; padding: 2px 0 5px; }
+
+  table.dataframe {
+    border-collapse: collapse;
+    min-width: 720px;
+    color: #222;
+    font-family: var(--ui-font);
+    font-size: 10.5px;
+    line-height: 1.4;
+  }
+
+  .dataframe th,
+  .dataframe td { padding: 5px 8px; border: 1px solid #d7dadd; text-align: right; white-space: nowrap; }
+  .dataframe thead th { background: #f2f3f5; font-weight: 600; }
+  .dataframe tbody th { background: #f8f8f8; color: #555; font-weight: 500; }
+  .dataframe td.text { text-align: left; }
+  .dataframe tbody tr:nth-child(even) td { background: #fafafa; }
+  .dataframe-note { margin-top: 7px; color: #555; font-family: var(--code-font); font-size: 10.5px; }
+
+  .plot-output {
+    padding: 14px 18px 18px;
+    border: 1px solid #e0e2e5;
+    background: #fff;
+  }
+
+  .plot-title { margin: 0 0 15px; color: #2d3135; font-size: 15px; font-weight: 550; text-align: center; }
+
+  .bar-chart { display: grid; gap: 9px; max-width: 770px; margin: 0 auto; }
+  .bar-row { display: grid; grid-template-columns: 96px minmax(0, 1fr) 66px; align-items: center; gap: 10px; font-size: 10.5px; }
+  .bar-label { text-align: right; }
+  .bar-track { height: 14px; border-left: 1px solid #80868b; background: repeating-linear-gradient(to right, transparent 0, transparent calc(20% - 1px), var(--plot-grid) calc(20% - 1px), var(--plot-grid) 20%); }
+  .bar { height: 100%; background: #a92b31; }
+  .bar-value { color: #555; font-family: var(--code-font); }
+
+  .chart-svg { display: block; width: 100%; height: auto; }
+  .axis { stroke: #6f767d; stroke-width: 1; }
+  .grid { stroke: var(--plot-grid); stroke-width: 1; }
+  .tick-label { fill: #646b72; font-family: var(--ui-font); font-size: 10px; }
+  .legend-text { fill: #34383c; font-family: var(--ui-font); font-size: 10px; }
+  .chart-label { fill: #3f454a; font-family: var(--ui-font); font-size: 11px; }
+
+  .map-output { position: relative; height: 455px; padding: 44px 30px 28px; border: 1px solid #dfe2e5; background: #fff; }
+  .map-output .plot-title { position: absolute; top: 15px; left: 0; right: 0; }
+  #world-map { width: 100%; height: 100%; background: #eaf1f7; }
+  #world-map path { vector-effect: non-scaling-stroke; stroke: #798086; stroke-width: .65; stroke-linejoin: round; }
+
+  .map-legend {
+    position: absolute;
+    right: 16px;
+    top: 75px;
+    width: 56px;
+    color: #4f555b;
+    font-size: 9px;
+  }
+
+  .map-legend-bar { width: 14px; height: 185px; margin: 7px 0 0; border: 1px solid #ae9999; background: linear-gradient(to top, #fff5f0, #fcbba1 36%, #fb6a4a 61%, #cb181d 82%, #7f0000); }
+  .map-legend-values { position: absolute; top: 23px; left: 20px; display: flex; height: 185px; flex-direction: column; justify-content: space-between; }
+
+  .insight-box {
+    margin: 4px 0 0;
+    padding: 16px 18px;
+    border-left: 4px solid #5c86b5;
+    background: #f6f8fa;
+  }
+
+  .insight-box p { font-family: var(--ui-font); font-size: 13px; }
+  .end-space { height: 220px; display: grid; place-items: center; color: #a1a5aa; font-size: 22px; letter-spacing: 7px; }
+
+  @media (max-width: 760px) {
+    .figure-page { width: 100%; padding-top: 0; }
+    .notebook-shell { border-right: 0; border-left: 0; border-radius: 0; }
+    .menus { gap: 10px; }
+    .menus span:nth-last-child(-n+3) { display: none; }
+    .notebook { padding: 28px 10px 60px; }
+    .cell, .output-row { grid-template-columns: 55px minmax(0, 1fr); }
+    .prompt { font-size: 10px; }
+    .map-output { height: 330px; padding-right: 20px; padding-left: 10px; }
+    .bar-row { grid-template-columns: 72px minmax(0, 1fr) 55px; }
+  }
+</style>
+</head>
+<body>
+<main class="figure-page">
+  <section class="notebook-shell" aria-label="Long Jupyter Notebook interface showing exploratory COVID-19 data analysis">
+    <div class="window-bar">
+      <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="window-title">COVID_19_exploratory_analysis.ipynb</div>
+      <div></div>
+    </div>
+    <div class="app-bar">
+      <div class="jupyter-mark"><span class="jupyter-orbit" aria-hidden="true"></span><span>JupyterLab</span></div>
+      <div class="menus"><span>File</span><span>Edit</span><span>View</span><span>Run</span><span>Kernel</span><span>Tabs</span><span>Settings</span><span>Help</span></div>
+      <div class="kernel-status">Python 3 <span class="kernel-dot"></span></div>
+    </div>
+    <div class="tab-row"><div class="notebook-tab">COVID_19_exploratory_analysis.ipynb</div></div>
+    <div class="toolbar" aria-hidden="true">
+      <span class="tool-button">💾</span><span class="tool-button">＋</span><span class="tool-button">✂</span><span class="tool-button">⧉</span><span class="tool-divider"></span><span class="tool-button">▶</span><span class="tool-button">■</span><span class="tool-button">↻</span><span class="tool-divider"></span><span class="tool-button cell-kind">Code ▾</span>
+    </div>
+
+    <div class="notebook">
+      <section class="cell markdown-cell">
+        <div class="prompt blank">&nbsp;</div>
+        <div class="cell-body">
+          <div class="covid-cover">
+            <img class="covid-cover-image" src="assets/toonnote-coronavirus-hero-upscaled.png" alt="CORONAVIRUS — Corona Virus spread over time">
+          </div>
+          <h1>COVID-19: Exploratory Data Analysis</h1>
+          <p>This notebook explores the early spread of COVID-19 using global daily reports from January through April 2020. We inspect the raw observations, clean geographic labels, summarize confirmed cases and deaths, and visualize how the outbreak moved from a local event to a global pandemic.</p>
+          <ul><li>Unit of analysis: country or reporting region by observation date</li><li>Primary measures: confirmed, deaths, recovered, and active cases</li><li>Snapshot used for the final map: April 14, 2020</li></ul>
+        </div>
+      </section>
+
+      <section class="cell markdown-cell"><div class="prompt blank">&nbsp;</div><div class="cell-body"><h2>1. Setup and data loading</h2><p>Import the analysis and visualization libraries, then load the daily global COVID-19 observations.</p></div></section>
+
+      <section class="cell code-cell">
+        <div class="prompt">In&nbsp;[1]:</div>
+        <div class="cell-body"><div class="code-input"><pre><span class="kw">import</span> <span class="mod">pandas</span> <span class="kw">as</span> pd
+<span class="kw">import</span> <span class="mod">numpy</span> <span class="kw">as</span> np
+<span class="kw">import</span> <span class="mod">plotly.express</span> <span class="kw">as</span> px
+<span class="kw">import</span> <span class="mod">plotly.graph_objects</span> <span class="kw">as</span> go
+
+pd.set_option(<span class="str">"display.max_columns"</span>, <span class="num">20</span>)
+pd.set_option(<span class="str">"display.float_format"</span>, <span class="kw">lambda</span> x: <span class="str">f"{x:,.1f}"</span>)</pre></div></div>
+      </section>
+
+      <section class="cell code-cell">
+        <div class="prompt">In&nbsp;[2]:</div>
+        <div class="cell-body"><div class="code-input"><pre>cases <span class="op">=</span> pd.<span class="fn">read_csv</span>(<span class="str">"covid_19_daily_reports.csv"</span>)
+cases[<span class="str">"ObservationDate"</span>] <span class="op">=</span> pd.<span class="fn">to_datetime</span>(cases[<span class="str">"ObservationDate"</span>])
+cases.<span class="fn">head</span>()</pre></div></div>
+      </section>
+      <section class="output-row">
+        <div class="prompt out">Out[2]:</div>
+        <div class="output dataframe-wrap">
+          <table class="dataframe"><thead><tr><th></th><th>ObservationDate</th><th>Province/State</th><th>Country/Region</th><th>Last Update</th><th>Confirmed</th><th>Deaths</th><th>Recovered</th></tr></thead><tbody>
+            <tr><th>0</th><td>2020-01-22</td><td class="text">Anhui</td><td class="text">Mainland China</td><td>2020-01-22 17:00</td><td>1.0</td><td>0.0</td><td>0.0</td></tr>
+            <tr><th>1</th><td>2020-01-22</td><td class="text">Beijing</td><td class="text">Mainland China</td><td>2020-01-22 17:00</td><td>14.0</td><td>0.0</td><td>0.0</td></tr>
+            <tr><th>2</th><td>2020-01-22</td><td class="text">Chongqing</td><td class="text">Mainland China</td><td>2020-01-22 17:00</td><td>6.0</td><td>0.0</td><td>0.0</td></tr>
+            <tr><th>3</th><td>2020-01-22</td><td class="text">Fujian</td><td class="text">Mainland China</td><td>2020-01-22 17:00</td><td>1.0</td><td>0.0</td><td>0.0</td></tr>
+            <tr><th>4</th><td>2020-01-22</td><td class="text">Gansu</td><td class="text">Mainland China</td><td>2020-01-22 17:00</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+          </tbody></table>
+          <div class="dataframe-note">5 rows × 7 columns</div>
+        </div>
+      </section>
+
+      <section class="cell markdown-cell"><div class="prompt blank">&nbsp;</div><div class="cell-body"><h2>2. Inspect the raw dataset</h2><p>Before aggregating, inspect dimensions, data types, temporal coverage, and missing values. Daily reports contain both province-level and country-level rows, so the same country can appear many times on one date.</p></div></section>
+
+      <section class="cell code-cell">
+        <div class="prompt">In&nbsp;[3]:</div>
+        <div class="cell-body"><div class="code-input"><pre><span class="fn">print</span>(<span class="str">f"Rows: {cases.shape[0]:,}  Columns: {cases.shape[1]}"</span>)
+<span class="fn">print</span>(<span class="str">f"Date range: {cases.ObservationDate.min().date()} → {cases.ObservationDate.max().date()}"</span>)
+cases.<span class="fn">dtypes</span></pre></div></div>
+      </section>
+      <section class="output-row"><div class="prompt out">Out[3]:</div><div class="output"><pre class="plain-output">Rows: 8,109  Columns: 7
+Date range: 2020-01-22 → 2020-04-14
+
+ObservationDate    datetime64[ns]
+Province/State             object
+Country/Region             object
+Last Update                object
+Confirmed                 float64
+Deaths                    float64
+Recovered                 float64
+dtype: object</pre></div></section>
+
+      <section class="cell code-cell">
+        <div class="prompt">In&nbsp;[4]:</div>
+        <div class="cell-body"><div class="code-input"><pre>missing <span class="op">=</span> cases.<span class="fn">isna</span>().<span class="fn">sum</span>().<span class="fn">sort_values</span>(ascending<span class="op">=</span><span class="kw">False</span>)
+missing.<span class="fn">to_frame</span>(<span class="str">"missing_rows"</span>)</pre></div></div>
+      </section>
+      <section class="output-row">
+        <div class="prompt out">Out[4]:</div>
+        <div class="output dataframe-wrap"><table class="dataframe" style="min-width:420px"><thead><tr><th></th><th>missing_rows</th></tr></thead><tbody><tr><th>Province/State</th><td>3,960</td></tr><tr><th>Recovered</th><td>37</td></tr><tr><th>Deaths</th><td>0</td></tr><tr><th>Confirmed</th><td>0</td></tr><tr><th>Country/Region</th><td>0</td></tr><tr><th>ObservationDate</th><td>0</td></tr></tbody></table></div>
+      </section>
+
+      <section class="cell code-cell">
+        <div class="prompt">In&nbsp;[5]:</div>
+        <div class="cell-body"><div class="code-input"><pre>cases[[<span class="str">"Confirmed"</span>, <span class="str">"Deaths"</span>, <span class="str">"Recovered"</span>]].<span class="fn">describe</span>().<span class="fn">round</span>(<span class="num">1</span>)</pre></div></div>
+      </section>
+      <section class="output-row">
+        <div class="prompt out">Out[5]:</div>
+        <div class="output dataframe-wrap"><table class="dataframe" style="min-width:540px"><thead><tr><th></th><th>Confirmed</th><th>Deaths</th><th>Recovered</th></tr></thead><tbody><tr><th>count</th><td>8,109.0</td><td>8,109.0</td><td>8,072.0</td></tr><tr><th>mean</th><td>5,748.9</td><td>313.4</td><td>1,388.7</td></tr><tr><th>std</th><td>24,901.7</td><td>1,646.2</td><td>8,742.8</td></tr><tr><th>min</th><td>0.0</td><td>0.0</td><td>0.0</td></tr><tr><th>50%</th><td>42.0</td><td>0.0</td><td>2.0</td></tr><tr><th>max</th><td>607,670.0</td><td>25,832.0</td><td>77,816.0</td></tr></tbody></table></div>
+      </section>
+
+      <section class="cell markdown-cell"><div class="prompt blank">&nbsp;</div><div class="cell-body"><h2>3. Clean and aggregate observations</h2><p>Standardize country names, fill numeric gaps with zero, calculate active cases, and aggregate province-level rows into one record per country and date.</p></div></section>
+
+      <section class="cell code-cell">
+        <div class="prompt">In&nbsp;[6]:</div>
+        <div class="cell-body"><div class="code-input"><pre>country_names <span class="op">=</span> {
+    <span class="str">"Mainland China"</span>: <span class="str">"China"</span>,
+    <span class="str">"US"</span>: <span class="str">"United States"</span>,
+    <span class="str">"UK"</span>: <span class="str">"United Kingdom"</span>,
+    <span class="str">"Korea, South"</span>: <span class="str">"South Korea"</span>
+}
+
+cases[<span class="str">"Country"</span>] <span class="op">=</span> cases[<span class="str">"Country/Region"</span>].<span class="fn">replace</span>(country_names)
+metrics <span class="op">=</span> [<span class="str">"Confirmed"</span>, <span class="str">"Deaths"</span>, <span class="str">"Recovered"</span>]
+cases[metrics] <span class="op">=</span> cases[metrics].<span class="fn">fillna</span>(<span class="num">0</span>)
+cases[<span class="str">"Active"</span>] <span class="op">=</span> cases[<span class="str">"Confirmed"</span>] <span class="op">-</span> cases[<span class="str">"Deaths"</span>] <span class="op">-</span> cases[<span class="str">"Recovered"</span>]
+
+daily_country <span class="op">=</span> (
+    cases.<span class="fn">groupby</span>([<span class="str">"ObservationDate"</span>, <span class="str">"Country"</span>], as_index<span class="op">=</span><span class="kw">False</span>)
+         [metrics <span class="op">+</span> [<span class="str">"Active"</span>]].<span class="fn">sum</span>()
+)
+daily_country.<span class="fn">head</span>()</pre></div></div>
+      </section>
+      <section class="output-row">
+        <div class="prompt out">Out[6]:</div>
+        <div class="output dataframe-wrap"><table class="dataframe"><thead><tr><th></th><th>ObservationDate</th><th>Country</th><th>Confirmed</th><th>Deaths</th><th>Recovered</th><th>Active</th></tr></thead><tbody><tr><th>0</th><td>2020-01-22</td><td class="text">China</td><td>547.0</td><td>17.0</td><td>28.0</td><td>502.0</td></tr><tr><th>1</th><td>2020-01-22</td><td class="text">Hong Kong</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr><tr><th>2</th><td>2020-01-22</td><td class="text">Japan</td><td>2.0</td><td>0.0</td><td>0.0</td><td>2.0</td></tr><tr><th>3</th><td>2020-01-22</td><td class="text">Macao</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td></tr><tr><th>4</th><td>2020-01-22</td><td class="text">South Korea</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td></tr></tbody></table><div class="dataframe-note">5 rows × 6 columns</div></div>
+      </section>
+
+      <section class="cell code-cell">
+        <div class="prompt">In&nbsp;[7]:</div>
+        <div class="cell-body"><div class="code-input"><pre>latest_date <span class="op">=</span> daily_country[<span class="str">"ObservationDate"</span>].<span class="fn">max</span>()
+latest <span class="op">=</span> (daily_country[daily_country[<span class="str">"ObservationDate"</span>] <span class="op">==</span> latest_date]
+          .<span class="fn">sort_values</span>(<span class="str">"Confirmed"</span>, ascending<span class="op">=</span><span class="kw">False</span>))
+latest.<span class="fn">head</span>(<span class="num">10</span>)</pre></div></div>
+      </section>
+      <section class="output-row">
+        <div class="prompt out">Out[7]:</div>
+        <div class="output dataframe-wrap"><table class="dataframe"><thead><tr><th></th><th>ObservationDate</th><th>Country</th><th>Confirmed</th><th>Deaths</th><th>Recovered</th><th>Active</th></tr></thead><tbody><tr><th>0</th><td>2020-04-14</td><td class="text">United States</td><td>607,670</td><td>25,832</td><td>47,763</td><td>534,075</td></tr><tr><th>1</th><td>2020-04-14</td><td class="text">Spain</td><td>172,541</td><td>18,056</td><td>67,504</td><td>86,981</td></tr><tr><th>2</th><td>2020-04-14</td><td class="text">Italy</td><td>162,488</td><td>21,067</td><td>37,130</td><td>104,291</td></tr><tr><th>3</th><td>2020-04-14</td><td class="text">France</td><td>143,303</td><td>15,729</td><td>28,805</td><td>98,769</td></tr><tr><th>4</th><td>2020-04-14</td><td class="text">Germany</td><td>131,359</td><td>3,294</td><td>68,200</td><td>59,865</td></tr><tr><th>5</th><td>2020-04-14</td><td class="text">United Kingdom</td><td>94,845</td><td>12,129</td><td>323</td><td>82,393</td></tr><tr><th>6</th><td>2020-04-14</td><td class="text">China</td><td>83,306</td><td>3,345</td><td>78,200</td><td>1,761</td></tr><tr><th>7</th><td>2020-04-14</td><td class="text">Iran</td><td>74,877</td><td>4,683</td><td>48,129</td><td>22,065</td></tr><tr><th>8</th><td>2020-04-14</td><td class="text">Turkey</td><td>65,111</td><td>1,403</td><td>4,799</td><td>58,909</td></tr><tr><th>9</th><td>2020-04-14</td><td class="text">Belgium</td><td>31,119</td><td>4,157</td><td>6,868</td><td>20,094</td></tr></tbody></table><div class="dataframe-note">10 rows × 6 columns</div></div>
+      </section>
+
+      <section class="cell markdown-cell"><div class="prompt blank">&nbsp;</div><div class="cell-body"><h2>4. Compare the most affected countries</h2><p>Rank countries by confirmed cases on the latest observation date. The United States has become the largest reported outbreak, while several European countries also exceed 100,000 confirmed cases.</p></div></section>
+
+      <section class="cell code-cell"><div class="prompt">In&nbsp;[8]:</div><div class="cell-body"><div class="code-input"><pre>top10 <span class="op">=</span> latest.<span class="fn">head</span>(<span class="num">10</span>).<span class="fn">sort_values</span>(<span class="str">"Confirmed"</span>)
+fig <span class="op">=</span> px.<span class="fn">bar</span>(top10, x<span class="op">=</span><span class="str">"Confirmed"</span>, y<span class="op">=</span><span class="str">"Country"</span>, orientation<span class="op">=</span><span class="str">"h"</span>,
+             title<span class="op">=</span><span class="str">"Confirmed cases by country — April 14, 2020"</span>)
+fig.<span class="fn">show</span>()</pre></div></div></section>
+      <section class="output-row"><div class="prompt blank">&nbsp;</div><div class="output plot-output"><h3 class="plot-title">Confirmed cases by country — April 14, 2020</h3><div class="bar-chart">
+        <div class="bar-row"><span class="bar-label">Belgium</span><span class="bar-track"><span class="bar" style="display:block;width:5.1%"></span></span><span class="bar-value">31,119</span></div>
+        <div class="bar-row"><span class="bar-label">Turkey</span><span class="bar-track"><span class="bar" style="display:block;width:10.7%"></span></span><span class="bar-value">65,111</span></div>
+        <div class="bar-row"><span class="bar-label">Iran</span><span class="bar-track"><span class="bar" style="display:block;width:12.3%"></span></span><span class="bar-value">74,877</span></div>
+        <div class="bar-row"><span class="bar-label">China</span><span class="bar-track"><span class="bar" style="display:block;width:13.7%"></span></span><span class="bar-value">83,306</span></div>
+        <div class="bar-row"><span class="bar-label">United Kingdom</span><span class="bar-track"><span class="bar" style="display:block;width:15.6%"></span></span><span class="bar-value">94,845</span></div>
+        <div class="bar-row"><span class="bar-label">Germany</span><span class="bar-track"><span class="bar" style="display:block;width:21.6%"></span></span><span class="bar-value">131,359</span></div>
+        <div class="bar-row"><span class="bar-label">France</span><span class="bar-track"><span class="bar" style="display:block;width:23.6%"></span></span><span class="bar-value">143,303</span></div>
+        <div class="bar-row"><span class="bar-label">Italy</span><span class="bar-track"><span class="bar" style="display:block;width:26.7%"></span></span><span class="bar-value">162,488</span></div>
+        <div class="bar-row"><span class="bar-label">Spain</span><span class="bar-track"><span class="bar" style="display:block;width:28.4%"></span></span><span class="bar-value">172,541</span></div>
+        <div class="bar-row"><span class="bar-label">United States</span><span class="bar-track"><span class="bar" style="display:block;width:100%"></span></span><span class="bar-value">607,670</span></div>
+      </div></div></section>
+
+      <section class="cell markdown-cell"><div class="prompt blank">&nbsp;</div><div class="cell-body"><h2>5. Trace how the outbreak changed over time</h2><p>Plot cumulative confirmed cases for six countries. The curves reveal different starting points and rates of acceleration.</p></div></section>
+
+      <section class="cell code-cell"><div class="prompt">In&nbsp;[9]:</div><div class="cell-body"><div class="code-input"><pre>focus <span class="op">=</span> [<span class="str">"China"</span>, <span class="str">"Italy"</span>, <span class="str">"Spain"</span>, <span class="str">"United States"</span>, <span class="str">"Germany"</span>, <span class="str">"South Korea"</span>]
+trend <span class="op">=</span> daily_country[daily_country[<span class="str">"Country"</span>].<span class="fn">isin</span>(focus)]
+fig <span class="op">=</span> px.<span class="fn">line</span>(trend, x<span class="op">=</span><span class="str">"ObservationDate"</span>, y<span class="op">=</span><span class="str">"Confirmed"</span>, color<span class="op">=</span><span class="str">"Country"</span>,
+              title<span class="op">=</span><span class="str">"Cumulative confirmed cases over time"</span>)
+fig.<span class="fn">show</span>()</pre></div></div></section>
+      <section class="output-row"><div class="prompt blank">&nbsp;</div><div class="output plot-output"><h3 class="plot-title">Cumulative confirmed cases over time</h3>
+        <svg class="chart-svg" viewBox="0 0 860 410" role="img" aria-label="Line chart of cumulative confirmed COVID-19 cases over time">
+          <g><line class="grid" x1="72" y1="330" x2="810" y2="330"/><line class="grid" x1="72" y1="260" x2="810" y2="260"/><line class="grid" x1="72" y1="190" x2="810" y2="190"/><line class="grid" x1="72" y1="120" x2="810" y2="120"/><line class="grid" x1="72" y1="50" x2="810" y2="50"/></g>
+          <line class="axis" x1="72" y1="330" x2="810" y2="330"/><line class="axis" x1="72" y1="50" x2="72" y2="330"/>
+          <g class="tick-label"><text x="62" y="334" text-anchor="end">0</text><text x="62" y="264" text-anchor="end">150k</text><text x="62" y="194" text-anchor="end">300k</text><text x="62" y="124" text-anchor="end">450k</text><text x="62" y="54" text-anchor="end">600k</text><text x="73" y="353">Jan 22</text><text x="246" y="353">Feb 15</text><text x="430" y="353">Mar 10</text><text x="615" y="353">Apr 01</text><text x="782" y="353">Apr 14</text></g>
+          <path d="M72 330 C135 330 174 329 228 321 C280 310 318 292 355 291 C425 289 525 289 810 289" fill="none" stroke="#cf3f4b" stroke-width="3"/>
+          <path d="M72 330 C230 330 360 329 440 324 C510 314 590 287 660 254 C705 230 757 218 810 216" fill="none" stroke="#355f9a" stroke-width="3"/>
+          <path d="M72 330 C300 330 415 330 500 325 C570 315 625 286 675 252 C720 225 770 214 810 210" fill="none" stroke="#d97706" stroke-width="3"/>
+          <path d="M72 330 C320 330 475 330 550 326 C610 317 665 282 705 230 C744 168 780 92 810 50" fill="none" stroke="#7f1d1d" stroke-width="4"/>
+          <path d="M72 330 C300 330 460 330 540 327 C600 320 650 298 700 275 C744 253 778 240 810 235" fill="none" stroke="#2f855a" stroke-width="3"/>
+          <path d="M72 330 C250 330 335 328 405 324 C470 321 540 319 810 319" fill="none" stroke="#7b61a8" stroke-width="3"/>
+          <g class="legend-text"><rect x="96" y="62" width="11" height="3" fill="#cf3f4b"/><text x="113" y="68">China</text><rect x="168" y="62" width="11" height="3" fill="#355f9a"/><text x="185" y="68">Italy</text><rect x="230" y="62" width="11" height="3" fill="#d97706"/><text x="247" y="68">Spain</text><rect x="299" y="62" width="11" height="3" fill="#7f1d1d"/><text x="316" y="68">United States</text><rect x="409" y="62" width="11" height="3" fill="#2f855a"/><text x="426" y="68">Germany</text><rect x="497" y="62" width="11" height="3" fill="#7b61a8"/><text x="514" y="68">South Korea</text></g>
+          <text class="chart-label" x="440" y="385" text-anchor="middle">Observation date</text><text class="chart-label" transform="translate(19 190) rotate(-90)" text-anchor="middle">Confirmed cases</text>
+        </svg>
+      </div></section>
+
+      <section class="cell code-cell"><div class="prompt">In&nbsp;[10]:</div><div class="cell-body"><div class="code-input"><pre>global_daily <span class="op">=</span> daily_country.<span class="fn">groupby</span>(<span class="str">"ObservationDate"</span>)[metrics].<span class="fn">sum</span>().<span class="fn">reset_index</span>()
+global_daily[<span class="str">"New confirmed"</span>] <span class="op">=</span> global_daily[<span class="str">"Confirmed"</span>].<span class="fn">diff</span>().<span class="fn">clip</span>(lower<span class="op">=</span><span class="num">0</span>)
+global_daily.<span class="fn">tail</span>()</pre></div></div></section>
+      <section class="output-row"><div class="prompt out">Out[10]:</div><div class="output dataframe-wrap"><table class="dataframe" style="min-width:650px"><thead><tr><th></th><th>ObservationDate</th><th>Confirmed</th><th>Deaths</th><th>Recovered</th><th>New confirmed</th></tr></thead><tbody><tr><th>79</th><td>2020-04-10</td><td>1,699,632</td><td>102,734</td><td>376,096</td><td>93,129</td></tr><tr><th>80</th><td>2020-04-11</td><td>1,777,693</td><td>108,509</td><td>402,110</td><td>78,061</td></tr><tr><th>81</th><td>2020-04-12</td><td>1,851,499</td><td>114,098</td><td>421,722</td><td>73,806</td></tr><tr><th>82</th><td>2020-04-13</td><td>1,925,179</td><td>119,701</td><td>448,655</td><td>73,680</td></tr><tr><th>83</th><td>2020-04-14</td><td>1,998,111</td><td>126,681</td><td>478,659</td><td>72,932</td></tr></tbody></table></div></section>
+
+      <section class="cell code-cell"><div class="prompt">In&nbsp;[11]:</div><div class="cell-body"><div class="code-input"><pre>fig <span class="op">=</span> px.<span class="fn">bar</span>(global_daily, x<span class="op">=</span><span class="str">"ObservationDate"</span>, y<span class="op">=</span><span class="str">"New confirmed"</span>,
+             title<span class="op">=</span><span class="str">"Daily new confirmed cases worldwide"</span>)
+fig.<span class="fn">show</span>()</pre></div></div></section>
+      <section class="output-row"><div class="prompt blank">&nbsp;</div><div class="output plot-output"><h3 class="plot-title">Daily new confirmed cases worldwide</h3>
+        <svg class="chart-svg" viewBox="0 0 860 330" role="img" aria-label="Bar chart of daily new confirmed cases worldwide">
+          <g><line class="grid" x1="65" y1="265" x2="815" y2="265"/><line class="grid" x1="65" y1="205" x2="815" y2="205"/><line class="grid" x1="65" y1="145" x2="815" y2="145"/><line class="grid" x1="65" y1="85" x2="815" y2="85"/></g>
+          <line class="axis" x1="65" y1="265" x2="815" y2="265"/><line class="axis" x1="65" y1="55" x2="65" y2="265"/>
+          <g fill="#8e2c32"><rect x="78" y="260" width="14" height="5"/><rect x="99" y="258" width="14" height="7"/><rect x="120" y="261" width="14" height="4"/><rect x="141" y="255" width="14" height="10"/><rect x="162" y="252" width="14" height="13"/><rect x="183" y="249" width="14" height="16"/><rect x="204" y="245" width="14" height="20"/><rect x="225" y="241" width="14" height="24"/><rect x="246" y="236" width="14" height="29"/><rect x="267" y="228" width="14" height="37"/><rect x="288" y="218" width="14" height="47"/><rect x="309" y="223" width="14" height="42"/><rect x="330" y="205" width="14" height="60"/><rect x="351" y="195" width="14" height="70"/><rect x="372" y="188" width="14" height="77"/><rect x="393" y="175" width="14" height="90"/><rect x="414" y="160" width="14" height="105"/><rect x="435" y="148" width="14" height="117"/><rect x="456" y="127" width="14" height="138"/><rect x="477" y="117" width="14" height="148"/><rect x="498" y="97" width="14" height="168"/><rect x="519" y="105" width="14" height="160"/><rect x="540" y="74" width="14" height="191"/><rect x="561" y="82" width="14" height="183"/><rect x="582" y="67" width="14" height="198"/><rect x="603" y="59" width="14" height="206"/><rect x="624" y="78" width="14" height="187"/><rect x="645" y="54" width="14" height="211"/><rect x="666" y="70" width="14" height="195"/><rect x="687" y="88" width="14" height="177"/><rect x="708" y="76" width="14" height="189"/><rect x="729" y="83" width="14" height="182"/><rect x="750" y="101" width="14" height="164"/><rect x="771" y="97" width="14" height="168"/></g>
+          <g class="tick-label"><text x="55" y="269" text-anchor="end">0</text><text x="55" y="209" text-anchor="end">25k</text><text x="55" y="149" text-anchor="end">50k</text><text x="55" y="89" text-anchor="end">75k</text><text x="76" y="285">Mar 12</text><text x="280" y="285">Mar 22</text><text x="490" y="285">Apr 01</text><text x="730" y="285">Apr 14</text></g>
+          <text class="chart-label" x="440" y="314" text-anchor="middle">Observation date</text><text class="chart-label" transform="translate(18 165) rotate(-90)" text-anchor="middle">New confirmed cases</text>
+        </svg>
+      </div></section>
+
+      <section class="cell markdown-cell"><div class="prompt blank">&nbsp;</div><div class="cell-body"><h2>6. Map the global distribution</h2><p>The final choropleth summarizes confirmed cases by country on April 14. Darker red indicates a larger cumulative count.</p></div></section>
+
+      <section class="cell code-cell"><div class="prompt">In&nbsp;[12]:</div><div class="cell-body"><div class="code-input"><pre>fig <span class="op">=</span> px.<span class="fn">choropleth</span>(
+    latest,
+    locations<span class="op">=</span><span class="str">"Country"</span>, locationmode<span class="op">=</span><span class="str">"country names"</span>,
+    color<span class="op">=</span><span class="str">"Confirmed"</span>, hover_name<span class="op">=</span><span class="str">"Country"</span>,
+    color_continuous_scale<span class="op">=</span><span class="str">"Reds"</span>, range_color<span class="op">=</span>(<span class="num">0</span>, <span class="num">50000</span>),
+    title<span class="op">=</span><span class="str">"World map of confirmed COVID-19 cases"</span>
+)
+fig.<span class="fn">show</span>()</pre></div></div></section>
+      <section class="output-row"><div class="prompt blank">&nbsp;</div><div class="output"><div class="map-output"><h3 class="plot-title">World map of confirmed COVID-19 cases — April 14, 2020</h3><svg id="world-map" viewBox="0 0 860 380" role="img" aria-label="World choropleth map of confirmed COVID-19 cases"></svg><div class="map-legend"><strong>Confirmed</strong><div class="map-legend-bar"></div><div class="map-legend-values"><span>50k+</span><span>40k</span><span>30k</span><span>20k</span><span>10k</span><span>0</span></div></div></div></div></section>
+
+      <section class="cell markdown-cell"><div class="prompt blank">&nbsp;</div><div class="cell-body"><h2>7. Summary of observations</h2><div class="insight-box"><h3>What the exploratory analysis shows</h3><p><strong>Early concentration:</strong> January reports are dominated by China and nearby countries.</p><p><strong>Rapid geographic expansion:</strong> During March, confirmed cases accelerate across Italy, Spain, Germany, France, and the United States.</p><p><strong>Changing epicenter:</strong> By mid-April, the United States reports the largest cumulative number of confirmed cases in this dataset.</p><p><strong>Analytical caution:</strong> Reported case totals reflect differences in testing, reporting practices, and update timing; they should not be interpreted as a direct measure of underlying infection prevalence.</p></div></div></section>
+
+      <section class="cell code-cell"><div class="prompt">In&nbsp;[13]:</div><div class="cell-body"><div class="code-input"><pre><span class="comment"># Save the cleaned country-day table for the next stage of analysis</span>
+daily_country.<span class="fn">to_csv</span>(<span class="str">"covid_country_daily_clean.csv"</span>, index<span class="op">=</span><span class="kw">False</span>)
+<span class="fn">print</span>(<span class="str">"Saved 8,109 cleaned observations."</span>)</pre></div></div></section>
+      <section class="output-row"><div class="prompt blank">&nbsp;</div><div class="output"><pre class="plain-output">Saved 8,109 cleaned observations.</pre></div></section>
+
+      <div class="end-space" aria-hidden="true">• • •</div>
+    </div>
+  </section>
+</main>
+
+<script>
+  (() => {
+    const confirmed = {
+      '840': 607670, '724': 172541, '380': 162488, '250': 143303, '276': 131359,
+      '826': 94845, '156': 83306, '364': 74877, '792': 65111, '056': 31119,
+      '528': 27419, '756': 25936, '124': 27063, '076': 25262, '643': 21102,
+      '620': 17448, '040': 14226, '356': 11487, '410': 10564, '036': 6415,
+      '392': 7645, '152': 7917, '604': 10303, '484': 5399, '682': 5369,
+      '376': 12046, '752': 11445, '372': 11479, '616': 7202, '710': 2415
+    };
+
+    const fill = d3.scaleThreshold()
+      .domain([1, 5000, 15000, 30000, 50000])
+      .range(['#fff5f0', '#fdd4c2', '#fca082', '#fb6a4a', '#cb181d', '#7f0000']);
+
+    async function drawMap() {
+      try {
+        const world = await d3.json('teaching-projects/natural-disaster-mortality/countries-110m.json');
+        const countries = topojson.feature(world, world.objects.countries);
+        const svg = d3.select('#world-map');
+        const projection = d3.geoNaturalEarth1().fitExtent([[12, 14], [795, 366]], countries);
+        const path = d3.geoPath(projection);
+
+        svg.selectAll('path')
+          .data(countries.features)
+          .join('path')
+          .attr('d', path)
+          .attr('fill', d => fill(confirmed[String(d.id).padStart(3, '0')] || 0))
+          .append('title')
+          .text(d => `${d.properties.name}: ${(confirmed[String(d.id).padStart(3, '0')] || 0).toLocaleString()} confirmed`);
+
+        document.documentElement.dataset.rendered = 'true';
+      } catch (error) {
+        console.error(error);
+        d3.select('#world-map').append('text').attr('x', 430).attr('y', 190).attr('text-anchor', 'middle').text('Map data could not be loaded.');
+      }
+    }
+
+    drawMap();
+  })();
+</script>
+</body>
+</html>
