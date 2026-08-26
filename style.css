@@ -3389,7 +3389,7 @@ body.visual-project-page {
   position: absolute;
   z-index: -1;
   inset: 0 calc(50% - 50vw);
-  background: #f6eee4;
+  background: #fff;
 }
 .pmos-page article.detail > #s3 h2 { margin-top: 0; }
 .pmos-character-process { margin-top: 40px; }
