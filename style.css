@@ -3547,7 +3547,7 @@ body.visual-project-page {
   background: #fff5e7;
 }
 .ux-projects-page .pmos-card-frame { background: #f4caca; }
-.ux-projects-page .pmos-card-frame img { object-fit: contain; }
+.ux-projects-page .pmos-card-frame img { object-fit: cover; }
 
 @media (max-width: 900px) {
   .toonnote-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
