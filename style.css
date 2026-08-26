@@ -3331,6 +3331,11 @@ body.visual-project-page {
   border-radius: 0;
 }
 .pmos-data-notes { display: grid; gap: 28px; }
+.pmos-data-notes-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 34px 0 56px;
+}
 .pmos-data-notes article { padding-top: 22px; border-top: 1px solid #111; }
 .pmos-number {
   margin-bottom: 12px;
@@ -3348,6 +3353,29 @@ body.visual-project-page {
 .pmos-wide-figure {
   width: min(900px, 100%);
   margin: 0 auto 46px;
+}
+.pmos-storyboard-placeholder {
+  aspect-ratio: 3 / 2;
+  display: grid;
+  place-content: center;
+  gap: 10px;
+  padding: 32px;
+  border: 1px dashed #c9c1b5;
+  background: #f7f4ef;
+  color: #8a8278;
+  text-align: center;
+}
+.pmos-storyboard-placeholder span {
+  font-family: var(--sans);
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-weight: 600;
+}
+.pmos-storyboard-placeholder small {
+  font-family: var(--sans);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
 }
 .pmos-page article.detail > #s3 {
   position: relative;
