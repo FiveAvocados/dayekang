@@ -3409,6 +3409,26 @@ body.visual-project-page {
   object-fit: contain;
   border-radius: 0;
 }
+.pmos-original-art-crop {
+  position: relative;
+  width: min(430px, 100%);
+  aspect-ratio: 2 / 3;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #fff;
+}
+.pmos-page article.detail .pmos-original-art-crop img {
+  position: absolute;
+  top: -29%;
+  left: -60%;
+  display: block;
+  width: 540%;
+  max-width: none;
+  height: auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
 .pmos-page article.detail .pmos-character-process h3 {
   margin: 14px 0 0;
   font-size: clamp(1.45rem, 2.3vw, 2rem);
