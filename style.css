@@ -3263,24 +3263,15 @@ body.visual-project-page {
   font-weight: 700;
 }
 .pmos-hero {
-  padding: clamp(24px, 3.5vw, 52px);
-  background: #f9f0d1;
+  padding: 0;
+  background: #e7e7e7;
 }
-.pmos-hero-grid {
-  width: min(1420px, 100%);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(12px, 1.8vw, 28px);
-}
-.pmos-page article.detail .pmos-hero-grid img {
+.pmos-page article.detail .pmos-main-image {
   display: block;
   width: 100%;
   height: auto;
   max-height: none;
-  aspect-ratio: 1 / 1;
   margin: 0;
-  object-fit: cover;
   border: 0;
   border-radius: 0;
 }
@@ -3577,7 +3568,6 @@ body.visual-project-page {
   .toonnote-results article { min-height: 0; }
   .toonnote-interactions article { grid-template-columns: 54px minmax(0, 1fr); gap: 18px; }
   .toonnote-feature-index { width: 46px; height: 46px; font-size: 1.05rem; }
-  .pmos-hero-grid { grid-template-columns: 1fr; }
   .pmos-data-notes { grid-template-columns: 1fr; }
   .pmos-model-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
