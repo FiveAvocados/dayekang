@@ -58,7 +58,7 @@ NAV = [
     ("teaching.html", "Teaching"),
 ]
 
-def page(title, active, body, desc="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.", body_class=""):
+def page(title, active, body, desc="Daye Kang — designer and HCI researcher. Ph.D. candidate at Cornell University Information Science.", body_class="", head_extra=""):
     ACT = ' class="active"'
     nav_items = "\n        ".join(
         f'<li><a href="{f}?v=20260820-full-width-nav"{ACT if f == active else ""}>{t}</a></li>' for f, t in NAV
@@ -77,6 +77,7 @@ def page(title, active, body, desc="Daye Kang — designer and HCI researcher. P
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+{head_extra}
   <link rel="stylesheet" href="style.css?v=20260825-mindful-no-item-rules">
 </head>
 <body{f' class="{body_class}"' if body_class else ''}>
@@ -299,6 +300,7 @@ index_body = f"""
   </section>
 
 </main>
+<script src="visual-design-prefetch.js?v=20260825-gallery-fast"></script>
 """
 W("index.html", page("Daye Kang — Designer & HCI Researcher", "index.html", index_body))
 
@@ -523,13 +525,37 @@ ART = [
     ("f4a835_ac641b8b476742478d76ef61d91d9031~mv2.png", "Photography", "Photography", "2016", "", "Photoshoot by Daye Kang", "I explored the graphical forms of plastic bags."),
     ("f4a835_30d2277513364ceb8bc6e1a8b86cb72d~mv2.png", "Digital Illustration", "Digital illustration — Photoshop", "2016", "20×10 cm", "Drawn by Daye Kang", "I drew my friend during my travel in Shanghai."),
 ]
+ART_GALLERY_DIMS = {
+    1: (916, 436), 2: (1200, 1716), 3: (1200, 1237), 4: (896, 484),
+    5: (1200, 1200), 6: (1200, 1653), 7: (1200, 1699), 8: (1200, 1352),
+    9: (1200, 1709), 10: (1200, 1698), 11: (1200, 1709), 12: (1098, 1560),
+    13: (1200, 1751), 14: (1200, 1200), 15: (800, 450), 16: (1200, 1217),
+    17: (1200, 940), 18: (1061, 591), 19: (959, 1354), 20: (1200, 887),
+    21: (1200, 892), 22: (1200, 663), 23: (1200, 1600), 24: (1200, 1698),
+    25: (1200, 957), 26: (1200, 691), 27: (1200, 1162), 28: (1200, 1698),
+    29: (820, 1008), 30: (1200, 768),
+}
+
 def _art_item(n, i, title, medium, year, size, credit, desc):
+    width, height = ART_GALLERY_DIMS[n]
+    gallery_version = "?v=20260825-gallery-fast"
     if i.startswith("LOCAL_VIDEO:"):
-        media = video_tag(i[len("LOCAL_VIDEO:"):])
+        video_path = i[len("LOCAL_VIDEO:"):]
+        poster = f"assets/optimized/gallery/art_{n:02d}-1200.webp{gallery_version}"
+        media = (f'<video data-src="{video_path}" data-full-src="{video_path}" poster="{poster}" '
+                 f'preload="none" autoplay muted loop playsinline width="{width}" height="{height}"></video>')
     elif i.startswith("VIDEO:"):
-        media = video_tag(V(f"art_{n:02d}", i[6:]))
+        video_path = V(f"art_{n:02d}", i[6:]).replace("assets/video/", "assets/optimized/video/")
+        poster = f"assets/optimized/gallery/art_{n:02d}-1200.webp{gallery_version}"
+        media = (f'<video data-src="{video_path}" data-full-src="{video_path}" poster="{poster}" '
+                 f'preload="none" autoplay muted loop playsinline width="{width}" height="{height}"></video>')
     else:
-        media = f'<img src="{A(f"art_{n:02d}", i, "fit", 800, 1200)}" alt="{html.escape(title)}" loading="lazy">'
+        A(f"art_{n:02d}", i, "fit", 800, 1200)
+        thumb = f"assets/optimized/gallery/art_{n:02d}-1200.webp{gallery_version}"
+        full = f"assets/optimized/art_{n:02d}.webp?v=20260821-original"
+        priority = ' loading="eager" fetchpriority="high"' if n in {1, 7, 17, 23} else ' loading="lazy"'
+        media = (f'<img src="{thumb}" data-full-src="{full}" alt="{html.escape(title)}" '
+                 f'width="{width}" height="{height}" decoding="async"{priority}>')
     attrs = (f' data-title="{html.escape(title, quote=True)}" data-medium="{html.escape(medium, quote=True)}"'
              f' data-year="{html.escape(year, quote=True)}" data-size="{html.escape(size, quote=True)}"'
              f' data-credit="{html.escape(credit, quote=True)}" data-desc="{html.escape(desc, quote=True)}"')
@@ -572,7 +598,7 @@ art_body = f"""
   </figure>
 </div>
 <script src="visual-project-content.js?v=20260822"></script>
-<script src="artwork-gallery.js?v=20260822"></script>
+<script src="artwork-gallery.js?v=20260825-gallery-fast"></script>
 <script>
 if (!window.ARTWORK_PROJECT_LINKS) (function() {{
   const lb = document.getElementById('lightbox');
@@ -657,7 +683,12 @@ if (!window.ARTWORK_PROJECT_LINKS) (function() {{
   document.addEventListener('keydown', e => {{ if (e.key === 'Escape') close(); }});
 }})();
 </script>"""
-W("visual-design.html", page("Visual Design — Daye Kang", "visual-design.html", art_body, body_class="video-hero-page"))
+visual_design_preloads = """<link rel="preload" as="image" href="assets/optimized/gallery/art_01-1200.webp?v=20260825-gallery-fast" fetchpriority="high">
+<link rel="preload" as="image" href="assets/optimized/gallery/art_07-1200.webp?v=20260825-gallery-fast" fetchpriority="high">
+<link rel="preload" as="image" href="assets/optimized/gallery/art_17-1200.webp?v=20260825-gallery-fast" fetchpriority="high">
+<link rel="preload" as="image" href="assets/optimized/gallery/art_23-1200.webp?v=20260825-gallery-fast" fetchpriority="high">"""
+W("visual-design.html", page("Visual Design — Daye Kang", "visual-design.html", art_body,
+                             body_class="video-hero-page", head_extra=visual_design_preloads))
 
 # Preserve the former URL while keeping the public page name aligned with the menu.
 W("artwork.html", """<!DOCTYPE html>

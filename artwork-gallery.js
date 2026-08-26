@@ -61,6 +61,27 @@
     representative.appendChild(link);
   });
 
+  const loadGalleryVideo = (video) => {
+    if (!video || video.getAttribute("src") || !video.dataset.src) return;
+    video.src = video.dataset.src;
+    video.load();
+    if (!video.closest(".art")?.hidden) video.play().catch(() => {});
+  };
+
+  const galleryVideos = [...document.querySelectorAll(".gallery video[data-src]")];
+  if ("IntersectionObserver" in window) {
+    const videoObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        loadGalleryVideo(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "600px 0px" });
+    galleryVideos.forEach((video) => videoObserver.observe(video));
+  } else {
+    galleryVideos.forEach(loadGalleryVideo);
+  }
+
   const applyFilter = (button) => {
     const filter = button.dataset.filter;
     let shown = 0;
@@ -76,7 +97,7 @@
 
       const video = representative.querySelector("video");
       if (video) {
-        if (visible) video.play().catch(() => {});
+        if (visible && video.getAttribute("src")) video.play().catch(() => {});
         else video.pause();
       }
     });

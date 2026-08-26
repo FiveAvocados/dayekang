@@ -65,18 +65,21 @@
       mediaItems.forEach((item) => {
         const source = item.querySelector("img, video");
         if (!source) return;
+        const sourcePath = source.dataset.fullSrc || source.getAttribute("src") || source.dataset.src;
+        if (!sourcePath) return;
         let media;
         if (source.tagName === "VIDEO") {
           media = document.createElement("video");
-          media.src = absoluteAsset(source.getAttribute("src"));
+          media.src = absoluteAsset(sourcePath);
           media.controls = true;
           media.muted = true;
           media.playsInline = true;
           media.preload = "metadata";
         } else {
           media = document.createElement("img");
-          media.src = absoluteAsset(source.getAttribute("src"));
+          media.src = absoluteAsset(sourcePath);
           media.alt = source.getAttribute("alt") || title;
+          media.decoding = "async";
         }
         mediaRoot.appendChild(media);
       });
