@@ -42,27 +42,16 @@
   .page {
     position: relative;
     width: 832px;
-    height: 1280px;
+    height: 1167px;
     flex: 0 0 auto;
     overflow: hidden;
     background: #fff;
     box-shadow: 0 18px 60px rgba(21, 27, 32, .16);
   }
 
-  .page-title {
-    position: absolute;
-    top: 4px;
-    left: 126px;
-    margin: 0;
-    font-size: 59px;
-    font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: -.7px;
-  }
-
   .comic-document {
     position: absolute;
-    top: 80px;
+    top: 20px;
     left: 20px;
     width: 762px;
     height: 1127px;
@@ -142,18 +131,22 @@
   }
 
   .panel-tag {
-    top: -1px;
-    left: -1px;
+    top: 0;
+    left: 0;
     min-width: 120px;
     padding: 8px 14px 7px;
+    border-top: 0;
+    border-left: 0;
     font-size: 12px;
     line-height: 1;
   }
 
   .annotation {
-    left: -1px;
-    bottom: -1px;
+    left: 0;
+    bottom: 0;
     padding: 7px 9px 6px;
+    border-left: 0;
+    border-bottom: 0;
     font-size: 10.6px;
     line-height: 1.27;
   }
@@ -172,6 +165,7 @@
     left: 327px;
     width: 383px;
     height: 297px;
+    overflow: visible;
   }
 
   .january .annotation { width: 206px; }
@@ -183,43 +177,61 @@
     right: 0;
     width: 119px;
     height: 170px;
-    overflow: hidden;
+    overflow: visible;
     border: 1px solid #111;
+    border-right: 0;
     background: var(--ocean);
   }
 
   .asia-inset svg { display: block; width: 100%; height: 100%; }
 
   .asia-inset .panel-tag {
-    top: -1px;
-    right: -1px;
+    top: 0;
+    right: 0;
     left: auto;
     min-width: 0;
     padding: 6px 7px;
+    border-top: 0;
+    border-right: 0;
+    border-left: 1px solid #111;
     font-size: 10px;
   }
 
   .case-pill {
     position: absolute;
     z-index: 5;
-    top: 72px;
-    right: 4px;
+    top: 61px;
+    right: -55px;
     padding: 8px 10px;
-    border-radius: 12px 4px 4px 12px;
+    border-radius: 12px;
     background: #555;
     color: #fff;
     font-size: 7.5px;
-    box-shadow: 0 1px 1px rgba(0,0,0,.25);
+    white-space: nowrap;
+    box-shadow: none;
+  }
+
+  .case-pill::after {
+    content: "";
+    position: absolute;
+    left: -25px;
+    bottom: -10px;
+    width: 31px;
+    height: 16px;
+    background: #555;
+    clip-path: polygon(0 100%, 100% 0, 100% 55%);
   }
 
   .inset-note {
     position: absolute;
     z-index: 5;
-    right: -1px;
-    bottom: -1px;
-    width: 119px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
     padding: 5px 4px 4px;
-    border: 1px solid #111;
+    border: 0;
+    border-top: 1px solid #111;
     background: rgba(255,255,255,.96);
     font-size: 6.9px;
     line-height: 1.22;
@@ -251,21 +263,24 @@
     height: 243px;
   }
 
-  .march-world .panel-tag {
-    width: 100px;
-    min-width: 100px;
-    padding: 6px 5px;
-    font-size: 8.7px;
-    white-space: nowrap;
-  }
-  .march-world .annotation {
-    top: -1px;
-    left: 99px;
-    bottom: auto;
-    width: 349px;
-    border-left: 0;
+  .march-world .march-caption {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 448px;
     padding: 6px 7px;
+    border: 0;
+    border-right: 1px solid #111;
+    border-bottom: 1px solid #111;
+    background: rgba(255, 255, 255, .97);
+    color: #151515;
     font-size: 10.4px;
+    line-height: 1.2;
+    white-space: nowrap;
   }
 
   .march-us {
@@ -276,10 +291,12 @@
   }
 
   .march-us .annotation {
-    top: -1px;
-    left: -1px;
+    top: 0;
+    left: 0;
     bottom: auto;
     width: 176px;
+    border-top: 0;
+    border-bottom: 1px solid #111;
     font-size: 10.2px;
   }
 
@@ -290,14 +307,23 @@
     height: 296px;
   }
 
-  .april-world .panel-tag { width: 115px; min-width: 115px; padding: 6px 7px; font-size: 10px; }
-  .april-world .annotation {
-    top: 26px;
-    left: -1px;
-    bottom: auto;
-    width: 314px;
+  .april-world .april-caption {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
     padding: 6px 7px;
-    font-size: 10.4px;
+    border: 0;
+    border-bottom: 1px solid #111;
+    background: rgba(255, 255, 255, .97);
+    color: #151515;
+    font-size: 10.2px;
+    line-height: 1.2;
+    white-space: nowrap;
   }
 
   .country {
@@ -357,13 +383,13 @@
       transform-origin: top left;
       box-shadow: none;
     }
-    .viewport { min-height: 0; height: calc(100vw * 1280 / 832); }
+    .viewport { min-height: 0; height: calc(100vw * 1167 / 832); }
   }
 
-  @page { size: 832px 1280px; margin: 0; }
+  @page { size: 832px 1167px; margin: 0; }
 
   @media print {
-    html, body, .viewport { width: 832px; height: 1280px; min-height: 0; background: #fff; }
+    html, body, .viewport { width: 832px; height: 1167px; min-height: 0; background: #fff; }
     .viewport { display: block; padding: 0; overflow: hidden; }
     .page { box-shadow: none; transform: none; }
   }
@@ -372,8 +398,6 @@
 <body>
 <main class="viewport">
   <article class="page" aria-label="COVID-19 comic document">
-    <h1 class="page-title">C. Comic document</h1>
-
     <section class="comic-document">
       <header class="hero-banner">
         <img class="hero-banner-image" src="assets/toonnote-coronavirus-hero-upscaled.png" alt="CORONAVIRUS — Corona Virus spread over time">
@@ -410,8 +434,7 @@
       </section>
 
       <section class="panel march-world" aria-label="End of March 2020: China and Italy exceed 50,000 confirmed cases">
-        <div class="panel-tag">End of March 2020</div>
-        <div class="annotation">By this time, China and Italy reported a confirmed number over 50k.</div>
+        <div class="march-caption">End of March 2020.&nbsp;&nbsp; By this time, China and Italy reported a confirmed number over 50k.</div>
         <svg class="map" data-map="eurasia" viewBox="0 0 518 243" aria-hidden="true"></svg>
       </section>
 
@@ -421,8 +444,7 @@
       </section>
 
       <section class="panel april-world" aria-label="Middle of April 2020: many countries exceed 50,000 confirmed cases">
-        <div class="panel-tag">Middle April 2020</div>
-        <div class="annotation">Currently, many countries report over 50k confirmed cases.</div>
+        <div class="april-caption"><span>Middle April 2020</span><span>Currently, many countries report over 50k confirmed cases.</span></div>
         <svg class="map" data-map="world" viewBox="0 0 419 296" aria-hidden="true"></svg>
       </section>
     </section>
@@ -433,37 +455,11 @@
   (() => {
     const palette = ['#fff7f3', '#fdd4c2', '#fca082', '#fb6a4a', '#cb181d', '#7f0000'];
 
-    // Date-specific historical snapshots derived from the JHU CSSE COVID-19 dataset.
-    const cases = {
-      december: { '156': 0 },
-      january: {
-        '156': 9783, '764': 19, '392': 15, '702': 13, '410': 11, '158': 10,
-        '344': 12, '446': 7, '250': 5, '276': 5, '036': 9, '784': 4,
-        '840': 6, '704': 2, '124': 4, '380': 2, '826': 2, '643': 2,
-        '524': 1, '116': 1, '144': 1, '246': 1, '608': 1, '356': 1, '752': 1
-      },
-      koreaMarch22: {
-        '156': 81397, '410': 8897, '392': 1101, '158': 169, '344': 317, '643': 367
-      },
-      march: {
-        '840': 188172, '380': 105792, '724': 95923, '156': 82279, '276': 71808,
-        '250': 52827, '364': 44605, '826': 25481, '756': 16605, '792': 13531,
-        '056': 12775, '528': 12667, '040': 10180, '410': 9786, '124': 8527,
-        '620': 7443, '076': 5717, '376': 5358, '036': 4559, '578': 4641,
-        '752': 4435, '372': 3235, '643': 2337, '356': 1397, '152': 2738
-      },
-      april: {
-        '840': 607670, '724': 172541, '380': 162488, '250': 143303, '276': 131359,
-        '826': 94845, '156': 83306, '364': 74877, '792': 65111, '056': 31119,
-        '528': 27419, '124': 27063, '756': 25936, '076': 25262, '643': 21102,
-        '620': 17448, '040': 14226, '376': 12046, '356': 11487, '372': 11479,
-        '752': 11445, '410': 10564, '604': 10303, '152': 7917, '392': 7645,
-        '616': 7202, '036': 6415, '484': 5399, '682': 5369, '710': 2415
-      }
-    };
+    // Complete date snapshots are loaded from a local, reproducible data asset.
+    let cases = null;
 
     function colorFor(value, kind) {
-      if (!value) return kind === 'eurasia' ? '#c7c5c5' : palette[0];
+      if (!value) return palette[0];
       if (value < 5000) return palette[1];
       if (value < 15000) return palette[2];
       if (value < 30000) return palette[3];
@@ -544,26 +540,13 @@
       }
     }
 
-    function addSpotlights(svg, projection, kind) {
-      if (kind !== 'eurasia') return;
-      [
-        { coords: [105, 35], radius: 51 },
-        { coords: [12.5, 42], radius: 21 }
-      ].forEach(({ coords, radius }) => {
-        const point = projection(coords);
-        if (!point) return;
-        svg.append('circle')
-          .attr('cx', point[0])
-          .attr('cy', point[1])
-          .attr('r', radius)
-          .attr('fill', '#fff')
-          .attr('opacity', .9);
-      });
-    }
-
     async function renderMaps() {
       try {
-        const world = await d3.json('teaching-projects/natural-disaster-mortality/countries-110m.json');
+        const [world, snapshots] = await Promise.all([
+          d3.json('teaching-projects/natural-disaster-mortality/countries-110m.json'),
+          d3.json('assets/toonnote-covid-snapshots.json')
+        ]);
+        cases = snapshots;
         const countries = topojson.feature(world, world.objects.countries);
 
         document.querySelectorAll('svg[data-map]').forEach(node => {
@@ -580,8 +563,7 @@
           const path = d3.geoPath(projection);
           const values = dataFor(kind);
 
-          svg.append('rect').attr('width', width).attr('height', height).attr('fill', kind === 'eurasia' ? '#d3d3d3' : '#e4edf5');
-          addSpotlights(svg, projection, kind);
+          svg.append('rect').attr('width', width).attr('height', height).attr('fill', kind === 'eurasia' ? '#fff' : '#e4edf5');
           svg.append('g')
             .selectAll('path')
             .data(features)

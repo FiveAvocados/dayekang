@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COVID-19 Exploratory Data Analysis — Comic View</title>
+<meta name="description" content="A classic Jupyter-hosted data comic reconstruction of the COVID-19 exploratory analysis used in the ToonNote study.">
+<script src="teaching-projects/vendor/d3.v7.9.0.min.js"></script>
+<script src="teaching-projects/vendor/topojson.v3.0.2.min.js"></script>
+<script src="assets/toonnote-covid-world-110m.js"></script>
+<script src="assets/toonnote-covid-study-data.js"></script>
+<style>
+  :root {
+    --ink: #1e1e1e;
+    --line: #111;
+    --chrome: #f4f4f4;
+    --orange: #f37726;
+    --ocean: #fff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body { background: #e7e8ea; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+
+  .comic-shell {
+    position: relative;
+    width: 1180px;
+    min-height: 1700px;
+    margin: 18px auto 40px;
+    overflow: hidden;
+    border: 0;
+    background: #fff;
+  }
+  .tab-strip { display: flex; height: 38px; border-bottom: 1px solid #aaa; background: #bdbdbd; }
+  .document-tab {
+    display: flex; align-items: center; gap: 8px; width: 232px; padding: 0 12px;
+    border-top: 2px solid #2196f3; background: #fff; color: #333; font-size: 14px;
+  }
+  .jupyter-file-icon { position: relative; width: 14px; height: 14px; border: 2px solid var(--orange); }
+  .jupyter-file-icon::after { content: ""; position: absolute; top: 3px; left: 3px; width: 5px; height: 5px; background: var(--orange); }
+  .tab-close { margin-left: auto; color: #666; font-size: 17px; line-height: 1; }
+  .classic-toolbar {
+    display: flex; align-items: center; gap: 3px; height: 40px; padding: 0 35px;
+    border-bottom: 1px solid #c9c9c9; background: linear-gradient(#fff, #f3f3f3); color: #555;
+  }
+  .tool { display: grid; place-items: center; width: 27px; height: 26px; font-size: 15px; font-weight: 600; }
+  .tool.wide { width: 36px; }
+  .tool-separator { width: 1px; height: 21px; margin: 0 5px; background: #d2d2d2; }
+  .cell-select {
+    display: flex; align-items: center; justify-content: space-between; width: 105px; height: 27px;
+    margin-left: 8px; padding: 0 7px; border: 1px solid #cfcfcf; border-radius: 2px;
+    background: #fff; color: #333; font-size: 12px; font-weight: 400;
+  }
+  .fake-scrollbar { position: absolute; z-index: 9; top: 82px; right: 3px; width: 12px; height: 1570px; border-left: 1px solid #eee; background: #fafafa; }
+  .fake-scrollbar::before { content: ""; position: absolute; top: 18px; left: 1px; width: 9px; height: 120px; background: #c7c7c7; }
+  .fake-scrollbar::after { content: "▲"; position: absolute; top: 0; left: 1px; color: #aaa; font-size: 9px; }
+
+  .comic-page { width: 1110px; margin: 22px auto 54px; }
+  .frame { position: relative; overflow: hidden; border: 2px solid var(--line); background: var(--ocean); }
+  .frame svg { display: block; width: 100%; height: 100%; }
+  .annotation {
+    position: absolute; z-index: 5; top: 0; left: 0; right: 0;
+    padding: 8px 9px; border-bottom: 2px solid var(--line); background: rgba(255,255,255,.98);
+    color: #111; font-size: 15px; line-height: 1.28;
+  }
+
+  .intro-frame { height: 410px; }
+  .intro-frame .annotation { position: relative; min-height: 106px; font-size: 17px; line-height: 1.35; }
+  .intro-frame img { display: block; width: 100%; height: 300px; object-fit: cover; object-position: center; }
+
+  .row { display: grid; gap: 20px; margin-top: 20px; }
+  .row-one { grid-template-columns: 720px 370px; align-items: start; }
+  .row-two { grid-template-columns: 545px 545px; }
+  .row-three { grid-template-columns: repeat(3, 356.67px); }
+
+  .timeline-frame { height: 470px; }
+  .timeline-frame .annotation {
+    right: auto;
+    width: 455px;
+    border-right: 2px solid var(--line);
+  }
+  .timeline-map { position: absolute; top: 45px; left: 18px; width: 590px; height: 330px; }
+  .timeline-legend { position: absolute; top: 72px; right: 35px; width: 64px; height: 275px; }
+  .timeline-legend .legend-title { font-size: 12px; color: #596b83; }
+  .timeline-legend .legend-gradient { position: absolute; top: 24px; left: 0; width: 25px; height: 222px; background: linear-gradient(to top,#fff5f0,#fcbba1,#fb6a4a,#cb181d,#67000d); }
+  .timeline-legend .legend-scale { position: absolute; top: 20px; left: 33px; display: grid; grid-template-rows: repeat(10,1fr); height: 237px; color: #596b83; font-size: 10px; }
+  .timeline-controls { position: absolute; z-index: 4; left: 12px; right: 18px; bottom: 15px; height: 64px; color: #596b83; }
+  .control-button { position: absolute; bottom: 18px; width: 34px; height: 34px; border: 1px solid #bbc7d5; background: #fff; text-align: center; line-height: 32px; }
+  .control-button.play { left: 0; }
+  .control-button.stop { left: 39px; }
+  .timeline-date { position: absolute; left: 88px; top: 0; font-size: 12px; }
+  .slider-track { position: absolute; left: 88px; right: 6px; top: 29px; height: 4px; background: #d8e1ec; }
+  .slider-knob { position: absolute; left: 88px; top: 20px; width: 21px; height: 21px; border: 1px solid #cbd6e2; border-radius: 50%; background: #f8fbff; }
+  .slider-ticks { position: absolute; left: 88px; right: 6px; top: 42px; display: flex; justify-content: space-between; font-size: 9px; }
+
+  .china-frame { height: 284px; }
+  .china-frame .annotation { min-height: 80px; font-size: 16px; }
+  .china-frame svg { position: absolute; top: 80px; left: 0; height: 204px; }
+
+  .story-frame { height: 330px; }
+  .story-frame .annotation { min-height: 57px; }
+  .story-frame svg { position: absolute; top: 57px; left: 0; height: 273px; }
+  .story-frame.april .annotation { min-height: 38px; }
+  .story-frame.april svg { top: 38px; height: 292px; }
+
+  .small-frame { height: 286px; }
+  .small-frame .annotation { min-height: 38px; }
+  .small-frame svg { position: absolute; top: 38px; left: 0; height: 248px; }
+  .small-frame.june .annotation { min-height: 76px; }
+  .small-frame.june svg { top: 76px; height: 210px; }
+
+  .country { vector-effect: non-scaling-stroke; stroke: #62676c; stroke-width: 1; stroke-linejoin: round; }
+  .country-label { fill: #fff; stroke: rgba(0,0,0,.45); stroke-width: 2.2px; paint-order: stroke fill; text-anchor: middle; font-size: 12px; font-weight: 700; }
+
+  @page { size: 1180px 1700px; margin: 0; }
+  @media print {
+    html, body { width: 1180px; height: 1700px; min-height: 0; background: #fff; }
+    .comic-shell { width: 1180px; height: 1700px; min-height: 1700px; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<main class="comic-shell" aria-label="Classic Jupyter Notebook showing the ToonNote COVID-19 Comic View">
+  <header>
+    <div class="tab-strip"><div class="document-tab"><span class="jupyter-file-icon" aria-hidden="true"></span><span>covid_19.ipynb</span><span class="tab-close">×</span></div></div>
+    <div class="classic-toolbar" aria-hidden="true">
+      <span class="tool">⌕</span><span class="tool">↻</span><span class="tool">✎</span><span class="tool">■</span><span class="tool">▣</span><span class="tool">▤</span><span class="tool">＋</span><span class="tool">✂</span><span class="tool">▣</span><span class="tool">▢</span><span class="tool-separator"></span><span class="tool">▶</span><span class="tool">■</span><span class="tool">↻</span><span class="tool wide">≫</span><span class="cell-select">Code <span>⌄</span></span>
+    </div>
+  </header>
+  <div class="fake-scrollbar" aria-hidden="true"></div>
+
+  <section class="comic-page">
+    <section class="frame intro-frame" aria-label="Coronavirus introduction">
+      <div class="annotation">Coronaviruses are a group of related RNA viruses that cause diseases in mammals and birds. In humans and birds, they cause respiratory tract infections that can range from mild to lethal. Mild illnesses in humans include some cases of the common cold (which is also caused by other viruses, predominantly rhinoviruses), while more lethal varieties can cause SARS, MERS, and COVID-19. In cows and pigs they cause diarrhea, while in mice they cause hepatitis and encephalomyelitis. There are as yet no vaccines or antiviral drugs to prevent or treat human coronavirus infections.</div>
+      <img src="assets/toonnote-covid-micrograph.jpg" alt="Colorized electron micrograph of SARS-CoV-2 particles surrounding a host cell">
+    </section>
+
+    <div class="row row-one">
+      <section class="frame timeline-frame" aria-label="Worldwide COVID-19 cases from January through August 2020">
+        <div class="annotation">Coronavirus cases reported from 2020.01 to 2020.08</div>
+        <svg class="timeline-map" id="comic-world-map" viewBox="0 0 590 330" role="img" aria-label="World map of confirmed COVID-19 cases on January 22, 2020"></svg>
+        <div class="timeline-legend" aria-label="Confirmed case color legend">
+          <div class="legend-title">Confirmed</div><div class="legend-gradient"></div>
+          <div class="legend-scale"><span>50k</span><span>45k</span><span>40k</span><span>35k</span><span>30k</span><span>25k</span><span>20k</span><span>15k</span><span>10k</span><span>5k</span></div>
+        </div>
+        <div class="timeline-controls" aria-hidden="true">
+          <div class="control-button play">▶</div><div class="control-button stop">■</div>
+          <div class="timeline-date">Date=01/22/2020</div><div class="slider-track"></div><div class="slider-knob"></div>
+          <div class="slider-ticks"><span>01/22/2020</span><span>02/29/2020</span><span>04/07/2020</span><span>05/15/2020</span><span>06/22/2020</span><span>07/30/2020</span></div>
+        </div>
+      </section>
+
+      <section class="frame china-frame" aria-label="COVID-19 begins in China">
+        <div class="annotation">The COVID-19 pandemic originated from China in January of 2020. Pay attention to the break-out in China mainland.</div>
+        <svg id="comic-china-map" viewBox="0 0 370 204" role="img" aria-label="China highlighted on a map of East Asia"></svg>
+      </section>
+    </div>
+
+    <div class="row row-two">
+      <section class="frame story-frame" aria-label="March 2020 COVID-19 cases in China and Italy">
+        <div class="annotation">In March of 2020. China and Italy showed a high amount of confirmed cases. At this time India did not show many confirmed cases.</div>
+        <svg id="comic-march-map" viewBox="0 0 545 273" role="img" aria-label="Europe and Asia COVID-19 choropleth for March 31, 2020"></svg>
+      </section>
+      <section class="frame story-frame april" aria-label="April 2020 COVID-19 cases in the United States">
+        <div class="annotation">In April of 2020. Many confirmed cases started to show in the US.</div>
+        <svg id="comic-april-map" viewBox="0 0 545 292" role="img" aria-label="Americas and western Europe COVID-19 choropleth for April 30, 2020"></svg>
+      </section>
+    </div>
+
+    <div class="row row-three">
+      <section class="frame small-frame june" aria-label="June 2020 global spread led by the United States">
+        <div class="annotation">In June of 2020, COVID-19 had spread over the world. The US shows the highest amount of confirmed cases.</div>
+        <svg id="comic-june-us-map" viewBox="0 0 357 210" role="img" aria-label="North America COVID-19 choropleth for June 30, 2020"></svg>
+      </section>
+      <section class="frame small-frame" aria-label="Brazil follows the United States in confirmed cases">
+        <div class="annotation">Brazil follows the US.</div>
+        <svg id="comic-brazil-map" viewBox="0 0 357 248" role="img" aria-label="Brazil and South America COVID-19 choropleth for June 30, 2020"></svg>
+      </section>
+      <section class="frame small-frame" aria-label="India follows Brazil in confirmed cases">
+        <div class="annotation">India then follows Brazil.</div>
+        <svg id="comic-india-map" viewBox="0 0 357 248" role="img" aria-label="India and South Asia COVID-19 choropleth for June 30, 2020"></svg>
+      </section>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const pale = '#ffefb3';
+  const purpleRamp = d3.interpolateRgbBasis(['#fff1b7','#f7a875','#d35d79','#84406f','#341049']);
+
+  function projectionFor(kind, width, height, collection) {
+    if (kind === 'china') return d3.geoMercator().center([107,34]).scale(265).translate([width*.46,height*.59]);
+    if (kind === 'march') return d3.geoMercator().center([58,30]).scale(132).translate([width*.50,height*.56]);
+    if (kind === 'april') return d3.geoMercator().center([-30,20]).scale(118).translate([width*.50,height*.55]);
+    if (kind === 'june-us') return d3.geoMercator().center([-103,43]).scale(180).translate([width*.50,height*.55]);
+    if (kind === 'brazil') return d3.geoMercator().center([-57,-12]).scale(280).translate([width*.51,height*.52]);
+    if (kind === 'india') return d3.geoMercator().center([82,23]).scale(265).translate([width*.49,height*.53]);
+    return d3.geoNaturalEarth1().fitExtent([[12,14],[width-12,height-12]], collection);
+  }
+
+  function renderMap(selector, world, values, kind, maxValue, labels = []) {
+    const node = document.querySelector(selector);
+    const width = node.viewBox.baseVal.width;
+    const height = node.viewBox.baseVal.height;
+    const svg = d3.select(node);
+    const countries = topojson.feature(world, world.objects.countries);
+    const features = countries.features.filter(d => String(d.id).padStart(3,'0') !== '010');
+    const collection = {type:'FeatureCollection',features};
+    const projection = projectionFor(kind,width,height,collection);
+    const path = d3.geoPath(projection);
+    const colorScale = d3.scalePow().exponent(1.2).domain([0,maxValue]).range([0,1]).clamp(true);
+    svg.append('rect').attr('width',width).attr('height',height).attr('fill','#fff');
+    svg.append('g').selectAll('path').data(features).join('path')
+      .attr('class','country').attr('d',path)
+      .attr('fill',d=>{
+        const value = values[String(d.id).padStart(3,'0')] || 0;
+        return value ? purpleRamp(colorScale(value)) : pale;
+      });
+    labels.forEach(label => {
+      const point = projection(label.coords);
+      if (!point) return;
+      svg.append('text').attr('class','country-label').attr('x',point[0]).attr('y',point[1]).text(label.text);
+    });
+  }
+
+  function renderTimeline(selector, world, values) {
+    const node = document.querySelector(selector);
+    const width = node.viewBox.baseVal.width, height = node.viewBox.baseVal.height;
+    const svg = d3.select(node);
+    const countries = topojson.feature(world, world.objects.countries);
+    const features = countries.features.filter(d => String(d.id).padStart(3,'0') !== '010');
+    const projection = d3.geoNaturalEarth1().fitExtent([[6,10],[width-6,height-8]],{type:'FeatureCollection',features});
+    const path = d3.geoPath(projection);
+    const color = d3.scaleSequential().domain([0,50000]).interpolator(d3.interpolateReds);
+    svg.append('rect').attr('width',width).attr('height',height).attr('fill','#fff');
+    svg.append('g').selectAll('path').data(features).join('path').attr('class','country').attr('d',path)
+      .attr('fill',d=>{
+        const value = values[String(d.id).padStart(3,'0')] || 0;
+        return value ? color(Math.min(value,50000)) : '#e6eef7';
+      });
+  }
+
+  Promise.resolve().then(() => {
+    const world = window.TOONNOTE_COVID_WORLD_110M;
+    const data = window.TOONNOTE_COVID_STUDY_DATA;
+    if (!world || !data) throw new Error('Embedded ToonNote data assets did not load.');
+    renderTimeline('#comic-world-map',world,data.snapshots['2020-01-22']);
+    renderMap('#comic-china-map',world,data.snapshots['2020-01-22'],'china',600,[{coords:[105,35],text:'China'}]);
+    renderMap('#comic-march-map',world,data.snapshots['2020-03-31'],'march',100000,[{coords:[105,35],text:'China'},{coords:[12.5,42],text:'Italy'}]);
+    renderMap('#comic-april-map',world,data.snapshots['2020-04-30'],'april',1200000,[{coords:[-100,38],text:'United States'}]);
+    renderMap('#comic-june-us-map',world,data.snapshots['2020-06-30'],'june-us',3000000,[{coords:[-100,38],text:'United States'}]);
+    renderMap('#comic-brazil-map',world,data.snapshots['2020-06-30'],'brazil',1500000,[{coords:[-52,-10],text:'Brazil'}]);
+    renderMap('#comic-india-map',world,data.snapshots['2020-06-30'],'india',600000,[{coords:[79,22],text:'India'}]);
+    document.documentElement.dataset.rendered = 'true';
+    window.__COMIC_STUDY_READY__ = true;
+  }).catch(error => {
+    console.error(error);
+    document.documentElement.dataset.rendered = 'error';
+    window.__COMIC_STUDY_READY__ = false;
+  });
+})();
+</script>
+</body>
+</html>

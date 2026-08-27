@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COVID-19 Exploratory Data Analysis — Notebook View</title>
+<meta name="description" content="A long classic Jupyter Notebook reconstruction of the COVID-19 exploratory analysis used in the ToonNote study.">
+<script src="teaching-projects/vendor/d3.v7.9.0.min.js"></script>
+<script src="teaching-projects/vendor/topojson.v3.0.2.min.js"></script>
+<script src="assets/toonnote-covid-world-110m.js"></script>
+<script src="assets/toonnote-us-states-10m.js"></script>
+<script src="assets/toonnote-covid-study-data.js"></script>
+<style>
+  :root {
+    --ink: #2d2d2d;
+    --muted: #8a8a8a;
+    --line: #c8c8c8;
+    --soft-line: #e2e2e2;
+    --chrome: #f4f4f4;
+    --code-bg: #f7f7f7;
+    --blue: #2171b5;
+    --orange: #f37726;
+    --green: #168a25;
+    --red: #c83b3b;
+    --purple: #6d50a2;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: #e7e8ea;
+    color: var(--ink);
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .notebook-shell {
+    position: relative;
+    width: 1180px;
+    min-height: 5950px;
+    margin: 18px auto 40px;
+    overflow: hidden;
+    border: 1px solid #4a4a4a;
+    background: #fff;
+  }
+
+  .tab-strip {
+    display: flex;
+    height: 38px;
+    border-bottom: 1px solid #aaa;
+    background: #bdbdbd;
+  }
+
+  .document-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 232px;
+    padding: 0 12px;
+    border-top: 2px solid #2196f3;
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+  }
+
+  .jupyter-file-icon {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--orange);
+  }
+
+  .jupyter-file-icon::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 5px;
+    height: 5px;
+    background: var(--orange);
+  }
+
+  .tab-close { margin-left: auto; color: #666; font-size: 17px; line-height: 1; }
+
+  .classic-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 40px;
+    padding: 0 35px;
+    border-bottom: 1px solid #c9c9c9;
+    background: linear-gradient(#fff, #f3f3f3);
+    color: #555;
+  }
+
+  .tool {
+    display: grid;
+    place-items: center;
+    width: 27px;
+    height: 26px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .tool.wide { width: 36px; }
+  .tool-separator { width: 1px; height: 21px; margin: 0 5px; background: #d2d2d2; }
+  .cell-select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 105px;
+    height: 27px;
+    margin-left: 8px;
+    padding: 0 7px;
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #fff;
+    color: #333;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .notebook-scrollbar {
+    position: absolute;
+    z-index: 8;
+    top: 82px;
+    right: 3px;
+    width: 12px;
+    height: 4120px;
+    border-left: 1px solid #ececec;
+    background: #fafafa;
+  }
+  .notebook-scrollbar::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: 1px;
+    width: 9px;
+    height: 94px;
+    background: #c7c7c7;
+  }
+  .notebook-scrollbar::after {
+    content: "▲";
+    position: absolute;
+    top: 0;
+    left: 1px;
+    color: #a4a4a4;
+    font-size: 9px;
+  }
+
+  .notebook {
+    width: 1050px;
+    margin: 0 auto;
+    padding: 20px 0 80px;
+  }
+
+  .cell {
+    display: grid;
+    grid-template-columns: 66px minmax(0, 1fr);
+    margin: 0 0 18px;
+  }
+  .prompt {
+    padding: 9px 9px 0 0;
+    color: #888;
+    font-family: Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.45;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .prompt.out { color: #9d9d9d; }
+  .prompt.blank { color: transparent; }
+  .cell-content { min-width: 0; }
+
+  .markdown-cell .cell-content {
+    padding: 4px 18px 10px;
+    border-left: 6px solid #2196f3;
+  }
+  .markdown-cell .lead {
+    margin: 0 0 20px;
+    font-size: 13px;
+  }
+  .markdown-cell p {
+    margin: 0;
+    color: #555;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .analysis-markdown .cell-content { padding-top: 10px; padding-bottom: 14px; }
+  .analysis-markdown h2 {
+    margin: 0 0 10px;
+    color: #333;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .analysis-markdown p + p { margin-top: 10px; }
+  .analysis-markdown ul {
+    margin: 10px 0 0 20px;
+    padding: 0;
+    color: #555;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .code-box {
+    padding: 10px 12px;
+    border: 1px solid #dedede;
+    background: var(--code-bg);
+  }
+  pre {
+    margin: 0;
+    overflow: hidden;
+    color: #333;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 11px;
+    line-height: 1.48;
+    white-space: pre-wrap;
+  }
+  .kw { color: var(--green); font-weight: 700; }
+  .mod { color: #2459a6; }
+  .fn { color: #3b65a7; }
+  .str { color: var(--red); }
+  .num { color: #7b51a0; }
+  .comment { color: #57928c; font-style: italic; }
+  .op { color: #555; }
+
+  .image-output {
+    width: 100%;
+    height: 640px;
+    overflow: hidden;
+    border: 1px solid #e4e4e4;
+    background: #111;
+  }
+  .image-output img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .dataframe-wrap { padding: 2px 18px 4px; }
+  table.dataframe {
+    width: 100%;
+    border-collapse: collapse;
+    color: #4b4b4b;
+    font-family: Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+  }
+  .dataframe th, .dataframe td { padding: 6px 7px; text-align: right; white-space: nowrap; }
+  .dataframe th { border-bottom: 1px solid #aaa; color: #333; font-weight: 700; }
+  .dataframe tbody tr:nth-child(even) { background: #f2f2f2; }
+  .dataframe td:first-child, .dataframe th:first-child { font-weight: 700; }
+  .table-summary { margin: 10px 0 0; color: #555; font-family: Menlo, Monaco, Consolas, monospace; font-size: 11px; }
+
+  .output-heading {
+    margin: 0 0 14px 55px;
+    color: #596b83;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .chart-output {
+    margin: 0 12px 8px;
+    background: #fff;
+  }
+  .chart-output svg { display: block; width: 100%; height: auto; }
+  .map-output { min-height: 410px; }
+  .area-output { min-height: 500px; }
+  .bars-output { min-height: 470px; }
+  .ellipsis {
+    margin: -3px 0 16px 50%;
+    color: #999;
+    font-size: 30px;
+    line-height: .62;
+    letter-spacing: 3px;
+    writing-mode: vertical-rl;
+  }
+
+  .country, .state {
+    vector-effect: non-scaling-stroke;
+    stroke: #7f858b;
+    stroke-width: .75;
+    stroke-linejoin: round;
+  }
+  .chart-title { fill: #5c6f89; font-size: 15px; font-weight: 400; }
+  .axis text { fill: #56657a; font-size: 10px; }
+  .axis path, .axis line { stroke: #d6dee8; }
+  .grid line { stroke: #fff; stroke-opacity: .95; }
+  .grid path { display: none; }
+  .legend-label { fill: #5b6776; font-size: 10px; }
+
+  .daywise-table th, .daywise-table td { padding: 8px 8px; text-align: center; white-space: normal; }
+  .daywise-table th { line-height: 1.2; }
+  .analysis-table { width: 74%; margin-left: 18px; font-size: 11px; }
+  .analysis-table th, .analysis-table td { padding: 8px 12px; text-align: left; }
+  .analysis-table th:last-child, .analysis-table td:last-child { text-align: right; }
+
+  @media (max-width: 1180px) {
+    .notebook-shell { margin: 0; transform-origin: top left; }
+  }
+
+  @page { size: 1180px 5950px; margin: 0; }
+  @media print {
+    html, body { width: 1180px; height: 5950px; min-height: 0; background: #fff; }
+    .notebook-shell { width: 1180px; min-height: 5950px; height: 5950px; margin: 0; border: 1px solid #4a4a4a; }
+  }
+</style>
+</head>
+<body>
+<main class="notebook-shell" aria-label="Classic Jupyter Notebook showing a COVID-19 exploratory analysis">
+  <header>
+    <div class="tab-strip">
+      <div class="document-tab"><span class="jupyter-file-icon" aria-hidden="true"></span><span>covid_19.ipynb</span><span class="tab-close">×</span></div>
+    </div>
+    <div class="classic-toolbar" aria-hidden="true">
+      <span class="tool">⌕</span><span class="tool">↻</span><span class="tool">✎</span><span class="tool">■</span><span class="tool">▣</span><span class="tool">▤</span><span class="tool">＋</span><span class="tool">✂</span><span class="tool">▣</span><span class="tool">▢</span><span class="tool-separator"></span><span class="tool">▶</span><span class="tool">■</span><span class="tool">↻</span><span class="tool wide">≫</span><span class="cell-select">Code <span>⌄</span></span>
+    </div>
+  </header>
+  <div class="notebook-scrollbar" aria-hidden="true"></div>
+
+  <section class="notebook">
+    <div class="cell markdown-cell">
+      <div class="prompt blank">In&nbsp;[ ]:</div>
+      <div class="cell-content">
+        <p class="lead">This is the notebook</p>
+        <p>Coronaviruses are a group of related RNA viruses that cause diseases in mammals and birds. In humans and birds, they cause respiratory tract infections that can range from mild to lethal. Mild illnesses in humans include some cases of the common cold (which is also caused by other viruses, predominantly rhinoviruses), while more lethal varieties can cause SARS, MERS, and COVID-19. In cows and pigs they cause diarrhea, while in mice they cause hepatitis and encephalomyelitis. There are as yet no vaccines or antiviral drugs to prevent or treat human coronavirus infections.</p>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="prompt">In&nbsp;[2]:</div>
+      <div class="cell-content code-box"><pre><span class="kw">from</span> IPython.<span class="mod">display</span> <span class="kw">import</span> Image
+
+Image(<span class="str">"coronavirus.jpg"</span>)</pre></div>
+    </div>
+    <div class="cell">
+      <div class="prompt out">Out[2]:</div>
+      <div class="cell-content image-output"><img src="assets/toonnote-covid-micrograph.jpg" alt="Colorized electron micrograph of SARS-CoV-2 particles surrounding a host cell"></div>
+    </div>
+
+    <div class="cell">
+      <div class="prompt">In&nbsp;[3]:</div>
+      <div class="cell-content code-box"><pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.<span class="mod">pyplot</span> <span class="kw">as</span> plt
+<span class="kw">from</span> matplotlib <span class="kw">import</span> ticker
+<span class="kw">import</span> pycountry_convert <span class="kw">as</span> pc
+<span class="kw">import</span> folium
+<span class="kw">import</span> branca
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime, timedelta, date
+<span class="kw">from</span> scipy.<span class="mod">interpolate</span> <span class="kw">import</span> make_interp_spline, BSpline
+<span class="kw">import</span> plotly.<span class="mod">express</span> <span class="kw">as</span> px
+<span class="kw">import</span> json, requests
+<span class="kw">import</span> calmap
+
+<span class="comment">#from keras.layers import Input, Dense, Activation, LeakyReLU, Dropout</span>
+<span class="comment">#from keras import models</span>
+<span class="comment">#from keras.optimizers import RMSprop, Adam</span>
+
+<span class="kw">import</span> warnings
+warnings.<span class="fn">filterwarnings</span>(<span class="str">'ignore'</span>)
+
+%matplotlib inline</pre></div>
+    </div>
+
+    <div class="cell">
+      <div class="prompt out">Out[4]:</div>
+      <div class="cell-content dataframe-wrap">
+        <table class="dataframe" aria-label="COVID-19 source data preview">
+          <thead><tr><th></th><th>SNo</th><th>ObservationDate</th><th>Province/State</th><th>Country/Region</th><th>Last Update</th><th>Confirmed</th><th>Deaths</th><th>Recovered</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>1</td><td>01/22/2020</td><td>Anhui</td><td>Mainland China</td><td>1/22/2020 17:00</td><td>1.0</td><td>0.0</td><td>0.0</td></tr>
+            <tr><td>1</td><td>2</td><td>01/22/2020</td><td>Beijing</td><td>Mainland China</td><td>1/22/2020 17:00</td><td>14.0</td><td>0.0</td><td>0.0</td></tr>
+            <tr><td>2</td><td>3</td><td>01/22/2020</td><td>Chongqing</td><td>Mainland China</td><td>1/22/2020 17:00</td><td>6.0</td><td>0.0</td><td>0.0</td></tr>
+            <tr><td>3</td><td>4</td><td>01/22/2020</td><td>Fujian</td><td>Mainland China</td><td>1/22/2020 17:00</td><td>1.0</td><td>0.0</td><td>0.0</td></tr>
+            <tr><td>4</td><td>5</td><td>01/22/2020</td><td>Gansu</td><td>Mainland China</td><td>1/22/2020 17:00</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+            <tr><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr>
+            <tr><td>85633</td><td>85634</td><td>08/12/2020</td><td>Zaporizhia Oblast</td><td>Ukraine</td><td>2020-08-13 04:29:15</td><td>971.0</td><td>22.0</td><td>680.0</td></tr>
+            <tr><td>85634</td><td>85635</td><td>08/12/2020</td><td>Zeeland</td><td>Netherlands</td><td>2020-08-13 04:29:15</td><td>950.0</td><td>69.0</td><td>0.0</td></tr>
+            <tr><td>85635</td><td>85636</td><td>08/12/2020</td><td>Zhejiang</td><td>Mainland China</td><td>2020-08-13 04:29:15</td><td>1275.0</td><td>1.0</td><td>1268.0</td></tr>
+            <tr><td>85636</td><td>85637</td><td>08/12/2020</td><td>Zhytomyr Oblast</td><td>Ukraine</td><td>2020-08-13 04:29:15</td><td>2215.0</td><td>48.0</td><td>1574.0</td></tr>
+            <tr><td>85637</td><td>85638</td><td>08/12/2020</td><td>Zuid-Holland</td><td>Netherlands</td><td>2020-08-13 04:29:15</td><td>15765.0</td><td>1314.0</td><td>0.0</td></tr>
+          </tbody>
+        </table>
+        <div class="table-summary">85638 rows × 8 columns</div>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="prompt">In&nbsp;[5]:</div>
+      <div class="cell-content code-box"><pre><span class="kw">import</span> plotly.<span class="mod">offline</span> <span class="kw">as</span> py
+<span class="kw">import</span> plotly.<span class="mod">express</span> <span class="kw">as</span> px
+py.<span class="fn">init_notebook_mode</span>(connected=<span class="kw">True</span>)
+grp = covid_19.<span class="fn">groupby</span>([<span class="str">'ObservationDate'</span>, <span class="str">'Country/Region'</span>])[[<span class="str">'Confirmed'</span>, <span class="str">'Deaths'</span>, <span class="str">'Recovered'</span>]].<span class="fn">sum</span>()
+grp = grp.<span class="fn">reset_index</span>()
+grp[<span class="str">'Date'</span>] = pd.<span class="fn">to_datetime</span>(grp[<span class="str">'ObservationDate'</span>])
+grp[<span class="str">'Date'</span>] = grp[<span class="str">'Date'</span>].dt.<span class="fn">strftime</span>(<span class="str">'%m/%d/%Y'</span>)
+grp[<span class="str">'Active'</span>] = grp[<span class="str">'Confirmed'</span>] - grp[<span class="str">'Recovered'</span>] - grp[<span class="str">'Deaths'</span>]
+grp[<span class="str">'Country'</span>] = grp[<span class="str">'Country/Region'</span>]
+fig = px.<span class="fn">choropleth</span>(grp, locations=<span class="str">"Country"</span>, locationmode=<span class="str">'country names'</span>,
+                    color=<span class="str">"Confirmed"</span>, hover_name=<span class="str">"Country/Region"</span>, projection=<span class="str">"natural earth"</span>,
+                    animation_frame=<span class="str">"Date"</span>, color_continuous_scale=<span class="str">'Reds'</span>,
+                    range_color=[<span class="num">1000</span>, <span class="num">50000</span>], title=<span class="str">'World Map of Coronavirus'</span>)
+fig.<span class="fn">show</span>()</pre></div>
+    </div>
+    <div class="cell">
+      <div class="prompt out">Out[5]:</div>
+      <div class="cell-content">
+        <h2 class="output-heading">World Map of Coronavirus</h2>
+        <div class="chart-output map-output"><svg id="nb-world-map" viewBox="0 0 930 410" role="img" aria-label="World choropleth of confirmed COVID-19 cases on January 22, 2020"></svg></div>
+      </div>
+    </div>
+
+    <div class="ellipsis" aria-hidden="true">•••</div>
+
+    <div class="cell">
+      <div class="prompt">In&nbsp;[64]:</div>
+      <div class="cell-content code-box"><pre>us_grouped = full_grouped[full_grouped[<span class="str">'Country/Region'</span>] == <span class="str">'US'</span>]
+states = us_grouped.<span class="fn">groupby</span>(<span class="str">'Province/State'</span>)[<span class="str">'Confirmed'</span>].<span class="fn">max</span>()
+top_states = states.<span class="fn">sort_values</span>(ascending=<span class="kw">False</span>).<span class="fn">head</span>(<span class="num">10</span>)
+fig = px.<span class="fn">choropleth</span>(top_states, locations=<span class="str">'State Code'</span>, locationmode=<span class="str">'USA-states'</span>,
+                    color=<span class="str">'Confirmed'</span>, scope=<span class="str">'usa'</span>, color_continuous_scale=<span class="str">'Reds'</span>)
+fig.<span class="fn">show</span>()</pre></div>
+    </div>
+    <div class="cell">
+      <div class="prompt out">Out[64]:</div>
+      <div class="cell-content">
+        <h2 class="output-heading">Top 10 states with high confirmed cases</h2>
+        <div class="chart-output map-output"><svg id="nb-us-map" viewBox="0 0 930 410" role="img" aria-label="Top ten United States by confirmed COVID-19 cases on August 12, 2020"></svg></div>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="prompt">In&nbsp;[65]:</div>
+      <div class="cell-content code-box"><pre>temp = full_grouped.<span class="fn">groupby</span>(<span class="str">'Date'</span>)[[<span class="str">'Recovered'</span>, <span class="str">'Deaths'</span>, <span class="str">'Active'</span>]].<span class="fn">sum</span>().<span class="fn">reset_index</span>()
+temp = temp.<span class="fn">melt</span>(id_vars=<span class="str">"Date"</span>, value_vars=[<span class="str">'Recovered'</span>, <span class="str">'Deaths'</span>, <span class="str">'Active'</span>],
+                 var_name=<span class="str">'Case'</span>, value_name=<span class="str">'Count'</span>)
+
+fig = px.<span class="fn">area</span>(temp, x=<span class="str">"Date"</span>, y=<span class="str">"Count"</span>, color=<span class="str">'Case'</span>, height=<span class="num">600</span>, width=<span class="num">700</span>,
+              title=<span class="str">'Cases over time'</span>, color_discrete_sequence=[rec, dth, act])
+fig.<span class="fn">update_layout</span>(xaxis_rangeslider_visible=<span class="kw">True</span>)
+fig.<span class="fn">show</span>()</pre></div>
+    </div>
+    <div class="cell">
+      <div class="prompt out">Out[65]:</div>
+      <div class="cell-content">
+        <h2 class="output-heading">Cases over time</h2>
+        <div class="chart-output area-output"><svg id="nb-area-chart" viewBox="0 0 930 500" role="img" aria-label="Stacked area chart of recovered, death, and active COVID-19 cases over time"></svg></div>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="prompt">In&nbsp;[66]:</div>
+      <div class="cell-content code-box"><pre>day_wise = pd.<span class="fn">read_csv</span>(<span class="str">'covid_dataset/day_wise.csv'</span>)
+day_wise[<span class="str">'Date'</span>] = pd.<span class="fn">to_datetime</span>(day_wise[<span class="str">'Date'</span>])
+day_wise.<span class="fn">head</span>(<span class="num">2</span>)</pre></div>
+    </div>
+    <div class="cell">
+      <div class="prompt out">Out[66]:</div>
+      <div class="cell-content dataframe-wrap">
+        <table class="dataframe daywise-table" aria-label="Daily COVID-19 summary preview">
+          <thead><tr><th></th><th>Date</th><th>Confirmed</th><th>Deaths</th><th>Recovered</th><th>Active</th><th>New<br>cases</th><th>New<br>deaths</th><th>New<br>recovered</th><th>Deaths / 100<br>Cases</th><th>Recovered / 100<br>Cases</th><th>Deaths / 100<br>Recovered</th><th>No. of<br>countries</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>2020-01-22</td><td>555</td><td>17</td><td>28</td><td>510</td><td>0</td><td>0</td><td>0</td><td>3.06</td><td>5.05</td><td>60.71</td><td>6</td></tr>
+            <tr><td>1</td><td>2020-01-23</td><td>654</td><td>18</td><td>30</td><td>606</td><td>99</td><td>1</td><td>2</td><td>2.75</td><td>4.59</td><td>60.00</td><td>8</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="prompt">In&nbsp;[67]:</div>
+      <div class="cell-content code-box"><pre>plot_daywise(<span class="str">'Confirmed'</span>, <span class="str">'#333333'</span>)</pre></div>
+    </div>
+    <div class="cell">
+      <div class="prompt out">Out[67]:</div>
+      <div class="cell-content">
+        <h2 class="output-heading">Confirmed</h2>
+        <div class="chart-output bars-output"><svg id="nb-confirmed-bars" viewBox="0 0 930 470" role="img" aria-label="Daily bar chart of global confirmed COVID-19 cases"></svg></div>
+      </div>
+    </div>
+
+    <div class="cell markdown-cell analysis-markdown">
+      <div class="prompt blank">In&nbsp;[ ]:</div>
+      <div class="cell-content">
+        <h2>Interpretation of the epidemic curve</h2>
+        <p>The cumulative curve remains comparatively flat through February, begins to accelerate in late March, and rises steeply through the summer. By August 12, 2020 the dataset records more than 20.6 million confirmed cases worldwide. The increasing slope is important: it indicates that large numbers of new infections were still being added each day, even after the first wave had moved beyond China and Europe.</p>
+        <p>Recovered cases also rise over time, but they lag behind confirmed infections. Active cases therefore remain substantial throughout the period, while deaths accumulate more slowly but consistently.</p>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="prompt">In&nbsp;[68]:</div>
+      <div class="cell-content code-box"><pre>latest = day_wise.<span class="fn">iloc</span>[-<span class="num">1</span>]
+summary = pd.<span class="fn">DataFrame</span>({
+    <span class="str">'Metric'</span>: [<span class="str">'Analysis date'</span>, <span class="str">'Confirmed'</span>, <span class="str">'Deaths'</span>, <span class="str">'Recovered'</span>, <span class="str">'Active'</span>, <span class="str">'New cases'</span>],
+    <span class="str">'Value'</span>: [latest.Date, latest.Confirmed, latest.Deaths, latest.Recovered, latest.Active, latest.New_cases]
+})
+summary</pre></div>
+    </div>
+    <div class="cell">
+      <div class="prompt out">Out[68]:</div>
+      <div class="cell-content dataframe-wrap">
+        <table class="dataframe analysis-table" aria-label="Summary of worldwide COVID-19 indicators on August 12, 2020">
+          <thead><tr><th></th><th>Metric</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>Analysis date</td><td>2020-08-12</td></tr>
+            <tr><td>1</td><td>Confirmed</td><td>20,662,149</td></tr>
+            <tr><td>2</td><td>Deaths</td><td>750,007</td></tr>
+            <tr><td>3</td><td>Recovered</td><td>12,828,274</td></tr>
+            <tr><td>4</td><td>Active</td><td>7,083,868</td></tr>
+            <tr><td>5</td><td>New cases</td><td>286,294</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cell markdown-cell analysis-markdown">
+      <div class="prompt blank">In&nbsp;[ ]:</div>
+      <div class="cell-content">
+        <h2>How the geographic pattern changed</h2>
+        <p>The maps show a clear change in the center of the outbreak. China dominates the earliest observations. By the end of March, Italy is also prominent, while by April the United States has become a major hotspot. The June views show that high confirmed totals are no longer concentrated in one region: the United States, Brazil, and India represent successive large outbreaks across North America, South America, and South Asia.</p>
+        <p>The state-level view adds another layer of detail. California, Florida, and Texas have the highest cumulative totals in the August 12 snapshot, demonstrating that a national total can conceal substantial regional concentration.</p>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="prompt">In&nbsp;[69]:</div>
+      <div class="cell-content code-box"><pre>top_states = states.<span class="fn">sort_values</span>(<span class="str">'Confirmed'</span>, ascending=<span class="kw">False</span>).<span class="fn">head</span>(<span class="num">3</span>)
+top_states[[<span class="str">'Province/State'</span>, <span class="str">'Confirmed'</span>]]</pre></div>
+    </div>
+    <div class="cell">
+      <div class="prompt out">Out[69]:</div>
+      <div class="cell-content dataframe-wrap">
+        <table class="dataframe analysis-table" aria-label="Top three United States state totals on August 12, 2020">
+          <thead><tr><th></th><th>Province/State</th><th>Confirmed</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>California</td><td>596,862</td></tr>
+            <tr><td>1</td><td>Florida</td><td>550,901</td></tr>
+            <tr><td>2</td><td>Texas</td><td>528,743</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cell markdown-cell analysis-markdown">
+      <div class="prompt blank">In&nbsp;[ ]:</div>
+      <div class="cell-content">
+        <h2>Analytical limitations and conclusion</h2>
+        <ul>
+          <li>Confirmed counts depend on testing access, case definitions, and reporting practices, all of which differ by place and date.</li>
+          <li>Deaths and recoveries occur after confirmation, so direct same-day comparisons do not represent outcome probabilities.</li>
+          <li>Active cases are derived as confirmed minus deaths minus recovered and inherit uncertainty from every source field.</li>
+          <li>The choropleth maps show absolute totals rather than population-adjusted rates, so larger countries and states should not be interpreted as having greater individual risk solely from color intensity.</li>
+        </ul>
+        <p>Overall, this exploratory analysis describes a rapid transition from a localized outbreak to a distributed global pandemic. The combined temporal and geographic views make the change visible, while the limitations above are essential for interpreting the patterns as descriptive evidence rather than causal explanation.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const fmtMillions = value => value === 0 ? '0' : `${Math.round(value / 1e6)}M`;
+
+  function renderWorldMap(svgSelector, world, values) {
+    const svg = d3.select(svgSelector);
+    const width = 930, height = 410;
+    const countries = topojson.feature(world, world.objects.countries);
+    const features = countries.features.filter(d => String(d.id).padStart(3, '0') !== '010');
+    const projection = d3.geoNaturalEarth1().fitExtent([[55, 36], [760, 354]], {type:'FeatureCollection', features});
+    const path = d3.geoPath(projection);
+    const color = d3.scaleSequential().domain([0, 50000]).interpolator(d3.interpolateReds);
+    svg.append('rect').attr('width', width).attr('height', height).attr('fill', '#fff');
+    svg.append('g').selectAll('path').data(features).join('path')
+      .attr('class', 'country').attr('d', path)
+      .attr('fill', d => {
+        const value = values[String(d.id).padStart(3, '0')] || 0;
+        return value ? color(Math.min(value, 50000)) : '#e6eef7';
+      });
+    const defs = svg.append('defs');
+    const gradient = defs.append('linearGradient').attr('id', 'nb-world-gradient').attr('x1','0%').attr('y1','100%').attr('x2','0%').attr('y2','0%');
+    d3.range(0, 1.01, .1).forEach(t => gradient.append('stop').attr('offset', `${t*100}%`).attr('stop-color', d3.interpolateReds(t)));
+    svg.append('text').attr('x', 808).attr('y', 62).attr('class','legend-label').style('font-size','12px').text('Confirmed');
+    svg.append('rect').attr('x', 810).attr('y', 74).attr('width', 25).attr('height', 248).attr('fill','url(#nb-world-gradient)');
+    const scale = d3.scaleLinear().domain([0,50000]).range([322,74]);
+    const axis = d3.axisRight(scale).tickValues(d3.range(5000,50001,5000)).tickFormat(d => `${d/1000}k`).tickSize(0).tickPadding(8);
+    svg.append('g').attr('class','axis').attr('transform','translate(835,0)').call(axis).call(g => g.select('.domain').remove());
+    svg.append('g').attr('transform','translate(56,366)').call(g => {
+      g.append('rect').attr('width',30).attr('height',26).attr('fill','#fff').attr('stroke','#c7d2df');
+      g.append('text').attr('x',15).attr('y',18).attr('text-anchor','middle').attr('fill','#5c6f89').text('▶');
+      g.append('rect').attr('x',34).attr('width',30).attr('height',26).attr('fill','#fff').attr('stroke','#c7d2df');
+      g.append('text').attr('x',49).attr('y',18).attr('text-anchor','middle').attr('fill','#5c6f89').text('■');
+      g.append('text').attr('x',76).attr('y',17).attr('class','legend-label').style('font-size','11px').text('Date=01/22/2020');
+      g.append('line').attr('x1',75).attr('x2',704).attr('y1',34).attr('y2',34).attr('stroke','#d6dee8').attr('stroke-width',4);
+      g.append('circle').attr('cx',75).attr('cy',34).attr('r',11).attr('fill','#f7fbff').attr('stroke','#cbd5e1');
+    });
+  }
+
+  function renderUSMap(svgSelector, us, data) {
+    const svg = d3.select(svgSelector);
+    const width = 930, height = 410;
+    const states = topojson.feature(us, us.objects.states);
+    const topIds = new Set(data['topStates2020-08-12'].map(d => d.fips));
+    const values = data['usStates2020-08-12'];
+    const max = d3.max(data['topStates2020-08-12'], d => d.confirmed);
+    const color = d3.scaleSequential().domain([150000, max]).interpolator(d3.interpolateReds);
+    const projection = d3.geoAlbersUsa().fitExtent([[150, 54], [720, 350]], states);
+    const path = d3.geoPath(projection);
+    svg.append('rect').attr('width',width).attr('height',height).attr('fill','#fff');
+    svg.append('g').selectAll('path').data(states.features).join('path')
+      .attr('class','state').attr('d',path)
+      .attr('fill', d => topIds.has(String(d.id).padStart(2,'0')) ? color(values[String(d.id).padStart(2,'0')] || 0) : '#e7eef7');
+    const gradient = svg.append('defs').append('linearGradient').attr('id','nb-us-gradient').attr('x1','0%').attr('y1','100%').attr('x2','0%').attr('y2','0%');
+    d3.range(0,1.01,.1).forEach(t => gradient.append('stop').attr('offset',`${t*100}%`).attr('stop-color',d3.interpolateReds(t)));
+    svg.append('text').attr('x',800).attr('y',68).attr('class','legend-label').style('font-size','12px').text('confirmed cases sum');
+    svg.append('rect').attr('x',803).attr('y',80).attr('width',26).attr('height',232).attr('fill','url(#nb-us-gradient)');
+    const scale = d3.scaleLinear().domain([200000,700000]).range([312,80]);
+    svg.append('g').attr('class','axis').attr('transform','translate(829,0)')
+      .call(d3.axisRight(scale).tickValues([200000,300000,400000,500000,600000,700000]).tickFormat(d => `${d/1000}k`).tickSize(0).tickPadding(8))
+      .call(g => g.select('.domain').remove());
+  }
+
+  function renderAreaChart(svgSelector, rows) {
+    const svg = d3.select(svgSelector), width = 930, height = 500;
+    const margin = {top:24,right:160,bottom:76,left:78};
+    const parsed = rows.map(d => ({...d, date:new Date(`${d.date}T00:00:00`)}));
+    const keys = ['recovered','deaths','active'];
+    const colors = {recovered:'#60cfa2', deaths:'#ff5c88', active:'#f4b34b'};
+    const stack = d3.stack().keys(keys)(parsed);
+    const x = d3.scaleTime().domain(d3.extent(parsed,d=>d.date)).range([margin.left,width-margin.right]);
+    const y = d3.scaleLinear().domain([0,d3.max(stack[stack.length-1],d=>d[1])]).nice().range([height-margin.bottom,margin.top]);
+    svg.append('rect').attr('x',margin.left).attr('y',margin.top).attr('width',width-margin.left-margin.right).attr('height',height-margin.top-margin.bottom).attr('fill','#e6edf7');
+    svg.append('g').attr('class','grid').attr('transform',`translate(${margin.left},0)`).call(d3.axisLeft(y).ticks(8).tickSize(-(width-margin.left-margin.right)).tickFormat(''));
+    svg.append('g').attr('class','grid').attr('transform',`translate(0,${height-margin.bottom})`).call(d3.axisBottom(x).ticks(d3.timeMonth.every(1)).tickSize(-(height-margin.top-margin.bottom)).tickFormat(''));
+    const area = d3.area().x(d=>x(d.data.date)).y0(d=>y(d[0])).y1(d=>y(d[1])).curve(d3.curveMonotoneX);
+    svg.append('g').selectAll('path').data(stack).join('path').attr('d',area).attr('fill',d=>colors[d.key]).attr('fill-opacity',.78).attr('stroke',d=>colors[d.key]).attr('stroke-width',2);
+    svg.append('g').attr('class','axis').attr('transform',`translate(0,${height-margin.bottom})`).call(d3.axisBottom(x).ticks(d3.timeMonth.every(1)).tickFormat(d3.timeFormat('%b %Y')).tickSize(0).tickPadding(10)).call(g=>g.select('.domain').remove());
+    svg.append('g').attr('class','axis').attr('transform',`translate(${margin.left},0)`).call(d3.axisLeft(y).ticks(8).tickFormat(fmtMillions).tickSize(0).tickPadding(8)).call(g=>g.select('.domain').remove());
+    svg.append('text').attr('transform','rotate(-90)').attr('x',-(height/2)).attr('y',22).attr('class','legend-label').style('font-size','12px').text('Count');
+    const labels = [['Recovered','recovered'],['Deaths','deaths'],['Active','active']];
+    labels.forEach(([label,key],i)=>{
+      svg.append('line').attr('x1',width-136).attr('x2',width-112).attr('y1',52+i*23).attr('y2',52+i*23).attr('stroke',colors[key]).attr('stroke-width',6);
+      svg.append('text').attr('x',width-104).attr('y',56+i*23).attr('class','legend-label').text(label);
+    });
+    const sliderY = height-38;
+    svg.append('rect').attr('x',margin.left).attr('y',sliderY).attr('width',width-margin.left-margin.right).attr('height',21).attr('fill','#dfe8f3').attr('stroke','#b8c6d8');
+    svg.append('text').attr('x',(margin.left+width-margin.right)/2).attr('y',height-2).attr('text-anchor','middle').attr('class','legend-label').style('font-size','12px').text('Date');
+  }
+
+  function renderBars(svgSelector, rows) {
+    const svg = d3.select(svgSelector), width = 930, height = 470;
+    const margin = {top:24,right:48,bottom:58,left:78};
+    const parsed = rows.map(d=>({...d,date:new Date(`${d.date}T00:00:00`)}));
+    const x = d3.scaleBand().domain(parsed.map(d=>d.date)).range([margin.left,width-margin.right]).padding(.12);
+    const y = d3.scaleLinear().domain([0,d3.max(parsed,d=>d.confirmed)]).nice().range([height-margin.bottom,margin.top]);
+    svg.append('rect').attr('x',margin.left).attr('y',margin.top).attr('width',width-margin.left-margin.right).attr('height',height-margin.top-margin.bottom).attr('fill','#e6edf7');
+    svg.append('g').attr('class','grid').attr('transform',`translate(${margin.left},0)`).call(d3.axisLeft(y).ticks(8).tickSize(-(width-margin.left-margin.right)).tickFormat(''));
+    svg.append('g').selectAll('rect').data(parsed).join('rect').attr('x',d=>x(d.date)).attr('y',d=>y(d.confirmed)).attr('width',Math.max(1,x.bandwidth())).attr('height',d=>y(0)-y(d.confirmed)).attr('fill','#3a3a3a');
+    svg.append('g').attr('class','axis').attr('transform',`translate(0,${height-margin.bottom})`).call(d3.axisBottom(d3.scaleTime().domain(d3.extent(parsed,d=>d.date)).range([margin.left,width-margin.right])).ticks(d3.timeMonth.every(1)).tickFormat(d3.timeFormat('%b %Y')).tickSize(0).tickPadding(10)).call(g=>g.select('.domain').remove());
+    svg.append('g').attr('class','axis').attr('transform',`translate(${margin.left},0)`).call(d3.axisLeft(y).ticks(8).tickFormat(fmtMillions).tickSize(0).tickPadding(8)).call(g=>g.select('.domain').remove());
+  }
+
+  Promise.resolve().then(() => {
+    const world = window.TOONNOTE_COVID_WORLD_110M;
+    const us = window.TOONNOTE_US_STATES_10M;
+    const data = window.TOONNOTE_COVID_STUDY_DATA;
+    if (!world || !us || !data) throw new Error('Embedded ToonNote data assets did not load.');
+    renderWorldMap('#nb-world-map', world, data.snapshots['2020-01-22']);
+    renderUSMap('#nb-us-map', us, data);
+    renderAreaChart('#nb-area-chart', data.daily);
+    renderBars('#nb-confirmed-bars', data.daily);
+    document.documentElement.dataset.rendered = 'true';
+    window.__NOTEBOOK_READY__ = true;
+  }).catch(error => {
+    console.error(error);
+    document.documentElement.dataset.rendered = 'error';
+    window.__NOTEBOOK_READY__ = false;
+  });
+})();
+</script>
+</body>
+</html>
