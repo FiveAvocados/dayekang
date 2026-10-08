@@ -370,11 +370,13 @@ body.video-hero-page header.video-header-solid {
 .portrait-organic .po-portrait {
   left: 0.809%; top: 0.314%; width: 65.131%; height: 87.825%;
   object-position: 50% 20%;
+  border-radius: 46% 54% 49% 51% / 42% 45% 55% 58%;
   clip-path: url(#poPortraitClip); -webkit-clip-path: url(#poPortraitClip);
   z-index: 2;
 }
 .portrait-organic .po-nature {
   left: 18.597%; top: 13.594%; width: 81.139%; height: 85.592%;
+  border-radius: 44% 56% 48% 52% / 47% 43% 57% 53%;
   clip-path: url(#poNatureClip); -webkit-clip-path: url(#poNatureClip);
   z-index: 1;
   background: transparent;
