@@ -2221,8 +2221,8 @@ article.detail .mindful-figure img {
   font-weight: 600;
 }
 .ux-projects-page .mindful-card img {
-  object-fit: contain;
-  background: #fff;
+  object-fit: cover;
+  object-position: center;
 }
 @media (max-width: 900px) {
   .mindful-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
