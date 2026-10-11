@@ -16,6 +16,7 @@
 
   const absoluteAsset = (path) => new URL(path, window.location.href).href;
   const requestedId = new URLSearchParams(window.location.search).get("project");
+  const projectShell = document.querySelector(".visual-project-shell");
   const mediaRoot = document.getElementById("visual-project-media");
   const infoRoot = document.getElementById("visual-project-info");
   const titleNode = document.getElementById("visual-project-title");
@@ -85,6 +86,8 @@
         }
         mediaRoot.appendChild(media);
       });
+
+      projectShell.classList.toggle("has-multiple-media", mediaRoot.childElementCount > 1);
 
       const firstValue = (key) => items.map((item) => item.dataset[key]).find(Boolean) || "";
       const fields = [

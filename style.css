@@ -2922,6 +2922,15 @@ body.visual-project-page {
   align-self: center;
   padding-right: 8px;
 }
+.visual-project-shell.has-multiple-media {
+  align-items: start;
+}
+.visual-project-shell.has-multiple-media .visual-project-media {
+  align-content: start;
+}
+.visual-project-shell.has-multiple-media .visual-project-info {
+  align-self: start;
+}
 .visual-project-info h1 {
   margin: 0 0 40px;
   max-width: 10em;
@@ -3008,6 +3017,14 @@ body.visual-project-page {
     max-height: none;
     overflow: visible;
     margin-top: 52px;
+  }
+  .visual-project-shell.has-multiple-media {
+    display: flex;
+    flex-direction: column;
+  }
+  .visual-project-shell.has-multiple-media .visual-project-info {
+    order: -1;
+    margin: 0 0 52px;
   }
   .visual-project-info h1 { max-width: 14em; margin-bottom: 30px; }
   .visual-project-nav { padding: 8px; font-size: 3rem; }
