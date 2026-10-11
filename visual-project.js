@@ -28,7 +28,7 @@
     infoRoot.classList.remove("is-empty");
   };
 
-  fetch("visual-design.html?v=20261010-artwork-details")
+  fetch("visual-design.html?v=20261010-hue-audio-fix")
     .then((response) => {
       if (!response.ok) throw new Error("Artwork page could not be loaded.");
       return response.text();
@@ -72,7 +72,9 @@
           media = document.createElement("video");
           media.src = absoluteAsset(sourcePath);
           media.controls = true;
+          media.defaultMuted = false;
           media.muted = false;
+          media.volume = 1;
           media.playsInline = true;
           media.preload = "metadata";
         } else {
