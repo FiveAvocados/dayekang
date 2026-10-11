@@ -28,7 +28,7 @@
     infoRoot.classList.remove("is-empty");
   };
 
-  fetch("visual-design.html?v=20261010-illustration-copy")
+  fetch("visual-design.html?v=20261011-full-artwork-copy")
     .then((response) => {
       if (!response.ok) throw new Error("Artwork page could not be loaded.");
       return response.text();
