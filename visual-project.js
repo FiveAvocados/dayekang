@@ -72,7 +72,7 @@
           media = document.createElement("video");
           media.src = absoluteAsset(sourcePath);
           media.controls = true;
-          media.muted = true;
+          media.muted = false;
           media.playsInline = true;
           media.preload = "metadata";
         } else {
