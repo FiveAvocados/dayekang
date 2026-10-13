@@ -798,8 +798,10 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
   spy();
 })();
 </script>"""
-    detail_script = ('<script src="lexia-layout.js?v=20261013-original-layout"></script>'
-                     if fname == "lexiainwonderland.html" else "")
+    detail_script = {
+        "lexiainwonderland.html": '<script src="lexia-layout.js?v=20261013-original-layout"></script>',
+        "nudgedesign.html": '<script src="nudge-layout.js?v=20261013-original-layout"></script>',
+    }.get(fname, "")
     body = f"""
 {side_nav}
 <main>
@@ -823,11 +825,14 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
 {spy_js}"""
     detail_body_class = {
         "lexiainwonderland.html": "legacy-ux-page lexia-page",
+        "nudgedesign.html": "legacy-ux-page nudge-page",
         "themeviz.html": "themeviz-page",
         "mindful-journaling.html": "mindful-page",
     }.get(fname, "")
-    detail_head = ('<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-layout">'
-                   if fname == "lexiainwonderland.html" else "")
+    detail_head = ({
+        "lexiainwonderland.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-layout">',
+        "nudgedesign.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-nudge-layout">',
+    }.get(fname, ""))
     W(fname, page(
         f"{title} — Daye Kang",
         None,
