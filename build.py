@@ -426,7 +426,7 @@ ux_body = f"""
       <div class="ux-video-hero-copy"><h1>UX Projects</h1></div>
     </div>
     <div class="cards" id="ux-project-list">
-{card("themeviz.html", "assets/originals/themeViz_main_v2.png?v=20260824", "Human-AI collaboration, Data Sensemaking", "ThemeViz", "LLM-Enhanced Visual System for Theme Development")}
+{card("themeviz.html", "assets/banner10.png?v=20261013", "Human-AI collaboration, Data Sensemaking", "ThemeViz", "LLM-Enhanced Visual System for Theme Development")}
 {card("mindful-journaling.html", "assets/originals/mindful/mindful-workflow.png?v=20260824", "Project page", "Mindful", "AI-Assisted Journaling for Reflection", "mindful-card")}
 {placeholder_card("toonnote.html", "Project page", "ToonNote", "Interactive Data Comics for Computational Notebooks")}
 {placeholder_card("pmos-comics.html", "Interactive comics · Series", "PMOS.Comics",
@@ -1500,7 +1500,7 @@ detail("themeviz.html", "ThemeViz", "UX Projects",
     "<p>LLM-Enhanced Visual System for Theme Development</p>",
     THEMEVIZ_SECTIONS,
     awards='Best Paper Honorable Mention Award, ACM CSCW 2025<br><a class="meta-paper-link" href="https://dl.acm.org/doi/10.1145/3757675" target="_blank" rel="noopener">See published paper →</a>',
-    hero='<div class="bleed themeviz-hero"><img src="assets/originals/themeViz_main_v2.png?v=20260824" alt="ThemeViz interface shown across three connected displays on a blue background"></div>')
+    hero='<div class="bleed themeviz-hero"><img src="assets/banner10.png?v=20261013" alt="ThemeViz interface displayed on a laptop"></div>')
 
 detail("toonnote.html", "ToonNote", "UX Projects",
     [("Keywords", "Interactive data comics, Computational notebooks, Data storytelling"),
