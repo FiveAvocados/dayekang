@@ -830,7 +830,7 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
         "mindful-journaling.html": "mindful-page",
     }.get(fname, "")
     detail_head = ({
-        "lexiainwonderland.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-awards-width">',
+        "lexiainwonderland.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-exhibition-grid">',
         "nudgedesign.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-nudge-layout-2">',
     }.get(fname, ""))
     W(fname, page(
@@ -1144,9 +1144,11 @@ detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Projects",
       + dimg_m("lex_fd_ui3", "f4a835_19619498ec1448248541516b7679a67b~mv2.png", "UI design screens")
       + dimg_m("lex_fd_ui4", "f4a835_b7791e56b7d6485e9c0ab96a193cca3d~mv2.png", "UI design screens")),
      ("Exhibition",
-      row("c21", dimg_s("lex_ex_1", "f4a835_dec4e1565bf442ddaaff286bc7f05f33~mv2.png", "Exhibition"),
-                 dimg_s("lex_ex_2", "f4a835_e96674a0c066468cb8f42ffb0723cf75~mv2.png", "Exhibition poster"))
-      + '<div style="max-width:420px;margin-left:auto">' + dimg_s("lex_ex_3", "f4a835_d8b5d10daa84464794a61f76461e7978~mv2.jpg", "Exhibition photo") + "</div>",
+      '<div class="lexia-exhibition-grid">'
+      + dimg_s("lex_ex_1", "f4a835_dec4e1565bf442ddaaff286bc7f05f33~mv2.png", "Lexia in Wonderland exhibition installation")
+      + dimg_s("lex_ex_2", "f4a835_e96674a0c066468cb8f42ffb0723cf75~mv2.png", "Visitor viewing the Lexia in Wonderland exhibition")
+      + '</div><div class="lexia-exhibition-detail">'
+      + dimg_s("lex_ex_3", "f4a835_d8b5d10daa84464794a61f76461e7978~mv2.jpg", "Hangeul letter blocks at the exhibition") + "</div>",
       "banded band-gray")],
     awards="2017 Adobe Design Achievement Awards&nbsp;Semifinalist · 2017 KSDS Excellence Award · 2017 Hongik University Excellence Graduation&nbsp;Work",
     hero=hero_img("lex_hero", "f4a835_f2337819babf4271ad20dca7ad430aa5~mv2.png", "Lexia in Wonderland"))

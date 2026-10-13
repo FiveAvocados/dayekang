@@ -1375,7 +1375,51 @@ body.lexia-page .lexia-development-pair {
   margin: 24px 0;
 }
 
+body.lexia-page #s10 {
+  position: relative;
+  z-index: 61;
+}
+
+body.lexia-page .lexia-exhibition-grid {
+  position: relative;
+  left: 50%;
+  width: min(1780px, calc(100vw - 80px));
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: minmax(0, 2.168fr) minmax(0, 1fr);
+  gap: clamp(18px, 1.6vw, 30px);
+  align-items: start;
+  margin: 32px 0 0;
+}
+
+body.lexia-page .lexia-exhibition-grid img,
+body.lexia-page .lexia-exhibition-detail img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 !important;
+}
+
+body.lexia-page .lexia-exhibition-detail {
+  position: relative;
+  left: 50%;
+  width: min(1180px, calc(100vw - 80px));
+  transform: translateX(-50%);
+  margin: clamp(28px, 4vw, 58px) 0 0;
+}
+
 @media (max-width: 760px) {
+  body.lexia-page .lexia-exhibition-grid {
+    width: calc(100vw - 36px);
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  body.lexia-page .lexia-exhibition-detail {
+    width: calc(100vw - 36px);
+    margin-top: 18px;
+  }
+
   body.lexia-page .dsec { margin-top: 60px; }
   body.lexia-page .lexia-stat-copy,
   body.lexia-page .lexia-problem-grid,
