@@ -73,8 +73,8 @@
           <p>We visited children's hospitals, including Asan Medical Center, Severance Hospital, and Seoul National University Hospital, where we observed and interviewed nurses and hospitalized children.</p>
         </article>
         <div class="nudge-observation-media">
-          <figure>${img('nud_rp_3', "Outdoor trail at a children's hospital")}<figcaption>Outdoor trails</figcaption></figure>
-          <figure>${img('nud_rp_4', 'Indoor walking-distance markings in a hospital hallway')}<figcaption>Indoor installation</figcaption></figure>
+          <figure><div class="nudge-observation-frame">${img('nud_rp_3', "Outdoor trail at a children's hospital")}</div><figcaption>Outdoor trails</figcaption></figure>
+          <figure><div class="nudge-observation-frame">${img('nud_rp_4', 'Indoor walking-distance markings in a hospital hallway')}</div><figcaption>Indoor installation</figcaption></figure>
         </div>
       </section>
 

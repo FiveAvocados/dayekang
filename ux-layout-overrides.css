@@ -362,9 +362,20 @@ body.nudge-page .nudge-desk-collage img:last-child {
   flex-direction: column;
 }
 
-.nudge-observation-media figure img {
+.nudge-observation-frame {
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+body.nudge-page .nudge-observation-frame img {
+  height: 100%;
   object-fit: cover;
+}
+
+body.nudge-page .nudge-observation-media figure:nth-child(2) img {
+  transform: scale(1.075);
+  transform-origin: 50% 32%;
 }
 
 .nudge-child-interview {

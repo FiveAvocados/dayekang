@@ -800,7 +800,7 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
 </script>"""
     detail_script = {
         "lexiainwonderland.html": '<script src="lexia-layout.js?v=20261013-grammar"></script>',
-        "nudgedesign.html": '<script src="nudge-layout.js?v=20261013-grammar"></script>',
+        "nudgedesign.html": '<script src="nudge-layout.js?v=20261013-observation-equal-height"></script>',
     }.get(fname, "")
     body = f"""
 {side_nav}
@@ -831,7 +831,7 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
     }.get(fname, "")
     detail_head = ({
         "lexiainwonderland.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-exhibition-grid">',
-        "nudgedesign.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-nudge-child-name-spacing">',
+        "nudgedesign.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-nudge-observation-equal-height">',
     }.get(fname, ""))
     W(fname, page(
         f"{title} — Daye Kang",
