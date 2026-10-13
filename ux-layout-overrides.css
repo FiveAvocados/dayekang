@@ -911,7 +911,7 @@ body.lexia-page .lexia-treatment-grid li::before {
 body.lexia-page .lexia-subsection-heading {
   margin: 94px 0 34px;
   padding-bottom: 11px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid #c9c9c9;
   font-size: 20px;
 }
 
@@ -922,7 +922,7 @@ body.lexia-page .lexia-persona {
 body.lexia-page .lexia-persona-kicker {
   margin: 0 0 10px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid #c9c9c9;
   font-size: 18px;
 }
 

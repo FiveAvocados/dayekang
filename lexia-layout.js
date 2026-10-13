@@ -13,12 +13,12 @@
     overview.className = 'lexia-background-overview';
     const copy = document.createElement('div');
     copy.className = 'lexia-stat-copy';
-    copy.innerHTML = '<p>Around 5 to 10 percent of children in the world suffer from dyslexia.</p><p>Among 50 million Koreans, 5 million are suffering from dyslexia.</p><p>Korean has its own characters and pronunciation system.</p>';
+    copy.innerHTML = '<p>Around 5 to 10 percent of children worldwide have dyslexia.</p><p>Of the 50 million people in Korea, 5 million have dyslexia.</p><p>The Korean language has its own writing and pronunciation systems.</p>';
     overview.append(stats, copy);
     const figure = document.createElement('figure');
     figure.className = 'lexia-hangeul';
     const caption = document.createElement('figcaption');
-    caption.textContent = 'Korean characters are called Hangeul and they are based on the shape of the mouth when making sounds.';
+    caption.textContent = 'Korean characters are called Hangeul, and their shapes are based on the shape of the mouth when making sounds.';
     figure.append(hangeul, caption);
     statsCopy.remove();
     hangeulCopy.remove();
@@ -39,7 +39,7 @@
       const title = document.createElement('h3');
       const body = document.createElement('p');
       title.textContent = item.querySelector('b').textContent;
-      body.textContent = item.textContent.replace(title.textContent, '').replace(/^\s*[—-]\s*/, '');
+      body.textContent = item.textContent.replace(title.textContent, '').replace(/^\s*[:—-]\s*/, '');
       article.append(title, body);
       grid.append(article);
     });
@@ -75,7 +75,7 @@
   function makePersona(root, title, split, label) {
     const card = document.createElement('section');
     card.className = 'lexia-persona';
-    const name = title.textContent.split('—')[1].trim();
+    const name = title.textContent.replace(/^Persona \d+\s*:\s*/, '').trim();
     title.textContent = label;
     title.className = 'lexia-persona-kicker';
     split.className = 'lexia-persona-grid';
@@ -150,7 +150,7 @@
       if (label === 'Treatment') {
         copy.remove();
         const intro = document.createElement('p');
-        intro.textContent = 'The patient is confirmed to be dyslexic by visiting a specialist agency.';
+        intro.textContent = 'A specialist confirms that the patient has dyslexia.';
         const list = document.createElement('ul');
         ['Start the dyslexia therapy program.', 'Visit once or twice a week and work with language therapists.', 'Therapists give homework to encourage steady learning.', 'Homework is often left undone.', 'The symptoms may begin to improve.'].forEach(text => {
           const item = document.createElement('li');
@@ -167,7 +167,7 @@
     });
     const solutionBand = document.createElement('div');
     solutionBand.className = 'lexia-solution-band';
-    solutionBand.innerHTML = '<article><h4>Solution Point</h4><p>If the user suspects dyslexia, they can use the Diagnostic function in the app and get suggestions on whether they should visit an institution that treats dyslexia to get a diagnosis.</p></article><article class="lexia-solution-wide"><h4>Solution Point</h4><p>Using the application, the child can continue learning Korean without losing their pace when they do not attend classes in the institution. Exciting content in the app encourages the child to study with their parents without a teacher. Also, the application provides a guideline for parents on how they should guide their children. If the parents are too busy to teach, children can study by themselves.</p></article>';
+    solutionBand.innerHTML = '<article><h4>Solution Point</h4><p>If users suspect dyslexia, they can use the Diagnostic function in the app to receive guidance on whether to visit a specialized institution for a diagnosis.</p></article><article class="lexia-solution-wide"><h4>Solution Point</h4><p>With the application, children can continue learning Korean at their own pace when they are not attending classes at the institution. Exciting content in the app encourages children to study with their parents without a teacher. The application also provides parents with guidance on how to support their children. If the parents are too busy to teach, children can study by themselves.</p></article>';
     solution.remove();
     experience.append(experienceTitle, subtitle, map, stageGrid, solutionBand);
   }
@@ -248,11 +248,11 @@
       const title = heading(root, label);
       return { title, copy: title.nextElementSibling };
     });
-    blocks[0].copy.textContent = 'It diagnoses dyslexia by assessing how well children understand the principles of consonants and vowels. Based on that, it judges the level of fluency.';
-    blocks[1].copy.textContent = 'Using multimedia contents, children learn how to pronounce letters.';
-    blocks[2].copy.textContent = 'Based on the phonics that children learned, they play a phonics game.';
+    blocks[0].copy.textContent = 'The app diagnoses dyslexia by assessing how well children understand the principles of consonants and vowels. Based on the results, it assesses their level of fluency.';
+    blocks[1].copy.textContent = 'Using multimedia content, children learn how to pronounce letters.';
+    blocks[2].copy.textContent = 'Based on the phonics that children have learned, they play a phonics game.';
     blocks[3].copy.textContent = 'Children learn how phonemes are pronounced when they are next to each other.';
-    blocks[4].copy.textContent = 'The child and parents receive a report based on the play session.';
+    blocks[4].copy.textContent = 'The child and their parents receive a report based on the play session.';
     const grid = document.createElement('div');
     grid.className = 'lexia-prototype-grid';
     const makeCopy = (...indexes) => {
@@ -262,9 +262,9 @@
       return copy;
     };
     const rows = [
-      [makeCopy(0), prototypeFigure(image(root, 'lex_lp_1'), 'The app guides children to replace consonants or vowels based on what they hear.'), prototypeFigure(image(root, 'lex_lp_2'), 'Children record themselves reading in a set time so the app can measure fluency.')],
-      [makeCopy(1, 2), prototypeFigure(image(root, 'lex_lp_5'), 'Mouth and tongue movement shows how each consonant and vowel is pronounced.'), prototypeFigure(image(root, 'lex_lp_6'), 'Children listen to vowels and select the answers in the correct order.')],
-      [makeCopy(3, 4), prototypeFigure(image(root, 'lex_lp_3'), 'Combining letter blocks demonstrates how adjacent phonemes are pronounced.'), prototypeFigure(image(root, 'lex_lp_4'), 'Progress graphs and feedback guide both the child and the parent.')]
+      [makeCopy(0), prototypeFigure(image(root, 'lex_lp_1'), 'The app guides children to replace consonants or vowels based on what they hear.'), prototypeFigure(image(root, 'lex_lp_2'), 'Children record themselves reading within a set time so the app can measure fluency.')],
+      [makeCopy(1, 2), prototypeFigure(image(root, 'lex_lp_5'), 'Mouth and tongue movements show how each consonant and vowel is pronounced.'), prototypeFigure(image(root, 'lex_lp_6'), 'Children listen to vowels and select the answers in the correct order.')],
+      [makeCopy(3, 4), prototypeFigure(image(root, 'lex_lp_3'), 'Combining letter blocks demonstrates how adjacent phonemes are pronounced.'), prototypeFigure(image(root, 'lex_lp_4'), 'Progress graphs and feedback guide both the child and their parents.')]
     ];
     rows.forEach(cells => {
       const row = document.createElement('div');
@@ -305,7 +305,7 @@
     const comments = nonwords.nextElementSibling;
     const expertGrid = document.createElement('div');
     expertGrid.className = 'lexia-expert-grid';
-    expertQuote.innerHTML = '<span>“Instead of regular words, dyslexic children should practice non-words”</span><small>— Dr. Jae-Seok Jung<br>Dyslexia expert and author of ‘Reading Confidence’</small>';
+    expertQuote.innerHTML = '<span>“Instead of regular words, dyslexic children should practice non-words”</span><small>Dr. Jae-Seok Jung<br>Dyslexia expert and author of ‘Reading Confidence’</small>';
     expertGrid.append(expertImage, expertQuote);
     expert.after(expertGrid);
     expertGrid.after(expertCopy);
@@ -313,7 +313,7 @@
     expertCopy.after(comments);
     const nonwordCard = document.createElement('div');
     nonwordCard.className = 'lexia-nonwords';
-    nonwordCard.innerHTML = '<div class="lexia-nonwords-title">What are Non-words</div><p>A non-word is a combination of letters but without meanings.</p><div class="lexia-word-pairs"><div><b>Regular words</b><span>Cat</span><span>Museum</span></div><div><b>Non-words</b><span>Caet</span><span>Mooseum</span></div></div>';
+    nonwordCard.innerHTML = '<div class="lexia-nonwords-title">What Are Non-words?</div><p>A non-word is a combination of letters that has no meaning.</p><div class="lexia-word-pairs"><div><b>Regular words</b><span>Cat</span><span>Museum</span></div><div><b>Non-words</b><span>Caet</span><span>Mooseum</span></div></div>';
     nonwords.remove();
     comments.after(nonwordCard);
 

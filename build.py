@@ -799,7 +799,7 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
 })();
 </script>"""
     detail_script = {
-        "lexiainwonderland.html": '<script src="lexia-layout.js?v=20261013-original-layout"></script>',
+        "lexiainwonderland.html": '<script src="lexia-layout.js?v=20261013-grammar"></script>',
         "nudgedesign.html": '<script src="nudge-layout.js?v=20261013-original-layout"></script>',
     }.get(fname, "")
     body = f"""
@@ -830,7 +830,7 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
         "mindful-journaling.html": "mindful-page",
     }.get(fname, "")
     detail_head = ({
-        "lexiainwonderland.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-layout-2">',
+        "lexiainwonderland.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-layout-3">',
         "nudgedesign.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-nudge-layout-2">',
     }.get(fname, ""))
     W(fname, page(
@@ -989,84 +989,84 @@ detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Projects",
      ("Members", "Daye Kang, Hye-Ryeong Kim, Ji-Hae Lee"),
      ("My contribution", "Team Leader, UX research, Prototyping, Illustration"),
      ("Year", "2017")],
-    "<p>‘Lexia in Wonderland’ is a game that uses letter blocks to create nonwords, designed specifically for dyslexic children to help them learn phonics.</p>",
+    "<p>‘Lexia in Wonderland’ is a game that uses letter blocks to create nonwords and is designed specifically to help dyslexic children learn phonics.</p>",
     [("What inspired this project",
       split(dimg_s("lex_inspire", "f4a835_49f52abf9825426989ceb479db4ac6d1~mv2.jpg", "Like Stars on Earth")
             + cap("The film explores the life and imagination of Ishaan, an 8-year-old dyslexic child. Although he excels in art, his poor academic performance leads his parents to send him to a boarding school. Ishaan's new art teacher suspects that he is dyslexic and helps him to overcome his disability. (From Wikipedia)"),
-            "<p>I became aware of dyslexia after watching the movie ‘Like Stars on Earth’ (2007), which is about a dyslexic child and an art teacher who understands his difficulty and guides him to be able to read. After researching how dyslexia is treated in Korea, I found out there was almost no research or understanding of dyslexia. Also, there was no digital service specially designed to help dyslexic children practice Korean at home. There are about 330,000 children who suffer from dyslexia in Korea. Even though they have potential, they are neglected by the current education system that focuses on reading. Through my work, I wanted to help dyslexic children and increase awareness of dyslexia.</p>")),
+            "<p>I became aware of dyslexia after watching the movie ‘Like Stars on Earth’ (2007), which is about a dyslexic child and an art teacher who understands his difficulty and helps him learn to read. After researching how dyslexia is treated in Korea, I found that there was almost no research on or understanding of dyslexia. There was also no digital service specifically designed to help dyslexic children practice Korean at home. About 330,000 children in Korea have dyslexia. Even though they have potential, they are neglected by the current education system, which focuses on reading. Through my work, I wanted to help dyslexic children and increase awareness of dyslexia.</p>")),
      ("Background",
-      "<p>Around 5 to 10 percent of children in the world suffer from dyslexia. Among 50 million Koreans, 5 million are suffering from dyslexia.</p>"
+      "<p>Around 5 to 10 percent of children worldwide have dyslexia. Of the 50 million people in Korea, 5 million have dyslexia.</p>"
       + dimg_m("lex_bg_1", "f4a835_a2a94f51d5fb47f6849d32017415c6dc~mv2.png", "Dyslexia statistics")
-      + "<p>Korean has its own characters and pronunciation system. Korean characters are called Hangeul and they are based on the shape of the mouth when making sounds.</p>"
+      + "<p>The Korean language has its own writing and pronunciation systems. Korean characters are called Hangeul, and their shapes are based on the shape of the mouth when making sounds.</p>"
       + dimg_m("lex_bg_2", "f4a835_aad66f0b680b4b8bb88c4472999ea80e~mv2.png", "Hangeul")),
      ("Problems",
       "<ul>"
-      "<li><b>Miss Opportunity</b> — There is a crucial timeframe to treat dyslexia. Once you miss the window, the symptoms become worse.</li>"
-      "<li><b>Low Self-Esteem</b> — Dyslexia can cause low self-esteem and other mental problems due to the school’s environment that focuses on reading. Dyslexic children usually get mocked by their peers.</li>"
-      "<li><b>Expensive Treatment</b> — Treatment is too expensive and most people waste money on unproven methods.</li>"
-      "<li><b>No Guidance for Parents</b> — Parents have a hard time teaching and providing guidance to their dyslexic children.</li>"
+      "<li><b>Missed Opportunity</b>: There is a crucial timeframe for treating dyslexia. Once this window is missed, the symptoms get worse.</li>"
+      "<li><b>Low Self-Esteem</b>: Dyslexia can cause low self-esteem and other mental health problems in a school environment that focuses on reading. Dyslexic children are often mocked by their peers.</li>"
+      "<li><b>Expensive Treatment</b>: Treatment is too expensive, and most people waste money on unproven methods.</li>"
+      "<li><b>No Guidance for Parents</b>: Parents have a hard time teaching and providing guidance to their dyslexic children.</li>"
       "</ul>"
-      + "<p>In Korea, unlike other countries, the understanding of dyslexia is shallow. It is essential to treat dyslexia before children reach the age of 8, yet many of them live life while undiagnosed. Parents also have a hard time guiding dyslexic children, and there is not much material that can be used in explaining dyslexia treatment for them.</p>"
+      + "<p>In Korea, awareness and understanding of dyslexia are limited compared with other countries. It is essential to treat dyslexia before children reach the age of 8, yet many children go through life undiagnosed. Parents also have a hard time guiding dyslexic children, and there are few materials that explain dyslexia treatment to them.</p>"
       + dimg_m("lex_prob", "f4a835_5b9689bfdaf94cf09514444e7d2ee18b~mv2.png", "Problems")),
      ("About Dyslexia",
-      "<h3>What is Dyslexia</h3><p>Dyslexia is a reading disorder characterized by a lack of accurate, fluent reading and difficulty in spelling. Reading is a big part of the Korean curriculum. If children fail to overcome dyslexia at an early age, they can be bullied at school, leading to low self-esteem. The trauma from childhood can affect them long into adulthood.</p>"
+      "<h3>What Is Dyslexia?</h3><p>Dyslexia is a reading disorder characterized by difficulty reading accurately and fluently, as well as difficulty with spelling. Reading is a big part of the Korean curriculum. If children fail to overcome dyslexia at an early age, they can be bullied at school, leading to low self-esteem. The trauma from childhood can affect them well into adulthood.</p>"
       + dimg_m("lex_dys_1", "f4a835_0dd5ef465aff4ae893cc408f9adf9ea6~mv2.jpg", "About dyslexia")
-      + "<h3>Symptoms</h3><p>When children are around age 8–9, the symptoms are first discovered by a teacher or parent. They can detect the signs because they fall behind in academic performance compared to their peers. By age 9–10, children show difficulty reading words with one syllable or phonology. They have difficulty understanding consonants and vowel order. When children reach 12, they often make spelling mistakes and show poor writing ability. They also have difficulty memorizing dates, people's names, and numbers. Even when reaching adulthood, they still have a hard time reading and make spelling mistakes.</p>"
-      + "<h3>Is Dyslexia curable?</h3><p>Yes. In the past, people thought dyslexia was caused by visual impairments. However, recent findings from cognitive psychology proved that dyslexia is a neurologic disorder in the left hemisphere of the brain. The left hemisphere of dyslexic people can not store text and sounds and can not combine them quickly. If dyslexia is diagnosed after age 10, it is much harder to treat. The younger the brain is, the more flexible it is, and it is more likely to connect neural circuits properly. Therefore, early detection is critical. Once a child misses the timeframe, children must apply greater efforts to keep up with their peers.</p>"
+      + "<h3>Symptoms</h3><p>Symptoms are often first noticed by a teacher or parent when children are around 8 or 9 years old. Teachers and parents can recognize the signs when children's academic performance falls behind that of their peers. By ages 9 or 10, children may have difficulty reading one-syllable words or understanding phonology. They have difficulty understanding the order of consonants and vowels. By age 12, they often make spelling mistakes and show poor writing ability. They also have difficulty memorizing dates, people's names, and numbers. Even in adulthood, they may still have difficulty reading and continue to make spelling mistakes.</p>"
+      + "<h3>Is Dyslexia Curable?</h3><p>Yes. In the past, people thought dyslexia was caused by visual impairments. However, research in cognitive psychology has shown that dyslexia is a neurological disorder in the left hemisphere of the brain. The left hemisphere of a person with dyslexia cannot store text and sounds or combine them quickly. If dyslexia is diagnosed after age 10, it is much harder to treat. Younger brains are more flexible and more likely to form neural circuits properly. Therefore, early detection is critical. Once children miss this timeframe, they must make greater efforts to keep up with their peers.</p>"
       + dimg_m("lex_dys_2", "f4a835_97a4f4cd6b8a4a5d828f560524bada26~mv2.jpg", "Brain and dyslexia")
-      + "<h3>How to treat Dyslexia — what are the problems of the current method?</h3><p>Phonology should be taught to link the written form and sounds. However, there are problems with the current education methods.</p>"
-      "<ul><li>Books currently used in medical institutions and homes to treat dyslexic children are mostly hard and challenging to understand. As a result, children lose interest in learning Hangeul (Korean characters) and often refuse to take classes.</li>"
-      "<li>It is difficult to keep up with expensive private classes with a price of over $100 per hour.</li>"
-      "<li>There is a lack of medical centers that specialize in treating dyslexia. Therefore, it is usually far away from where dyslexic children live. Sometimes, parents take an airplane from Jeju island to visit the medical center in Seoul.</li></ul>"
+      + "<h3>How to Treat Dyslexia: What Are the Problems with Current Methods?</h3><p>Phonology should be taught by linking written forms to sounds. However, there are problems with current education methods.</p>"
+      "<ul><li>Books currently used in medical institutions and homes to treat dyslexic children are often difficult to understand. As a result, children lose interest in learning Hangeul (Korean characters) and often refuse to take classes.</li>"
+      "<li>It is difficult to keep up with expensive private classes that cost more than $100 per hour.</li>"
+      "<li>There is a lack of medical centers that specialize in treating dyslexia. These centers are often far from where dyslexic children live. Sometimes, parents fly from Jeju Island to visit a medical center in Seoul.</li></ul>"
       + dimg_m("lex_dys_3", "f4a835_0980b031eb004eb3bcc376372c82b806~mv2.jpg", "Current treatment"),
       "banded band-purple dk"),
      ("Research Process",
-      "<h3>User Interview</h3><p>We interviewed groups of non-specialists and experts. The picture below shows an interview with a college student, A, who had a difficult school life because of dyslexia.</p>"
+      "<h3>User Interview</h3><p>We interviewed groups of nonexperts and experts. The picture below shows an interview with a college student named A, who had a difficult school life because of dyslexia.</p>"
       + dimg_m("lex_rp_interview", "f4a835_611b2f5a21b547c991f05f58321f2c83~mv2.png", "User interview")
       + '''<div class="int-grid">
       <div class="int-col"><h3>Non-Experts</h3>'''
       + int_card(dimg_s("lex_rp_p1", "f4a835_33326f8456604575874731eef18dd563~mv2.jpg", "Interviewee A"),
-                 "01.", "A", "University student who suffers from dyslexia / 24 years old",
-                 "“I wish I knew dyslexia early, too. Now that I'm an adult, there's not much I can do to ease the symptoms.”",
-                 "“I had a hard school life. I failed the university entrance exam several times, and after I got in, I had to record the whole class and textbooks because I had difficulty reading.”")
+                 "01.", "A", "University student with dyslexia / 24 years old",
+                 "“I wish I had learned about my dyslexia earlier, too. Now that I'm an adult, there's not much I can do to ease the symptoms.”",
+                 "“I had a hard school life. I failed the university entrance exam several times, and after I got in, I had to record every class and all my textbooks because I had difficulty reading.”")
       + int_card(dimg_s("lex_rp_p3", "f4a835_f54f428b28ce487c8f474b6db2c4a98c~mv2.jpg", "Mrs. B"),
-                 "02.", "Mrs. B", "Housewife who raises a dyslexic child / 38 years old",
-                 "“After several months of receiving treatment from the institution, I stopped because it was too far and expensive. I'm trying to teach at home, but it's not easy.”",
-                 "“I give my son homework, but he runs away. The therapist said it is only useful when he practices every day.”")
+                 "02.", "Mrs. B", "Homemaker raising a dyslexic child / 38 years old",
+                 "“After several months of receiving treatment at the institution, I stopped because it was too far away and expensive. I'm trying to teach at home, but it's not easy.”",
+                 "“I give my son homework, but he runs away. The therapist said the homework is only useful if he practices every day.”")
       + '''</div>
       <div class="int-col"><h3>Experts</h3>'''
       + int_card(dimg_s("lex_rp_p2", "f4a835_52278f31ed6b42f0ace539f62c35a37b~mv2.jpg", "Hyun-Ji Um"),
                  "03.", "Hyun-Ji Um", "Language therapist / 42 years old",
                  "“Children have different levels of dyslexia, so they need a customized education.”",
-                 "“To adjust well in school life, it is better to start treatment before the child gets into the school.”",
-                 "“Children who study with me take courses one or two times a week. However, it is essential to practice Korean every day even when they don't visit the medical center to attend the class.”")
+                 "“To adjust well to school life, it is better to start treatment before the child starts school.”",
+                 "“Children who study with me attend classes once or twice a week. However, it is essential to practice Korean every day, even when they don't visit the medical center for class.”")
       + int_card(dimg_s("lex_rp_p4", "f4a835_2ac8c04cd2d7451e91caac9a7d36ecbf~mv2.jpg", "Jae-Seok Jung"),
                  "04.", "Jae-Seok Jung", "Dyslexia expert / 46 years old",
-                 "“No matter how hard you try after the third grade of elementary school, you can't have the same fluency as the average person.”")
+                 "“No matter how hard you try after the third grade of elementary school, you cannot achieve the same fluency as the average person.”")
       + "</div></div>"
-      + "<h3>Affinity Diagram</h3><p>We wrote down keywords from the interview and then rearranged them by categories.</p>"
+      + "<h3>Affinity Diagram</h3><p>We wrote down keywords from the interviews and then rearranged them into categories.</p>"
       + row("", dimg_s("lex_rp_aff1", "f4a835_1a09008244bb4cefa9f9cc5ef7afd1d8~mv2.png", "Affinity diagram"),
                dimg_s("lex_rp_aff2", "f4a835_2c569d494bd74ed9a996280fcdce1c11~mv2.png", "Affinity diagram categories"))
-      + "<h3>Persona 1 — Min-Jung Kim / 38 years old</h3>"
+      + "<h3>Persona 1: Min-Jung Kim / 38 years old</h3>"
       + split(dimg_s("lex_rp_per1", "f4a835_c200023dcb55453384c6c77b0b3f4899~mv2.png", "Persona 1"),
-        "<p><b>Situation:</b> She is a working mom who raises a dyslexic child. <b>Thinking:</b> She wants to prompt the child's interest in reading and wants to practice Korean with the child every day.</p>"
-        "<p><b>Conditions:</b> Min-Jung Kim is an office worker who has an eight-year-old son. It is difficult for him to read or write Korean as compared to children of his age. She suspected dyslexia, and she made him take a special class once a week at an institution. As time went by, she felt burdened by expensive tuitions and distance to the medical center. The child was also not very interested in learning Korean. Eventually, she gave up, and now she plans to buy dyslexic education books and teach Korean to her son. However, her son tries to run away. To teach him in person, Min-Jung also has to study Korean phonics and teach them to her son effectively. However, she feels frustrated because she does not have enough time to spare.</p>"
-        "<p><b>Needs:</b> 1) I want to diagnose my child at home when he is suspected of dyslexia. 2) I want to improve dyslexia anywhere and at a low cost. 3) I hope there is an exciting education service so the child can get interested. 4) I want to teach Korean as frequently as possible. 5) I want to see the progress of the child.</p>")
-      + "<h3>Persona 2 — Jee-Hee Park / 8 years old</h3>"
+        "<p><b>Situation:</b> She is a working mom who raises a dyslexic child. <b>Thinking:</b> She wants to spark her child's interest in reading and practice Korean with him every day.</p>"
+        "<p><b>Conditions:</b> Min-Jung Kim is an office worker who has an eight-year-old son. He has difficulty reading or writing Korean compared with other children his age. She suspected that he had dyslexia and enrolled him in a special class at an institution once a week. As time went by, she felt burdened by the high tuition and the distance to the medical center. Her son was also not very interested in learning Korean. Eventually, she gave up on the treatment, and now she plans to buy dyslexia education books and teach Korean to her son. However, her son tries to run away. To teach him in person, Min-Jung also has to study Korean phonics so she can teach her son effectively. However, she feels frustrated because she does not have enough time to spare.</p>"
+        "<p><b>Needs:</b> 1) I want to diagnose my child at home if he is suspected of having dyslexia. 2) I want to treat dyslexia anywhere and at a low cost. 3) I hope there is an engaging educational service that can interest my child. 4) I want to teach Korean as frequently as possible. 5) I want to see my child's progress.</p>")
+      + "<h3>Persona 2: Jee-Hee Park / 8 years old</h3>"
       + split(dimg_s("lex_rp_per2", "f4a835_54acbd64a7184d91bc99dc8e2c98257d~mv2.png", "Persona 2"),
-        "<p><b>Situation:</b> He is having low self-esteem because of his lousy reading skills. <b>Thinking:</b> He wants to read well like his friends and to be understood for his difficulties.</p>"
-        "<p><b>Conditions:</b> He feels left behind because his peers are good at reading, but he isn't. He wants to avoid reading in front of the class. He is usually misunderstood as problematic and lazy, even though lousy reading is only a symptom of dyslexia, and he can not control it. He gets angry because his parents treat him like a problem child because he can not read. This misunderstanding causes trouble within the family. In the class with a language therapist specializing in dyslexia, he can enjoy learning Korean even though it was difficult because they guide them well. However, when he is learning Korean at home with his parents, he becomes less interested because his parents are not as good as the therapist at guiding him. It worsens the relationship between the child and the parents. Instead of learning Korean, he wants to play games all day. As he hates reading, his confidence has decreased, and his grades in school dropped.</p>"
-        "<p><b>Needs:</b> 1) I want to learn Korean like a fun game. 2) I want to read as well as my friends. 3) I don't want to fight with my parents. 4) I want to be understood for my problems.</p>")
-      + "<h3>Experience Mapping — Parents' Point of View</h3>"
-      "<p><b>Discover:</b> Parents start to recognize that their children are left behind compared to their peers. If they do not observe them carefully at this stage, there is a high possibility that they do not take the symptoms seriously and miss the time frame for the treatment. Parents can confuse dyslexia with other symptoms such as ADHD and other learning difficulties. There is a risk of pursuing non-scientific practices such as oriental medicine or eye training to improve reading ability.</p>"
-      "<p><b>Treatment:</b> The patient is confirmed to be dyslexic by visiting a specialist agency — start the dyslexia therapy program, visit once or twice a week and treat it with language therapists. Therapists often give homework to encourage steady learning; however, homework is often left undone. They may find the symptoms are slightly getting better.</p>"
-      "<p><b>Giving Up:</b> Parents try to teach Korean to the child at home. The child refuses to learn because parents are not a teacher. Since parents are not experts, it is hard to teach them without proper guidelines.</p>"
-      "<p><b>Solution Points:</b> If the user suspects dyslexia, they can use the Diagnostic function in the app and get suggestions on whether they should visit an institution that treats dyslexia to get a diagnosis. Using the application, the child can continue learning Korean without losing their pace when they do not attend classes in the institution. Exciting content in the app encourages the child to study with their parents without a teacher. Also, the application provides a guideline for parents on how they should guide their children. If the parents are too busy to teach, children can study by themselves.</p>"
+        "<p><b>Situation:</b> He has low self-esteem because of his poor reading skills. <b>Thinking:</b> He wants to read as well as his friends and wants others to understand his difficulties.</p>"
+        "<p><b>Conditions:</b> He feels left behind because his peers are good at reading, but he isn't. He wants to avoid reading in front of the class. He is often seen as problematic and lazy, even though poor reading is only a symptom of dyslexia that he cannot control. He gets angry because his parents treat him like a problem child because he cannot read. This misunderstanding causes trouble within the family. In classes with a language therapist who specializes in dyslexia, he enjoys learning Korean, even when it is difficult, because the therapist guides him well. However, when he is learning Korean at home with his parents, he becomes less interested because his parents are not as good as the therapist at guiding him. This worsens the relationship between the child and his parents. Instead of learning Korean, he wants to play games all day. Because he hates reading, his confidence has decreased and his grades have dropped.</p>"
+        "<p><b>Needs:</b> 1) I want learning Korean to feel like a fun game. 2) I want to read as well as my friends. 3) I don't want to fight with my parents. 4) I want others to understand my difficulties.</p>")
+      + "<h3>Experience Mapping: Parents' Point of View</h3>"
+      "<p><b>Discover:</b> Parents start to recognize that their children are falling behind their peers. If parents do not observe them carefully at this stage, they may not take the symptoms seriously and may miss the treatment window. Parents may confuse dyslexia with other conditions, such as ADHD or other learning difficulties. There is a risk of pursuing non-scientific practices such as oriental medicine or eye training to improve reading ability.</p>"
+      "<p><b>Treatment:</b> A specialist confirms that the patient has dyslexia. The child starts a dyslexia therapy program, visits once or twice a week, and works with language therapists. Therapists often give homework to encourage steady learning; however, the homework is often left undone. The symptoms may begin to improve.</p>"
+      "<p><b>Giving Up:</b> Parents try to teach Korean to the child at home. The child refuses to learn because the parents are not teachers. Since parents are not experts, it is hard to teach children without proper guidelines.</p>"
+      "<p><b>Solution Points:</b> If users suspect dyslexia, they can use the Diagnostic function in the app to receive guidance on whether to visit a specialized institution for a diagnosis. With the application, children can continue learning Korean at their own pace when they are not attending classes at the institution. Exciting content in the app encourages children to study with their parents without a teacher. The application also provides parents with guidance on how to support their children. If the parents are too busy to teach, children can study by themselves.</p>"
       + dimg("lex_rp_map", "f4a835_aa82a04e5259416fa05a99aa18f0bd94~mv2.jpg", "Experience mapping")),
      ("Design Insights",
-      quote("“An engaging service to help dyslexic children to study Korean at home and have ongoing training”")
-      + "<h3>Service Overview</h3><p><b>Who:</b> Dyslexic children from 5 to 10 years old<br><b>What:</b> Korean phonics practice using nonwords<br><b>When:</b> Every day at home when they do not visit the professional institution<br><b>How:</b> Actively and continuously, by themselves or with parents</p>"
-      + "<h3>Concept</h3><p>We combined contents of the book ‘Reading Confidence’ with the story of ‘Alice in Wonderland’ to provide more exciting learning experiences. We thought there are similarities between dyslexic children experiencing weird letters and Alice meeting strange characters in wonderland. So we applied the story of Alice in Wonderland to our app design. We transformed the books into digital multimedia content. Children can use multimedia content on their digital devices to practice Korean. After following the mouth shape, children can film themselves using a camera and compare it with the answer.</p>"
+      quote("“An engaging service that helps dyslexic children study Korean at home and practice consistently”")
+      + "<h3>Service Overview</h3><p><b>Who:</b> Dyslexic children from 5 to 10 years old<br><b>What:</b> Korean phonics practice using nonwords<br><b>When:</b> Every day at home when they do not visit the specialist institution<br><b>How:</b> Actively and continuously, by themselves or with parents</p>"
+      + "<h3>Concept</h3><p>We combined content from the book ‘Reading Confidence’ with the story of ‘Alice in Wonderland’ to provide more engaging learning experiences. We saw similarities between dyslexic children experiencing strange letters and Alice meeting unusual characters in Wonderland. We therefore applied the story of Alice in Wonderland to our app design. We transformed the books into digital multimedia content. Children can use multimedia content on their digital devices to practice Korean. After imitating the mouth shape, children can record themselves and compare their movements with the correct answer.</p>"
       + dimg_m("lex_di_1", "f4a835_7040de464d1644c88605e231d9551e1e~mv2.jpg", "Concept")
       + '<div class="compose reveal">'
       + f'<img class="bg" src="{A("lex_di_4", "f4a835_1f57981bd48046c6bb28dd832a21f614~mv2.png", "fit", 900, 1400)}" alt="Reading Confidence and Alice in Wonderland books">'
@@ -1074,15 +1074,15 @@ detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Projects",
       + f'<img class="char-r" src="{A("lex_di_2", "f4a835_aa4ce85b381740ea8676dd3022ccbefb~mv2.jpg", "fit", 500, 700)}" alt="Alice character">'
       + '<span class="arr">&#8594;</span></div>'
       + cap("Combining the book ‘Reading Confidence’ with the story of ‘Alice in Wonderland’")
-      + "<h3>Design Ideas</h3><p>To maintain the benefits of professional dyslexia treatments and maximize the benefits of online and digital content, we embraced the following methods: Multisensory Instruction, Storytelling, Personalized Instruction, Gamification.</p>"
+      + "<h3>Design Ideas</h3><p>To maintain the benefits of professional dyslexia treatment and maximize the benefits of online and digital content, we embraced the following methods: Multisensory Instruction, Storytelling, Personalized Instruction, and Gamification.</p>"
       + "<h3>1. Multisensory Instruction</h3><p>We decided to use multisensory instruction to enable children to learn Hangeul by using various senses such as sound and touch.</p>"
-      + "<h3>2. Storytelling</h3><p>Alice meets the characters that represent each chapter and travels each stage to return to reality. The structure follows the ‘Growth epic’. We set the background of the game as a fantastic place to stimulate the imaginations of children. Fun and friendly characters help children learn Hangeul and overcome emotional trauma.</p>"
+      + "<h3>2. Storytelling</h3><p>Alice meets the characters who represent each chapter and travels through each stage to return to reality. The structure follows a ‘growth epic’. We created a fantasy setting for the game to stimulate children's imaginations. Fun and friendly characters help children learn Hangeul and overcome emotional trauma.</p>"
       + arrow_row(dimg_s("lex_di_5", "f4a835_7921e168ae544528acd1b036179795f1~mv2.png", "Storytelling"),
                   dimg_s("lex_di_6", "f4a835_77fb3212967a43a4a4fe7ff5caed23c5~mv2.png", "Story structure"))
       + dimg_m("lex_di_7", "f4a835_817d659b03f2432a8d5325492827699f~mv2.jpg", "Characters")
-      + "<h3>3. Personalized Instruction</h3><p>The application provides individual guidance on learning steps according to children's needs. Children can focus on improving areas where they are weak by checking their weaknesses on the ‘report’.</p>"
+      + "<h3>3. Personalized Instruction</h3><p>The application provides guidance through learning steps based on each child's needs. Children can focus on improving their weaker areas by checking them on the ‘report’.</p>"
       + dimg_m("lex_di_8", "f4a835_beddd716fc1a4a2e960c20fa9a9103f4~mv2.png", "Personalized instruction")
-      + "<h3>4. Gamification</h3><p>On ‘My page’, children can see their progress. Gamification of the learning process can help children get interested in learning Korean. The application gives positive feedback and encouragement while children play the game. It encourages them to continue learning Korean voluntarily. The application uses a reward system — whenever children make progress, they get badges as a reward.</p>"
+      + "<h3>4. Gamification</h3><p>On ‘My page’, children can see their progress. Gamification of the learning process can help children become interested in learning Korean. The application gives positive feedback and encouragement while children play the game. It encourages them to continue learning Korean voluntarily. The application uses a reward system. Children earn badges whenever they make progress.</p>"
       + row("",
             dimg_s("lex_di_9", "f4a835_af9ecb2d15be4fe1904c4da288d9c2ea~mv2.png", "Gamification"),
             dimg_s("lex_di_10", "f4a835_cec181c1bfe04f71b2b885cd90f13565~mv2.jpg", "My page"),
@@ -1090,11 +1090,11 @@ detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Projects",
             dimg_s("lex_di_12", "f4a835_a521d54905244777a93e879594c4d491~mv2.png", "Badges")),
       "banded band-lav"),
      ("Low-fi Prototype",
-      "<h3>Diagnosis</h3><p>It diagnoses dyslexia by assessing how well children understand the principles of consonants and vowels. Based on that, it judges the level of fluency. The app plays the instruction that guides children to replace consonants or vowels based on what they heard (e.g., which vowel do you need when you want to change ‘Nack’ to ‘Nock’). The app asks children to record their voices while reading the text in the box within a given time. It measures how fluent they are when reading text.</p>"
-      + "<h3>Learning Phonics</h3><p>Using multimedia contents, children learn how to pronounce letters. The app shows the mouth movements and how the tongue locates within the mouth to teach children how to pronounce each consonant and vowel.</p>"
-      + "<h3>Phonics Game</h3><p>Based on the phonics that children learned, they play a phonics game. Children listen to the pronunciation of vowels and then select the answers in order.</p>"
-      + "<h3>Understanding Phonemes</h3><p>Learn how phonemes are pronounced when they are next to each other. When children combine specific phoneme blocks, it shows how juxtaposed phonemes are pronounced.</p>"
-      + "<h3>Report</h3><p>They get a report based on their play. The child and parents can see how much the child progresses in visual graphs, and it gives guidelines to the parents. The report page shows children and parents how much they are improving and their common mistakes with feedback.</p>"
+      "<h3>Diagnosis</h3><p>The app diagnoses dyslexia by assessing how well children understand the principles of consonants and vowels. Based on the results, it assesses their level of fluency. The app plays instructions that guide children to replace consonants or vowels based on what they heard (for example, which vowel they need to change ‘Nack’ to ‘Nock’). The app asks children to record their voices while reading the text in the box within a set amount of time. It measures how fluently they read the text.</p>"
+      + "<h3>Learning Phonics</h3><p>Using multimedia content, children learn how to pronounce letters. The app shows mouth movements and how the tongue is positioned within the mouth to teach children how to pronounce each consonant and vowel.</p>"
+      + "<h3>Phonics Game</h3><p>Based on the phonics that children have learned, they play a phonics game. Children listen to the pronunciation of vowels and then select the answers in order.</p>"
+      + "<h3>Understanding Phonemes</h3><p>Children learn how phonemes are pronounced when they are next to each other. When children combine specific phoneme blocks, the app shows how adjacent phonemes are pronounced.</p>"
+      + "<h3>Report</h3><p>They receive a report based on their play session. The child and their parents can view the child's progress in visual graphs, and the report provides guidance to the parents. The report page shows children and parents how much they are improving, identifies common mistakes, and provides feedback.</p>"
       + row("",
             dimg_s("lex_lp_1", "f4a835_bcdf7c3a133b429ab72d3311f0204fe5~mv2.png", "Low-fi prototype: diagnosis"),
             dimg_s("lex_lp_2", "f4a835_f32a16c211a641c88cad91a53b9c4ca6~mv2.png", "Low-fi prototype: fluency test"),
@@ -1104,37 +1104,37 @@ detail("lexiainwonderland.html", "Lexia in Wonderland", "UX Projects",
             dimg_s("lex_lp_4", "f4a835_cef788a0ef63439da4864b0aa92ab370~mv2.png", "Low-fi prototype: report")),
       "banded band-dark dk"),
      ("Test & Development",
-      "<h3>Wizard of Oz Testing on a Dyslexic Child &amp; Her Caregiver</h3>"
-      "<p>We tested the prototype on an 8-year-old dyslexic child, ‘Ji-Yoon’. First, we asked the father to teach the child how to pronounce certain vowels using the textbook used in offline lessons. Then, we asked Ji-Yoon to learn other vowels using the application. We got qualitative feedback from the father and Ji-Yoon that it is more fun to learn Korean phonics. The father mentioned that it reduced the burden of teaching phonics to the child, and the application worked as a guideline for him.</p>"
+      "<h3>Wizard of Oz Testing with a Dyslexic Child and Her Caregiver</h3>"
+      "<p>We tested the prototype with an 8-year-old dyslexic child, ‘Ji-Yoon’. First, we asked the father to teach the child how to pronounce certain vowels using the textbook used in offline lessons. Then, we asked Ji-Yoon to learn other vowels using the application. We received qualitative feedback from both the father and Ji-Yoon indicating that the application made learning Korean phonics more fun. The father mentioned that it reduced the burden of teaching phonics to the child and that the application served as a guide for him.</p>"
       + row("", dimg_s("lex_td_1", "f4a835_ab8da5cc217b49afa6859013272246a9~mv2.png", "Learning pronunciation with the parent using a book"),
                dimg_s("lex_td_2", "f4a835_7fc85f8ee74341cf8fe37f0312b2a2b9~mv2.png", "Ji-Yoon using the application on her own"))
       + cap("Left: learning pronunciation with the parent using a book · Right: Ji-Yoon is using the application instead of the book to learn Korean vowels on her own")
       + "<h3>Expert Interview</h3>"
-      + quote("“Instead of regular words, dyslexic children should practice non-words” — Dr. Jae-Seok Jung, dyslexia expert and author of ‘Reading Confidence’")
-      + "<p>Even though we got positive feedback from the dyslexic child and the caregiver, we wanted to get feedback from an expert. We interviewed Dr. Jae-Seok Jung, a dyslexia expert who wrote the book ‘Reading Confidence’ for dyslexic children — the only book in Korea designed especially for dyslexic children. As our application is based on the book's contents, we thought it natural to ask his opinions about the application design. He emphasized the importance of practicing ‘non-words’ because dyslexic children tend to memorize whole words instead of understanding phonics. Therefore, it is essential to make children practice phonics with non-words, so when they encounter new words, they can read them naturally.</p>"
+      + quote("“Instead of regular words, dyslexic children should practice non-words”<br>Dr. Jae-Seok Jung, dyslexia expert and author of ‘Reading Confidence’")
+      + "<p>Even though we received positive feedback from the dyslexic child and the caregiver, we wanted feedback from an expert. We interviewed Dr. Jae-Seok Jung, a dyslexia expert who wrote ‘Reading Confidence’ for dyslexic children. It is the only book in Korea designed especially for dyslexic children. Because our application is based on the book's content, we thought it was natural to ask for his opinion on the application design. He emphasized the importance of practicing ‘non-words’ because dyslexic children tend to memorize whole words instead of understanding phonics. Therefore, it is essential for children to practice phonics with non-words. This practice helps them read new words naturally when they encounter them.</p>"
       + dimg_m("lex_td_3", "f4a835_ee8297b2acdd4c1e9f986ee72685e06e~mv2.jpg", "Expert interview with Dr. Jae-Seok Jung")
-      + "<p><b>What are non-words?</b> A non-word is a combination of letters but without meanings — regular words: Cat, Museum → non-words: Caet, Mooseum.</p>"
+      + "<p><b>What are non-words?</b> A non-word is a combination of letters that has no meaning. Regular words: Cat, Museum. Non-words: Caet, Mooseum.</p>"
       "<ul><li>“We need to teach them in the form of individual characters, unlike the usual Hangeul education apps that are currently available on the market.”</li>"
       "<li>“We definitely need games for dyslexic children to help them enjoy learning Korean at home.”</li>"
-      "<li>“Instead of trying to put all contents in the book into the app, I believe it is better to focus on repetitive training.”</li></ul>"
+      "<li>“Instead of trying to put all the content from the book into the app, I believe it is better to focus on repetitive training.”</li></ul>"
       + "<h3>Developing the Prototype for the Non-words Block Game</h3>"
-      "<p>Based on the expert interview, we decided to develop the app further. We decided to create a multi-sensory game that enables children to use word blocks to combine words. This idea came from previous studies that suggested block play improves reading skills.¹ After hearing the pronunciation of the non-words, the user makes non-words using letter blocks. Then the webcam records and sends data to the computer. We used the software ‘Processing’ and image recognition to give feedback on whether the answer is correct.</p>"
-      + cap("1. Effect of Block Play on Language Acquisition and Attention in Toddlers — Dimitri A. Christakis, MD, MPH; Frederick J. Zimmerman, PhD; Michelle M. Garrison, PhD. American Medical Association")
+      "<p>Based on the expert interview, we decided to develop the app further by creating a multi-sensory game that enables children to use word blocks to combine words. This idea came from previous studies suggesting that block play improves reading skills.¹ After hearing non-words pronounced, the user creates them using letter blocks. The webcam then records the activity and sends data to the computer. We used the software ‘Processing’ and image recognition to provide feedback on whether the answer is correct.</p>"
+      + cap("1. Effect of Block Play on Language Acquisition and Attention in Toddlers. Dimitri A. Christakis, MD, MPH; Frederick J. Zimmerman, PhD; Michelle M. Garrison, PhD. American Medical Association")
       + row("", dimg_s("lex_td_4", "f4a835_9b0e6fad09644b66a85536c6ac94deaf~mv2.png", "Block game prototype"),
                dimg_s("lex_td_5", "f4a835_15681312efbc4d1a8d6783c3decb9bab~mv2.gif", "Block game demo"))
       + "<h3>The flow of the block game</h3>"
       + flow_center("Start",
             dimg_s("lex_td_6", "f4a835_07ce20bcd25e4d1bab0dd82db53d3fb4~mv2.gif", "Block game: start"),
-            "The caterpillar reads non-words and asks the child to combine letter blocks to make what he/she heard.")
+            "The caterpillar reads non-words and asks the child to combine letter blocks to make what they heard.")
       + row("",
             lcol("Wrong",
                  dimg_s("lex_td_7", "f4a835_d28047b5811746889f4b43fcdba897fe~mv2.png", "Block game: wrong answer"),
                  dimg_s("lex_td_9", "f4a835_02add8cb632c4787bc91c22539311bfa~mv2.gif", "Wrong feedback"),
-                 cap("The caterpillar gives feedback that the answer is wrong and encourages the user to retry.")),
+                 cap("The caterpillar tells the user that the answer is incorrect and encourages them to retry.")),
             lcol("Correct",
                  dimg_s("lex_td_8", "f4a835_367787460a2347e7860eb0dae6701eda~mv2.png", "Block game: correct answer"),
                  dimg_s("lex_td_10", "f4a835_58d938cc05b44203b0e76b9e90a6b56f~mv2.gif", "Correct feedback"),
-                 cap("The caterpillar gives feedback that the answer is correct and gives a verbal compliment to keep the user motivated."))),
+                 cap("The caterpillar tells the user that the answer is correct and offers verbal praise to keep them motivated."))),
       "banded band-gray"),
      ("Final Design",
       sub_band("band-plum dk", "<h3>Mood Board</h3>", dimg_m("lex_fd_mood", "f4a835_90e864729a22429db380007d68f0cd16~mv2.png", "Mood board"))
