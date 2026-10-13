@@ -798,6 +798,8 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
   spy();
 })();
 </script>"""
+    detail_script = ('<script src="lexia-layout.js?v=20261013-original-layout"></script>'
+                     if fname == "lexiainwonderland.html" else "")
     body = f"""
 {side_nav}
 <main>
@@ -817,17 +819,21 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
     </article>
   </div>
 </main>
+{detail_script}
 {spy_js}"""
     detail_body_class = {
-        "lexiainwonderland.html": "lexia-page",
+        "lexiainwonderland.html": "legacy-ux-page lexia-page",
         "themeviz.html": "themeviz-page",
         "mindful-journaling.html": "mindful-page",
     }.get(fname, "")
+    detail_head = ('<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-layout">'
+                   if fname == "lexiainwonderland.html" else "")
     W(fname, page(
         f"{title} — Daye Kang",
         None,
         body,
         body_class=detail_body_class,
+        head_extra=detail_head,
     ))
 
 def dimg(name, wix_id, alt=""):
