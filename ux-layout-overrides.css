@@ -1127,6 +1127,20 @@ body.lexia-page .lexia-concept-composition {
   margin-top: 20px;
 }
 
+body.lexia-page .lexia-concept-composition img.bg {
+  position: relative;
+  z-index: 2;
+}
+
+body.lexia-page .lexia-concept-composition img.char-l,
+body.lexia-page .lexia-concept-composition img.char-r {
+  z-index: 1;
+}
+
+body.lexia-page .lexia-concept-composition .arr {
+  z-index: 3;
+}
+
 body.lexia-page .lexia-digital-concept {
   width: 88%;
   margin: 38px auto 12px;

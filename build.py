@@ -830,7 +830,7 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
         "mindful-journaling.html": "mindful-page",
     }.get(fname, "")
     detail_head = ({
-        "lexiainwonderland.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-layout">',
+        "lexiainwonderland.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-layout-2">',
         "nudgedesign.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-nudge-layout-2">',
     }.get(fname, ""))
     W(fname, page(
