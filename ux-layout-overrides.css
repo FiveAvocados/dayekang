@@ -376,7 +376,7 @@ body.nudge-page .nudge-desk-collage img:last-child {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 24px;
+  gap: 12px;
 }
 
 .nudge-child-identity > div {
@@ -397,7 +397,7 @@ body.nudge-page .nudge-child-identity img {
 }
 
 .nudge-child-identity > div {
-  min-width: 170px;
+  min-width: 0;
   white-space: nowrap;
 }
 

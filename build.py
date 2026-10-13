@@ -831,7 +831,7 @@ def detail(fname, title, kicker, meta, intro_html, sections, awards=None, back="
     }.get(fname, "")
     detail_head = ({
         "lexiainwonderland.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-lexia-exhibition-grid">',
-        "nudgedesign.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-nudge-layout-2">',
+        "nudgedesign.html": '<link rel="stylesheet" href="ux-layout-overrides.css?v=20261013-nudge-child-name-spacing">',
     }.get(fname, ""))
     W(fname, page(
         f"{title} — Daye Kang",
