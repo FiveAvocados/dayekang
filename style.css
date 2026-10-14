@@ -129,7 +129,7 @@ header.nav-hidden { transform: translateY(-100%); }
 .home-brand .brand-name {
   position: relative;
   font-family: Futura, "Futura PT", "Century Gothic", "Avenir Next", var(--sans);
-  font-size: 1.5rem; font-weight: 500; line-height: 1.15; letter-spacing: .015em;
+  font-size: 1.5rem; font-weight: 700; line-height: 1.15; letter-spacing: .015em;
   font-synthesis: none;
 }
 .home-brand .brand-name::after {
