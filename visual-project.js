@@ -29,7 +29,7 @@
     infoRoot.classList.remove("is-empty");
   };
 
-  fetch("visual-design.html?v=20261011-full-artwork-copy")
+  fetch("visual-design.html?v=20261027-qinqin-medium")
     .then((response) => {
       if (!response.ok) throw new Error("Artwork page could not be loaded.");
       return response.text();
@@ -61,7 +61,37 @@
 
       const relatedTitles = configured.mediaFromTitles || [];
       const relatedItems = arts.filter((art) => relatedTitles.includes(art.dataset.title || ""));
-      const mediaItems = [...items, ...relatedItems];
+      const mediaItems = configured.replaceMedia ? [] : [...items, ...relatedItems];
+
+      const createMedia = ({ src, alt, type, poster }) => {
+        if (!src) return null;
+        if (type === "video") {
+          const video = document.createElement("video");
+          video.src = absoluteAsset(src);
+          if (poster) video.poster = absoluteAsset(poster);
+          video.controls = true;
+          video.playsInline = true;
+          video.preload = "metadata";
+          return video;
+        }
+        const image = document.createElement("img");
+        image.src = absoluteAsset(src);
+        image.alt = alt || title;
+        image.decoding = "async";
+        image.loading = "lazy";
+        return image;
+      };
+
+      const mediaFragment = document.createDocumentFragment();
+
+      const appendAdditionalMedia = () => {
+        (configured.additionalMedia || []).forEach((item) => {
+          const media = createMedia(item);
+          if (media) mediaFragment.appendChild(media);
+        });
+      };
+
+      if (configured.additionalMediaPosition === "before") appendAdditionalMedia();
 
       mediaItems.forEach((item) => {
         const source = item.querySelector("img, video");
@@ -84,17 +114,33 @@
           media.alt = source.getAttribute("alt") || title;
           media.decoding = "async";
         }
-        mediaRoot.appendChild(media);
+        mediaFragment.appendChild(media);
       });
 
-      projectShell.classList.toggle("has-multiple-media", mediaRoot.childElementCount > 1);
+      if (configured.additionalMediaPosition !== "before") appendAdditionalMedia();
+
+      const mediaCount = mediaFragment.childElementCount;
+      if (configured.mediaLayout === "horizontal-strip") {
+        const strip = document.createElement("div");
+        strip.className = "visual-project-strip";
+        strip.setAttribute("role", "region");
+        strip.setAttribute("aria-label", `${title} animation frames`);
+        strip.appendChild(mediaFragment);
+        mediaRoot.appendChild(strip);
+        projectShell.classList.add("has-horizontal-media");
+      } else {
+        mediaRoot.appendChild(mediaFragment);
+      }
+
+      projectShell.classList.toggle("has-multiple-media", mediaCount > 1);
 
       const firstValue = (key) => items.map((item) => item.dataset[key]).find(Boolean) || "";
+      const configuredMeta = configured.meta || {};
       const fields = [
-        ["Medium", firstValue("medium")],
-        ["Year", firstValue("year")],
-        ["Size", firstValue("size")],
-        ["Credit", firstValue("credit")]
+        ["Medium", configuredMeta.medium || firstValue("medium")],
+        ["Year", configuredMeta.year || firstValue("year")],
+        ["Size", configuredMeta.size || firstValue("size")],
+        ["Credit", configuredMeta.credit || firstValue("credit")]
       ].filter((field) => field[1]);
 
       metaNode.innerHTML = fields.map(([label, value]) =>
@@ -113,8 +159,12 @@
       const currentIndex = order.indexOf(currentId);
       const previousId = order[(currentIndex - 1 + order.length) % order.length];
       const nextId = order[(currentIndex + 1) % order.length];
-      document.querySelector(".visual-project-prev").href = `visual-project.html?project=${encodeURIComponent(previousId)}`;
-      document.querySelector(".visual-project-next").href = `visual-project.html?project=${encodeURIComponent(nextId)}`;
+      const projectHref = (id) => {
+        const projectContent = (window.VISUAL_PROJECT_CONTENT || {})[id] || {};
+        return projectContent.href || `visual-project.html?project=${encodeURIComponent(id)}`;
+      };
+      document.querySelector(".visual-project-prev").href = projectHref(previousId);
+      document.querySelector(".visual-project-next").href = projectHref(nextId);
 
       document.addEventListener("keydown", (event) => {
         if (event.key === "ArrowLeft") window.location.href = document.querySelector(".visual-project-prev").href;

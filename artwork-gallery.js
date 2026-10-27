@@ -54,8 +54,9 @@
     representative.dataset.categories = [...categories].join(" ");
 
     const link = document.createElement("a");
+    const projectContent = (window.VISUAL_PROJECT_CONTENT || {})[representative.dataset.project] || {};
     link.className = "art-project-link";
-    link.href = `visual-project.html?project=${encodeURIComponent(representative.dataset.project)}`;
+    link.href = projectContent.href || `visual-project.html?project=${encodeURIComponent(representative.dataset.project)}`;
     link.setAttribute("aria-label", `Open ${representative.dataset.title || "visual design"} project`);
     while (representative.firstChild) link.appendChild(representative.firstChild);
     representative.appendChild(link);

@@ -78,7 +78,7 @@ def page(title, active, body, desc="Daye Kang — designer and HCI researcher. P
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
 {head_extra}
-  <link rel="stylesheet" href="style.css?v=20261013-futura-brand-name">
+  <link rel="stylesheet" href="style.css?v=20261015-portfolio-projects">
 </head>
 <body{f' class="{body_class}"' if body_class else ''}>
 <header>
@@ -500,7 +500,7 @@ ART = [
     ("f4a835_15da437160a74ee185354c91637d5f21~mv2.gif", "Punky Music", "Clay animation — Clay, Adobe After Effects", "2014", "1280×720 px · 45 seconds", "Directed by Daye Kang · Music: Crying Nuts", "I wanted to express the bright, innocent craziness of punk rock music with this animation."),
     ("f4a835_f185a992116c4a8988ae7028f36367a9~mv2.png", "Walnuts", "Drawing — Pencil", "2012", "545×394 mm", "Drawn by Daye Kang", ""),
     ("f4a835_ce1878f5b183448eb74da8b0263ca2af~mv2.jpg", "How to be Bohemian", "Digital illustration — Photoshop", "2014", "", "Made by Daye Kang", "This illustration is one of five drawings created for an article titled ‘How to Be Bohemian’ for a subculture project. This character was designed to convey a free spirit."),
-    ("f4a835_ce1938a91813421eb6ecf661ec31b6c4~mv2.png", "Experimental Typography", "Experimental typography", "2016", "A2", "Made by Daye Kang", "I focused on exploring the visual characteristics of ‘mass.’ I concentrated on expressing metallic, puffy, and flowing textures."),
+    ("f4a835_ce1938a91813421eb6ecf661ec31b6c4~mv2.png", "Experimental Typography", "Poster series, Photoshop", "2016", "A2 and A3", "Made by Daye Kang", "A series on the visual qualities of mass in letterforms, from metallic and liquid surfaces to letters built from shapes found in everyday life."),
     ("f4a835_882ab0a0cfac472b900d61a841a04541~mv2.jpg", "Dancer", "Digital photoshoot", "2014", "", "Photoshoot by Daye Kang", ""),
     ("f4a835_a2f26fdd27624a8f90ecf1f203c28e28~mv2.png", "Digital Artwork", "Digital artwork — Photoshop", "2016", "", "Made by Daye Kang", ""),
     ("f4a835_3d7a9b8d2f47402280bcd2f0b60dad89~mv2.png", "Experimental Typography", "Experimental typography — Photoshop", "2016", "", "Made by Daye Kang", ""),
@@ -510,13 +510,13 @@ ART = [
     ("f4a835_d3e8574835574d8aa5794a7f80e2fa52~mv2.png", "Digital Artwork", "Digital artwork — Photoshop", "2016", "", "Made by Daye Kang", ""),
     ("VIDEO:f4a835_3db1c57433f6444eb267addf251ee757", "Hue:", "Interactive installation", "2018", "", "Made by Daye Kang, Juyeon Kim", "Hue: is an interactive installation that displays the time. We designed this installation based on the aesthetics of the city and the desert. When a person approaches the clock, it rotates and displays the current time."),
     ("f4a835_f06e24334ce94e0a95d8c051fc3078c7~mv2.jpg", "Dancer with lights", "Digital photoshoot", "2014", "", "Photoshoot by Daye Kang", "The lights and lingering shapes were captured using long-exposure photography."),
-    ("f4a835_2151f087af2a42678cebbb23bea2e140~mv2.png", "Good Boy", "3D animation — 3D Maya", "2016", "1920×1080 · 1 minute", "Made by Daye Kang", "This animation is about a boy who wants to go on a picnic instead of going to class. His body stays in the classroom while his head plays outside. I named the animation ‘Good Boy’ to be ironic."),
+    ("f4a835_2151f087af2a42678cebbb23bea2e140~mv2.png", "Good Boy", "3D animation, Maya", "2015", "1920 × 1080 · 1 minute", "Creator (personal project) · Modeling, rigging, animation, rendering", "This project follows a boy who would rather go on a picnic than sit in class. His body stays in the classroom while his head runs off to play outside."),
     ("f4a835_f2b5e5075cc94e5ea644435a6ea8f25a~mv2.png", "Illustration", "Digital illustration — Photoshop", "2020", "90×50 mm", "Drawn by Daye Kang", "I designed this illustration for a client who is a traveler and writer. I focused on emphasizing the client’s love of winter sports and outdoor activities. Lines and different locations also represent his love of travel."),
-    ("f4a835_ae2e827b40084d7d80d93460d59f14ae~mv2.jpg", "Graphic Poster", "Digital artwork — Illustrator", "2013", "A4", "Made by Daye Kang", ""),
+    ("f4a835_ae2e827b40084d7d80d93460d59f14ae~mv2.jpg", "Graphic Poster", "Posters and book, Illustrator, Photoshop, and InDesign", "2013", "Book A4", "Designed, printed, and bound by Daye Kang", "A graphic design study printed as posters and collected into a hand-bound book."),
     ("f4a835_8aeda735d1374112bf3dc48097b29eff~mv2.png", "Zarathustra", "Drawing &amp; collage on aluminum foil — Pen, Crayons, Oil paper, Black paper", "2013", "50×40 cm", "Made by Daye Kang", "This artwork depicts members of the music club ‘Zarathustra’ gathered in the club room."),
     ("f4a835_03cddcf2da7f4ec3ad97c348b39ab7e7~mv2.jpg", "Conversation", "Drawing — Watercolor, Pen", "2013", "15×10 cm", "Made by Daye Kang", ""),
-    ("LOCAL_VIDEO:assets/optimized/video/art_31.mp4", "QinQin Hou", "2D & 3D animation — Watercolor, Pen", "2016", "1920×1080 · 3 minutes", "Directed by Daye Kang", "This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards."),
-    ("f4a835_e4f6cb606cd3481799170e7049942898~mv2.jpg", "Coca-Cola building", "Poster", "2014", "A2", "Made by Daye Kang", "This poster was created after photographing the exterior of the Coca-Cola building in California. The images were cropped and rearranged to express the building’s streamlined design."),
+    ("LOCAL_VIDEO:assets/optimized/video/art_31.mp4", "QinQin Hou", "3D animation — Maya, Illustrator, After Effects", "2016", "1920×1080 · 3 minutes", "Directed by Daye Kang", "This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards."),
+    ("f4a835_e4f6cb606cd3481799170e7049942898~mv2.jpg", "Coca-Cola Building", "Poster series, Photoshop and Illustrator", "2014", "A2", "Made by Daye Kang", "Photographs of the building in Los Angeles, cropped and rearranged into streamlined forms."),
     ("f4a835_6e2ed7df286f40a0b56c94cef5039731~mv2.png", "Experimental Typography", "Experimental typography", "2016", "A3", "Made by Daye Kang", "I focused on liquid and flowing forms."),
     ("f4a835_9b04971e5940440ea13193f70b3b0f8d~mv2.png", "Plastic Bags Photography Book", "Photography book — Photography, A4 paper, staples", "2016", "20×20 cm", "Made by Daye Kang", "This book is a collection of photographs exploring the expressiveness of plastic bags in photography. I chose a plastic bag as the main subject after being inspired by the movie ‘American Beauty.’ The book was made using A4 paper, which was folded to create square pages. Instead of using an open-spine binding, I chose staples because I wanted to explore the book’s raw exterior."),
     ("f4a835_a5602d2b85a944b9919d6c06f91e036e~mv2.jpg", "Plastic Bags", "Photography", "2016", "A4", "Made by Daye Kang", ""),
@@ -524,6 +524,7 @@ ART = [
     ("f4a835_460e9d4effae459b86759b83b110aeb8~mv2.png", "Experimental Graphics", "Digital artwork — Photoshop", "2016", "", "Made by Daye Kang", ""),
     ("f4a835_ac641b8b476742478d76ef61d91d9031~mv2.png", "Photography", "Photography", "2016", "", "Photoshoot by Daye Kang", "I explored the graphical forms of plastic bags."),
     ("f4a835_30d2277513364ceb8bc6e1a8b86cb72d~mv2.png", "Digital Illustration", "Digital illustration — Photoshop", "2016", "20×10 cm", "Drawn by Daye Kang", "I drew my friend while traveling in Shanghai."),
+    ("LOCAL_IMAGE:assets/optimized/visual/typography-books-01.webp", "Typography Books", "Typography study, Illustrator and InDesign", "2024", "Letter", "Designed and printed by Daye Kang", "A study of the Didot typeface, printed as a book."),
 ]
 ART_GALLERY_DIMS = {
     1: (916, 436), 2: (1200, 1716), 3: (1200, 1237), 4: (896, 484),
@@ -533,13 +534,18 @@ ART_GALLERY_DIMS = {
     17: (1200, 940), 18: (1061, 591), 19: (959, 1354), 20: (1200, 887),
     21: (1200, 892), 22: (1200, 663), 23: (1200, 1600), 24: (1200, 1698),
     25: (1200, 957), 26: (1200, 691), 27: (1200, 1162), 28: (1200, 1698),
-    29: (820, 1008), 30: (1200, 768),
+    29: (820, 1008), 30: (1200, 768), 31: (1200, 800),
 }
 
 def _art_item(n, i, title, medium, year, size, credit, desc):
     width, height = ART_GALLERY_DIMS[n]
     gallery_version = "?v=20260825-gallery-fast"
-    if i.startswith("LOCAL_VIDEO:"):
+    if i.startswith("LOCAL_IMAGE:"):
+        full = i[len("LOCAL_IMAGE:"):]
+        thumb = full.replace("assets/optimized/visual/", "assets/optimized/gallery/")
+        media = (f'<img src="{thumb}" data-full-src="{full}" alt="{html.escape(title)}" '
+                 f'width="{width}" height="{height}" decoding="async" loading="lazy">')
+    elif i.startswith("LOCAL_VIDEO:"):
         video_path = i[len("LOCAL_VIDEO:"):]
         poster = f"assets/optimized/gallery/art_{n:02d}-1200.webp{gallery_version}"
         media = (f'<video data-src="{video_path}" data-full-src="{video_path}" poster="{poster}" '
@@ -597,8 +603,8 @@ art_body = f"""
     </figcaption>
   </figure>
 </div>
-<script src="visual-project-content.js?v=20260822"></script>
-<script src="artwork-gallery.js?v=20260825-gallery-fast"></script>
+<script src="visual-project-content.js?v=20261016-portfolio-order"></script>
+<script src="artwork-gallery.js?v=20261015-portfolio-projects"></script>
 <script>
 if (!window.ARTWORK_PROJECT_LINKS) (function() {{
   const lb = document.getElementById('lightbox');
@@ -717,13 +723,58 @@ qinqin_body = """
     </video>
   </div>
   <div class="wrap">
+    <section class="qinqin-storyboards" aria-labelledby="qinqin-storyboards-title">
+      <h2 id="qinqin-storyboards-title">Episode storyboards</h2>
+      <section class="qinqin-episode" aria-labelledby="qinqin-episode-1">
+        <h3 id="qinqin-episode-1">Episode 1</h3>
+        <div class="qinqin-frame-strip" role="region" aria-label="Episode 1 storyboard frames" tabindex="0">
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-1-01.webp" alt="Episode 1, frame 1" width="1700" height="956" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-1-02.webp" alt="Episode 1, frame 2" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-1-03.webp" alt="Episode 1, frame 3" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-1-04.webp" alt="Episode 1, frame 4" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-1-05.webp" alt="Episode 1, frame 5" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-1-06.webp" alt="Episode 1, frame 6" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-1-07.webp" alt="Episode 1, frame 7" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-1-08.webp" alt="Episode 1, frame 8" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-1-09.webp" alt="Episode 1, frame 9" width="900" height="506" decoding="async" loading="lazy"></figure>
+        </div>
+      </section>
+      <section class="qinqin-episode" aria-labelledby="qinqin-episode-2">
+        <h3 id="qinqin-episode-2">Episode 2</h3>
+        <div class="qinqin-frame-strip" role="region" aria-label="Episode 2 storyboard frames" tabindex="0">
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-2-01.webp" alt="Episode 2, frame 1" width="1700" height="956" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-2-02.webp" alt="Episode 2, frame 2" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-2-03.webp" alt="Episode 2, frame 3" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-2-04.webp" alt="Episode 2, frame 4" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-2-05.webp" alt="Episode 2, frame 5" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-2-06.webp" alt="Episode 2, frame 6" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-2-07.webp" alt="Episode 2, frame 7" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-2-08.webp" alt="Episode 2, frame 8" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-2-09.webp" alt="Episode 2, frame 9" width="900" height="506" decoding="async" loading="lazy"></figure>
+        </div>
+      </section>
+      <section class="qinqin-episode" aria-labelledby="qinqin-episode-3">
+        <h3 id="qinqin-episode-3">Episode 3</h3>
+        <div class="qinqin-frame-strip" role="region" aria-label="Episode 3 storyboard frames" tabindex="0">
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-3-01.webp" alt="Episode 3, frame 1" width="1700" height="956" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-3-02.webp" alt="Episode 3, frame 2" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-3-03.webp" alt="Episode 3, frame 3" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-3-04.webp" alt="Episode 3, frame 4" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-3-05.webp" alt="Episode 3, frame 5" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-3-06.webp" alt="Episode 3, frame 6" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-3-07.webp" alt="Episode 3, frame 7" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-3-08.webp" alt="Episode 3, frame 8" width="900" height="506" decoding="async" loading="lazy"></figure>
+          <figure class="qinqin-frame"><img src="assets/optimized/qinqin/episode-3-09.webp" alt="Episode 3, frame 9" width="900" height="506" decoding="async" loading="lazy"></figure>
+        </div>
+      </section>
+    </section>
     <article class="qinqin-copy">
-      <div class="kicker">2D &amp; 3D Animation · 2016</div>
+      <div class="kicker">3D Animation · 2016</div>
       <h1>QinQin Hou</h1>
       <div class="qinqin-award">Excellence Award, Times Young Creative Awards</div>
       <p class="qinqin-description">This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards.</p>
       <dl class="meta-grid">
-        <div><dt>Medium</dt><dd>2D &amp; 3D animation, watercolor and pen</dd></div>
+        <div><dt>Medium</dt><dd>3D animation — Maya, Illustrator, After Effects</dd></div>
         <div><dt>Format</dt><dd>1920×1080 · 3 minutes</dd></div>
         <div><dt>Credit</dt><dd>Directed by Daye Kang</dd></div>
       </dl>
@@ -736,7 +787,7 @@ W("qinqinhou.html", page(
     "QinQin Hou — Daye Kang",
     None,
     qinqin_body,
-    "QinQin Hou — a 2D and 3D animation directed by Daye Kang, recognized by the Times Young Creative Awards."))
+    "QinQin Hou — a 3D animation directed by Daye Kang, recognized by the Times Young Creative Awards."))
 
 # ================= TEACHING =================
 teaching_body = """

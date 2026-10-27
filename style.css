@@ -1026,10 +1026,57 @@ article.detail h3 {
   line-height: 1.75;
 }
 .qinqin-copy .meta-grid { margin-top: 34px; }
+.qinqin-storyboards {
+  padding-top: 72px;
+}
+.qinqin-storyboards > h2 {
+  margin: 0 0 38px;
+  font-family: var(--disp);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 500;
+  letter-spacing: -.02em;
+}
+.qinqin-episode + .qinqin-episode { margin-top: 58px; }
+.qinqin-episode h3 {
+  margin: 0 0 16px;
+  color: #555;
+  font-family: var(--sans);
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.qinqin-frame-strip {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 0 0 14px;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: #aaa transparent;
+  scrollbar-width: thin;
+}
+.qinqin-frame {
+  flex: 0 0 min(34vw, 440px);
+  margin: 0;
+  scroll-snap-align: start;
+}
+.qinqin-frame:first-child { flex-basis: min(54vw, 720px); }
+.qinqin-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #050505;
+}
 @media (max-width: 760px) {
   .qinqin-page { padding-top: 28px; }
   .qinqin-player-wrap { padding: 0 28px; }
   .qinqin-copy { padding-top: 36px; }
+  .qinqin-storyboards { padding-top: 52px; }
+  .qinqin-frame { flex-basis: 78vw; }
+  .qinqin-frame:first-child { flex-basis: 86vw; }
 }
 @media (max-width: 480px) {
   .qinqin-player-wrap { padding: 0 18px; }
@@ -2914,6 +2961,30 @@ body.visual-project-page {
   object-fit: contain;
   background: #070707;
 }
+.visual-project-strip {
+  display: grid;
+  grid-auto-columns: min(92%, 860px);
+  grid-auto-flow: column;
+  gap: 18px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-bottom: 14px;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: rgba(255,255,255,.34) transparent;
+  scrollbar-width: thin;
+}
+.visual-project-strip img,
+.visual-project-strip video {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  margin: 0;
+  object-fit: contain;
+  scroll-snap-align: start;
+}
+.visual-project-shell.has-horizontal-media {
+  grid-template-columns: minmax(0, 1.8fr) minmax(300px, .65fr);
+}
 .visual-project-info {
   position: sticky;
   top: 58px;
@@ -3031,6 +3102,7 @@ body.visual-project-page {
 }
 @media (max-width: 540px) {
   .visual-project-shell { padding: 66px 24px 62px; }
+  .visual-project-strip { grid-auto-columns: 88%; }
   .visual-project-info h1 { font-size: 2rem; }
   .visual-project-meta > div { grid-template-columns: 64px minmax(0, 1fr); }
   .visual-project-close { top: 12px; right: 14px; }
