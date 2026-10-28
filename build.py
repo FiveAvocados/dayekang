@@ -515,7 +515,7 @@ ART = [
     ("f4a835_ae2e827b40084d7d80d93460d59f14ae~mv2.jpg", "Graphic Poster", "Posters and book, Illustrator, Photoshop, and InDesign", "2013", "Book A4", "Designed, printed, and bound by Daye Kang", "A graphic design study printed as posters and collected into a hand-bound book."),
     ("f4a835_8aeda735d1374112bf3dc48097b29eff~mv2.png", "Zarathustra", "Drawing &amp; collage on aluminum foil — Pen, Crayons, Oil paper, Black paper", "2013", "50×40 cm", "Made by Daye Kang", "This artwork depicts members of the music club ‘Zarathustra’ gathered in the club room."),
     ("f4a835_03cddcf2da7f4ec3ad97c348b39ab7e7~mv2.jpg", "Conversation", "Drawing — Watercolor, Pen", "2013", "15×10 cm", "Made by Daye Kang", ""),
-    ("LOCAL_VIDEO:assets/optimized/video/art_31.mp4", "QinQin Hou", "3D animation — Maya, Illustrator, After Effects", "2016", "1920×1080 · 3 minutes", "Directed by Daye Kang", "This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards."),
+    ("LOCAL_VIDEO:assets/optimized/video/art_31.mp4", "QinQin Hou", "3D animation — Maya, Illustrator, After Effects", "2016", "1920×1080 · 3 minutes", "Director · 3D background modeling · Character design · Animation — Daye Kang", "This animation is one of three episodes in a commercial created for the candy company QinQinHou. Each episode depicts a moment when a character loses their voice. After eating the candy, their voice returns and the fun continues. The animation received an Award for Excellence from the Times Young Creative Awards."),
     ("f4a835_e4f6cb606cd3481799170e7049942898~mv2.jpg", "Coca-Cola Building", "Poster series, Photoshop and Illustrator", "2014", "A2", "Made by Daye Kang", "Photographs of the building in Los Angeles, cropped and rearranged into streamlined forms."),
     ("f4a835_6e2ed7df286f40a0b56c94cef5039731~mv2.png", "Experimental Typography", "Experimental typography", "2016", "A3", "Made by Daye Kang", "I focused on liquid and flowing forms."),
     ("f4a835_9b04971e5940440ea13193f70b3b0f8d~mv2.png", "Plastic Bags Photography Book", "Photography book — Photography, A4 paper, staples", "2016", "20×20 cm", "Made by Daye Kang", "This book is a collection of photographs exploring the expressiveness of plastic bags in photography. I chose a plastic bag as the main subject after being inspired by the movie ‘American Beauty.’ The book was made using A4 paper, which was folded to create square pages. Instead of using an open-spine binding, I chose staples because I wanted to explore the book’s raw exterior."),
@@ -603,7 +603,7 @@ art_body = f"""
     </figcaption>
   </figure>
 </div>
-<script src="visual-project-content.js?v=20261016-portfolio-order"></script>
+<script src="visual-project-content.js?v=20261027-qinqin-consistent"></script>
 <script src="artwork-gallery.js?v=20261015-portfolio-projects"></script>
 <script>
 if (!window.ARTWORK_PROJECT_LINKS) (function() {{
@@ -776,18 +776,26 @@ qinqin_body = """
       <dl class="meta-grid">
         <div><dt>Medium</dt><dd>3D animation — Maya, Illustrator, After Effects</dd></div>
         <div><dt>Format</dt><dd>1920×1080 · 3 minutes</dd></div>
-        <div><dt>Credit</dt><dd>Directed by Daye Kang</dd></div>
+        <div><dt>Credit</dt><dd>Director · 3D background modeling · Character design · Animation — Daye Kang</dd></div>
       </dl>
       <a class="back-home" href="visual-design.html">&larr; Back to Visual Design</a>
     </article>
   </div>
 </main>
 """
-W("qinqinhou.html", page(
-    "QinQin Hou — Daye Kang",
-    None,
-    qinqin_body,
-    "QinQin Hou — a 3D animation directed by Daye Kang, recognized by the Times Young Creative Awards."))
+W("qinqinhou.html", """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="0; url=visual-project.html?project=qinqin-hou">
+<link rel="canonical" href="https://www.dayekang.com/visual-project.html?project=qinqin-hou">
+<title>QinQin Hou — Daye Kang</title>
+<script>location.replace("visual-project.html?project=qinqin-hou" + location.hash);</script>
+</head>
+<body><p><a href="visual-project.html?project=qinqin-hou">Continue to QinQin Hou</a></p></body>
+</html>
+""")
 
 # ================= TEACHING =================
 teaching_body = """

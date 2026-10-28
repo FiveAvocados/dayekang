@@ -11,6 +11,11 @@
  * To add portfolio images that are not gallery cards, use additionalMedia:
  * "project-id": { additionalMedia: [{ src: "optimized image path", alt: "Example" }] }
  */
+const qinqinEpisodeFrames = (episode) => Array.from({ length: 9 }, (_, index) => ({
+  src: `assets/optimized/qinqin/episode-${episode}-${String(index + 1).padStart(2, "0")}.webp`,
+  alt: `Episode ${episode}, frame ${index + 1}`
+}));
+
 window.VISUAL_PROJECT_GROUPS = [
   {
     id: "plastic-bags",
@@ -20,7 +25,11 @@ window.VISUAL_PROJECT_GROUPS = [
 ];
 window.VISUAL_PROJECT_CONTENT = {
   "qinqin-hou": {
-    href: "qinqinhou.html"
+    mediaSections: [
+      { title: "Episode 1", ariaLabel: "Episode 1 storyboard frames", media: qinqinEpisodeFrames(1) },
+      { title: "Episode 2", ariaLabel: "Episode 2 storyboard frames", media: qinqinEpisodeFrames(2) },
+      { title: "Episode 3", ariaLabel: "Episode 3 storyboard frames", media: qinqinEpisodeFrames(3) }
+    ]
   },
   "experimental-typography": {
     additionalMediaPosition: "before",

@@ -2982,6 +2982,64 @@ body.visual-project-page {
   object-fit: contain;
   scroll-snap-align: start;
 }
+.visual-project-storyboard {
+  min-width: 0;
+}
+.visual-project-storyboard h2 {
+  margin: 0 0 16px;
+  color: rgba(255,255,255,.76);
+  font-family: var(--sans);
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.visual-project-storyboard .visual-project-strip {
+  grid-auto-columns: min(72%, 680px);
+  padding-bottom: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.visual-project-storyboard .visual-project-strip::-webkit-scrollbar {
+  display: none;
+}
+.visual-project-carousel {
+  position: relative;
+}
+.visual-project-carousel-button {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  width: 46px;
+  height: 46px;
+  padding: 0 0 4px;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255,255,255,.34);
+  border-radius: 50%;
+  background: rgba(7,7,7,.7);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 2.2rem;
+  font-weight: 200;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, opacity .18s ease;
+}
+.visual-project-carousel-button.is-previous { left: 12px; }
+.visual-project-carousel-button.is-next { right: 12px; }
+.visual-project-carousel-button:hover:not(:disabled),
+.visual-project-carousel-button:focus-visible {
+  border-color: rgba(255,255,255,.78);
+  background: rgba(7,7,7,.9);
+}
+.visual-project-carousel-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.visual-project-carousel-button:disabled {
+  opacity: .18;
+  cursor: default;
+}
 .visual-project-shell.has-horizontal-media {
   grid-template-columns: minmax(0, 1.8fr) minmax(300px, .65fr);
 }
@@ -3103,6 +3161,14 @@ body.visual-project-page {
 @media (max-width: 540px) {
   .visual-project-shell { padding: 66px 24px 62px; }
   .visual-project-strip { grid-auto-columns: 88%; }
+  .visual-project-storyboard .visual-project-strip { grid-auto-columns: 88%; }
+  .visual-project-carousel-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.9rem;
+  }
+  .visual-project-carousel-button.is-previous { left: 8px; }
+  .visual-project-carousel-button.is-next { right: 8px; }
   .visual-project-info h1 { font-size: 2rem; }
   .visual-project-meta > div { grid-template-columns: 64px minmax(0, 1fr); }
   .visual-project-close { top: 12px; right: 14px; }
