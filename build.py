@@ -43,7 +43,7 @@ def video_tag(path, cls=""):
 # publication PDFs + CV
 # CV = letter-size PDF generated from website/cv.html (source: Application CV/html_source/DayeKang_CV_v1_original.html)
 # via headless chromium --print-to-pdf. NOT in the wix manifest — do not let the asset downloader overwrite it.
-CV = "assets/pdf/DayeKang_CV.pdf?v=20261029"
+CV = "assets/pdf/DayeKang_CV.pdf?v=20261029-1038"
 PDF_THEMEVIZ = PDF("ThemeViz_CSCW25.pdf", "https://www.dayekang.info/_files/ugd/f4a835_7c199c01ef344bb0a711c80095e8215c.pdf")
 PDF_HORMONE  = PDF("HormoneHealth_CHI25.pdf", "https://www.dayekang.info/_files/ugd/f4a835_e6d9a9e550be4aea9e197be522689d0f.pdf")
 PDF_CSCW24   = PDF("UXRCollab_CSCW24.pdf", "https://www.dayekang.info/_files/ugd/f4a835_f1c471fb4c014d40b3915c81a48651a1.pdf")
